@@ -13,6 +13,5 @@ Debasis Dwivedy(debasisdwivedy)
 =======
 Abhisek Mehra(akmehra)  
 Debasis Dwivedy(debasisdwivedy)  
-Pranav Pande(pmpande)
-Girish Gabra(girish-gabra)
+Pranav Pande(pmpande)  
 >>>>>>> 1127fd5e546eebb14b996601f8421678e68bf1b8
