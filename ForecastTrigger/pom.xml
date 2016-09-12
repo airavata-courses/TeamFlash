@@ -1,15 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.teamFlash.microservices</groupId>
+  <groupId>com.teamFlash.microservices.forecastTrigger</groupId>
   <artifactId>ForecastTrigger</artifactId>
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name> ForecastTrigger </name>
+  <name>ForecastTrigger</name>
   <url>http://maven.apache.org</url>
   <dependencies>
-   
-   <dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.11</version>
@@ -28,10 +27,9 @@
       <version>2.17.3</version>
       <scope>test</scope>
     </dependency>
-    
   </dependencies>
-  
-  <build>
+
+<build>
     <plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -47,7 +45,7 @@
 							<transformers>
 								<transformer
 									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>com.teamFlash.microservices.app. RunForecastTriggerService</mainClass>
+									<mainClass>com.teamFlash.microservices.forecastTrigger.app.RunForecastTrigger</mainClass>
 								</transformer>
 							</transformers>
 						</configuration>
@@ -56,4 +54,5 @@
 			</plugin>
 		</plugins>
     </build>
+
 </project>
