@@ -9,6 +9,7 @@
 
 	<modules>
 		<module>Registry</module>
+		<module>DataIngestor</module>
 	</modules>
 
 	<properties>
