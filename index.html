@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css' />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="description" content="WeatherPredictor" />
+<meta name="keywords" content="WeatherPredictor" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="http://cytoscape.github.io/cytoscape.js/api/cytoscape.js-latest/cytoscape.min.js"></script>
+<script src="demo.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<title>Weather Predictor</title>
+</head>
+<body>
+
+<div id="top">
+<div id="header">
+<h1>Weather Predictor</h1>
+</div>
+
+<div id="topmenu">
+<input type="file" id="file" onchange="readFile()" style="display: none;" />
+<ul>
+<li><a id="registryButton" href="#">Registry</a></li>
+<li><a id="dataIngestorButton" href="#">Data Ingestor</a></li>
+<li><a id="stormDetectorButton" href="#">Storm Detector</a></li>
+<li><a id="stormCluster" href="#">Storm Cluster</a></li>
+<li><a id="forecastTrigger" href="#">Forecast Trigger</a></li>
+<li><a id="weatherForecast" href="#">Run Weather Forecast</a></li>
+</ul>
+</div>
+
+<div class="clear"> </div>
+
+</div>
+
+<div id="cy" style="width: 100%; height: 580px; margin: 0px auto;">
+</div>
+
+<div id="footer">
+
+<div class="left">
+Copyright &copy; 2017 <a href="#">Team Flash</a>
+</div>
+
+<div class="clear"> </div>
+
+</div>
+
+</body>
+</html>
