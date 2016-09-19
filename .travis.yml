@@ -19,8 +19,8 @@ notifications:
 
 sudo: true
 
-#install:
-#  - pip install pybuilder
+install:
+  - pip install -r StormClustering/requirements.txt
 #  - pyb install_dependencies
 
 script: cd "StormClustering" && python StormClustering.py
