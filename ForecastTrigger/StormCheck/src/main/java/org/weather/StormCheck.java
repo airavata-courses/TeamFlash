@@ -9,7 +9,7 @@ import javax.ws.rs.core.MediaType;
 @Path("/verify")
 public class StormCheck {
 
-    public String isStormPresent = "{\"message\": \"Yes\"}";
+    public String isStormPresent = "{\"message\": \"Yes!\"}";
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
