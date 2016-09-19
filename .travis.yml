@@ -4,9 +4,6 @@ python:
   - "2.7"
   - "pypy"
 
-before_script:
-  - sudo apt-get install pychecker
-
 branches:
   only:
     - MileStone1
@@ -21,9 +18,9 @@ notifications:
     - debasisdwivedy@iu.edu
 
 sudo: true
- 
-install:
-  - pip install pybuilder
-  - pyb install_dependencies
 
-script: cd "StormClustering" && "pyb"
+#install:
+#  - pip install pybuilder
+#  - pyb install_dependencies
+
+script: cd "StormClustering" && python StormClustering.py
