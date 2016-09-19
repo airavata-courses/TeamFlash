@@ -1,0 +1,13 @@
+language: java
+branches:
+  only:
+    - Milestone1
+    - master
+notifications:
+  email:
+    - akmehra@iu.edu
+jdk:
+  - oraclejdk8
+sudo: true
+install: true
+script: cd "ForecastTrigger" && mvn clean install -DskipTests=true
