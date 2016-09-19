@@ -18,7 +18,7 @@ public class StormCheck {
 
         System.out.println(exists);
         if(!exists){
-            isStormPresent = "{\"message\": \"No\"}";
+            isStormPresent = "{\"message\": \"No!\"}";
         }
         return isStormPresent;
     }
