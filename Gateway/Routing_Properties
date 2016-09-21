@@ -1,0 +1,8 @@
+#Routing URL
+/ = http://localhost:8888/login
+/Gateway = http://localhost:8888/Gateway
+/registry = http://localhost:2345/audit
+/dataIngestor = http://localhost:5679/data
+/stormDetector = http://localhost:5000/detector
+/stormCluster = http://localhost:5001/cluster
+/stormTrigger = http://localhost:5002/trigger
