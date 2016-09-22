@@ -1,0 +1,3 @@
+host = localhost
+port = 56001
+options = { raw: true},server: {poolSize: 10}

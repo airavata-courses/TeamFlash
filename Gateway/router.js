@@ -2,7 +2,7 @@
  * http://usejsdoc.org/
  */
 
-function route(handles,pathname,response)
+function route(handles,pathname,request,response)
 {
 	console.log("About to route a request for "+pathname);
 	var fn=handles()[0]
@@ -10,17 +10,17 @@ function route(handles,pathname,response)
 	
 	if(typeof fn[pathname] === 'function')
 		{
-			fn[pathname](url[pathname],response);
+			fn[pathname](handles,url[pathname],request,response);
 		}
 	else
 		{
 		if((''+pathname).includes('.css'))
 			{
-				fn['.css'](pathname,response)
+				fn['.css'](pathname,request,response)
 			}
 		else if((''+pathname).includes('.js'))
 			{
-				fn['.js'](pathname,response)
+				fn['.js'](pathname,request,response)
 			}
 		else
 			{

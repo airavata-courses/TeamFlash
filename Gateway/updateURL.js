@@ -39,6 +39,10 @@ function parse(data,functionHandle,urlHandle)
 		    	functionHandle[route]=requestHandler.login;
 		    	urlHandle[route]=url;
 		        break;
+			case '/login':
+		    	functionHandle[route]=requestHandler.login;
+		    	urlHandle[route]=url;
+		        break;
 			case '/authenticate':
 		    	functionHandle[route]=requestHandler.authenticate;
 		    	urlHandle[route]=url;

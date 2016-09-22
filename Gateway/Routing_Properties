@@ -1,5 +1,7 @@
 #Routing URL
 / = http://localhost:8888/login
+/login = http://localhost:8888/login
+/authenticate = http://localhost:8888/authenticate
 /Gateway = http://localhost:8888/Gateway
 /registry = http://localhost:2345/audit
 /dataIngestor = http://localhost:5679/data
