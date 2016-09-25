@@ -17,7 +17,7 @@ script: cd "DataIngestor" && mvn clean install -DskipTests=true
 
 before_deploy:
   - cd ..
-  - zip -r TeamFlash_DataIngestor.zip StormCheck || true
+  - zip -r TeamFlash_DataIngestor.zip DataIngestor || true
   - mkdir -p "DataIngestor"
   - mv TeamFlash_DataIngestor.zip DataIngestor/TeamFlash_DataIngestor.zip || true
 
