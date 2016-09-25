@@ -9,7 +9,6 @@ notifications:
      - pmpande@iu.edu
      - ggabra@iu.edu
      - ddwivedy@iu.edu
-	
 jdk:
   - oraclejdk8
 sudo: false
