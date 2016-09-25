@@ -1,0 +1,25 @@
+language: python
+python:
+  - "2.7"
+  - "pypy"
+
+branches:
+  only:
+    - MileStone1
+    - master
+    - dev
+
+notifications:
+  email:
+    - akmehra@iu.edu
+    - pmpande@iu.edu
+    - girish-gabra@iu.edu
+    - debasisdwivedy@iu.edu
+
+sudo: true
+
+install:
+  - pip install -r StormClustering/requirements.txt
+#  - pyb install_dependencies
+
+script: cd "StormClustering" && python StormClustering.py
