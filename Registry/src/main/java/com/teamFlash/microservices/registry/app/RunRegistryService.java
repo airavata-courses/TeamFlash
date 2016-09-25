@@ -3,6 +3,10 @@ package com.teamFlash.microservices.registry.app;
 import org.apache.camel.main.Main;
 
 import com.teamFlash.microservices.registry.routes.RouteRegistryService;
+import org.omg.CORBA.portable.OutputStream;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class RunRegistryService {
 
@@ -11,7 +15,19 @@ public class RunRegistryService {
 		// TODO Auto-generated method stub
 		RunRegistryService instance=new RunRegistryService();
 		final String port = (args.length == 1 ? args[0] : "8765");
-		instance.boot(port);
+		//instance.boot(port);
+
+		Log log = new Log();
+		log.setUserID(1);
+		log.setRequestID(5);
+		log.setMicroservice("reg");
+		log.setLogDescription("This is timestamp testing");
+		LoggerDAO loggerDAO = new LoggerDAO();
+		loggerDAO.insertLog(log);
+		//loggerDAO.deleteLog(1);
+
+
+
 	}
 
 	@SuppressWarnings("deprecation")
@@ -20,6 +36,9 @@ public class RunRegistryService {
 
 	    // create a Main instance
 	    main = new Main();
+
+
+
 	    // enable hangup support so you can press ctrl + c to terminate the JVM
 	    main.enableHangupSupport();
 	    // add routes
