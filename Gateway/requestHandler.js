@@ -100,21 +100,51 @@ function registry(handles,url,request,response)
 function dataIngestor(handles,url,request,response)
 {
 	console.log("data ingestor of request handler"+url);
-	/*var options = {
-	  host: 'localhost',
-	  port: 5679,
-	  path: '/data'
-	};*/
-	response.writeHead(200, {"content-type" : "text/html"});
-	http.get(url, function(resp){
-		resp.on('data', function(chunk){
-	  console.log("Got response: " + chunk);
-	  response.write(chunk);
-	  response.end();
-		});
-	}).on("error", function(e){
-		console.log("Got error: " + e.message);
-	});
+	var body = [];
+	if (request.method == 'POST') {
+		request.on('data', function (data) {
+        	body.push(data);
+            if (body.length > 1e6) {
+                request.connection.destroy();
+            }
+        });
+        request.on('end', function () {
+
+        	body = Buffer.concat(body).toString();
+        	var post = qs.parse(body)
+        	var date=post['date']
+        	var station=post['station']
+        	var time=post['time']
+            console.log("date :"+date)
+            console.log("station :"+station)
+            console.log("time :"+time)
+        	var endpoint ='?'+'date='+ date +'&station=' +station+ '&time='+ time
+            response.writeHead(200, {"content-type" : "text/html"});
+        	http.get(url+endpoint, function(resp){
+        		resp.on('data', function(chunk){
+        	  console.log("Got response: " + chunk);
+        	  output=printOutput(chunk)
+        	  response.write(output);
+        	  response.end();
+        		});
+        	}).on("error", function(e){
+        		console.log("Got error: " + e.message);
+        	});
+        });
+	}
+}
+
+function printOutput(chunk)
+{
+	content=fs.readFileSync(__dirname +'/index.html','utf-8',read)
+	var flag='<label id="output">'
+    var len= flag.length
+    index=content.indexOf(flag)
+    console.log("index is :"+index)
+    console.log("length is :"+len)
+    var output=content.substring(0,index+len) + chunk + content.substring(index+len);
+    console.log(output)
+    return output
 }
 
 function stormDetector(handles,url,request,response)

@@ -12,6 +12,12 @@ public class DataIngestorRouteBuilder extends RouteBuilder{
 		from("direct:getData").setExchangePattern(ExchangePattern.InOut).bean(new DataIngestorService(), "getData");
 	    // .to("direct:data");
 	    // add HTTP interface
-	    from("jetty:http://0.0.0.0:{{port}}/data").setExchangePattern(ExchangePattern.InOut).to("direct:getData");
+		from("jetty:http://0.0.0.0:{{port}}/data")
+	    .setExchangePattern(ExchangePattern.InOut)
+	    .to("direct:getData");
+		
+		//from("direct:getData").setExchangePattern(ExchangePattern.InOut).bean(new DataIngestorService(), "process");
+		
+	    
 	}
 }

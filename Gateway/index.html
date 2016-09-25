@@ -6,8 +6,22 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta name="description" content="WeatherPredictor" />
 <meta name="keywords" content="WeatherPredictor" />
+<script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 <script type="text/javascript" src="http://cytoscape.github.io/cytoscape.js/api/cytoscape.js-latest/cytoscape.min.js"></script>
+<script type="text/javascript">
+    function validateForm()
+    {
+    var a=document.forms["Form1"]["date"].value;
+    var b=document.forms["Form1"]["time"].value;
+    var c=document.forms["Form1"]["station"].value;
+    if (a==null || a=="" || b==null || b==""|| c==null || c==""|| d==null || d=="")
+      {
+      alert("Please Fill All Required Field");
+      return false;
+      }
+    }
+</script>
 <link rel="stylesheet" type="text/css" href="style.css" />
 <title>Weather Predictor</title>
 </head>
@@ -17,23 +31,43 @@
 <div id="header">
 <h1>Weather Predictor</h1>
 </div>
-
+<form method="post" id="Form1" name="Form1"action="/dataIngestor">
 <div id="topmenu">
 <ul>
+<li>
+<a>
+<input type="date" name="date" id="date" value=""  />
+</a>
+</li>
+<li>
+<a>
+<input type="text" name="time" id="time" value=""  />
+</a>
+</li>
+<li>
+<a>
+<select id="station" name="station">
+  <option value="KAMX">Miami</option>
+  <option value="KVWX">Evansville</option>
+  <option value="KBOX">Boston</option>
+  <option value="KBUF">Buffalo</option>
+</select>
+</a>
+</li>
+<li>
+<a>
+<input type="submit" name="commit" onclick="return validateForm();" value="dataIngestorButton" />
+</a>
+</li>
 <li><a id="registryButton" href="/registry">Registry</a></li>
-<li><a id="dataIngestorButton" href="/dataIngestor">Data Ingestor</a></li>
-<li><a id="stormDetectorButton" href="/stormDetector">Storm Detector</a></li>
-<li><a id="stormCluster" href="/stormCluster">Storm Cluster</a></li>
-<li><a id="forecastTrigger" href="/stormTrigger">Forecast Trigger</a></li>
-<li><a id="weatherForecast" href="#">Run Weather Forecast</a></li>
 </ul>
 </div>
-
-<div class="clear"> </div>
-
+</form>
 </div>
 
 <div id="cy" style="width: 100%; height: 580px; margin: 0px auto;">
+<label id="output">
+</label>
 </div>
 
 <div id="footer">
