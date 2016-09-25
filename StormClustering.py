@@ -4,7 +4,7 @@ from flask import json
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/detectClusters', methods=['GET'])
 def detectClusters():
     clusters = {
         "data" : [
