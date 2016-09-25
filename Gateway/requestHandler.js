@@ -118,14 +118,17 @@ function dataIngestor(handles,url,request,response)
             console.log("date :"+date)
             console.log("station :"+station)
             console.log("time :"+time)
-        	var endpoint ='?'+'date='+ date +'&station=' +station+ '&time='+ time
-            response.writeHead(200, {"content-type" : "text/html"});
-        	http.get(url+endpoint, function(resp){
-        		resp.on('data', function(chunk){
+        	var endpoint1 ='?'+'date='+ date +'&station=' +station+ '&time='+ time
+        	var endpoint2 ='?'
+            //response.writeHead(200, {"content-type" : "text/html"});
+        	http.get(url+endpoint1, function(resp){
+        	resp.on('data', function(chunk){
         	  console.log("Got response: " + chunk);
-        	  output=printOutput(chunk)
-        	  response.write(output);
-        	  response.end();
+        	  //nextrad_URL=printOutput(chunk)
+        	  endpoint2=endpoint2+chunk
+        	  stormDetector(handles,endpoint2,request,response)
+        	  //response.write(output);
+        	  //response.end();
         		});
         	}).on("error", function(e){
         		console.log("Got error: " + e.message);
@@ -147,9 +150,21 @@ function printOutput(chunk)
     return output
 }
 
+
 function stormDetector(handles,url,request,response)
 {
 	console.log("storm detector of request handler"+url)
+	response.writeHead(200, {"content-type" : "text/html"});
+	http.get(url, function(resp){
+		  resp.on('data', function(chunk){
+			  console.log("Got response: " + chunk);
+			  kml=printOutput(chunk)
+			  response.write(kml);
+			  response.end();
+		  });
+		}).on("error", function(e){
+		  console.log("Got error: " + e.message);
+		});
 }
 
 function stormCluster(handles,url,request,response)
