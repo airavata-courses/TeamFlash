@@ -7,8 +7,8 @@ notifications:
    email:
      - akmehra@iu.edu
      - pmpande@iu.edu
-     - ddwivedy@iu.edu
      - ggabra@iu.edu
+     - ddwivedy@iu.edu
 	
 jdk:
   - oraclejdk8
