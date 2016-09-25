@@ -55,11 +55,12 @@
 </a>
 </li>
 <li>
-<a>
-<input type="submit" name="commit" onclick="return validateForm();" value="dataIngestorButton" />
-</a>
+<input type="submit" name="commit" id ="commit" onclick="return validateForm();" 
+	   style="position: absolute; left: -9999px; width: 1px; height: 1px;"
+       tabindex="-1"/>
+<a id="dataIngestorButton" onclick="document.getElementById('commit').click()">Weather Forecast</a>
 </li>
-<li><a id="registryButton" href="/registry">Registry</a></li>
+<li><a id="registryButton" href="/registry">Audit Trail</a></li>
 </ul>
 </div>
 </form>
