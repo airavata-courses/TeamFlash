@@ -1,0 +1,34 @@
+language: java
+branches:
+  only:
+    - Feature/ForecastTrigger
+
+notifications:
+   email:
+     - akmehra@iu.edu
+     - pmpande@iu.edu
+
+jdk:
+  - oraclejdk8
+sudo: false
+install: true
+script: cd "StormCheck" && mvn clean install -DskipTests=true
+
+before_deploy:
+  - cd ..
+  - zip -r TeamFlash_ForecastTrigger.zip StormCheck || true
+  - mkdir -p "ForecastTrigger"
+  - mv TeamFlash_ForecastTrigger.zip ForecastTrigger/TeamFlash_ForecastTrigger.zip || true
+
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY # declared in Travis repo settings
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: sga-teamnpcomplete
+    local_dir: dpl_java_upload
+    region: us-east-1
+    skip_cleanup: true
+    acl: public_read
+    detect_encoding: true
+    on:
+      branch: Feature/ForecastTrigger
