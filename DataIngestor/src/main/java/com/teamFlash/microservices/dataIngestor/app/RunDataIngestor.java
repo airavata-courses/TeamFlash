@@ -27,7 +27,7 @@ public class RunDataIngestor {
 	    main.addRouteBuilder(new DataIngestorRouteBuilder());
 
 	    // run until you terminate the JVM
-	    System.out.println(String.format("Starting Camel, using port %s. Use ctrl + c to terminate the JVM.", port));
+	    System.out.println(String.format("Starting Camel, using port %s. Use ctrl + c to terminate the JVM", port));
 	    main.run();
 	  }
 }
