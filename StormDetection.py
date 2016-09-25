@@ -5,9 +5,9 @@ import os
 
 app = Flask(__name__)
 
-@app.route('/detectStorm/<year>/<month>/<day>/<station>/<filename>', methods=['GET'])
-def detectStormLocation(year=None, month=None, day=None, station=None, filename=None):
-    url = 'https://noaa-nexrad-level2.s3.amazonaws.com/' + year + '/' + month + '/' + day + '/' + station + '/' + filename + '.gz'
+@app.route('/detectStorm/<url>', methods=['GET'])
+def detectStormLocation(url=None):
+    #url = 'https://noaa-nexrad-level2.s3.amazonaws.com/' + year + '/' + month + '/' + day + '/' + station + '/' + filename + '.gz'
     data = urlopen(url).read()
     script_dir = os.path.dirname(__file__)
     rel_path = "dummy.kml"
