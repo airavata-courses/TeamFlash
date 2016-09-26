@@ -22,6 +22,7 @@ def detectStormLocation():
     response.headers["Content-Disposition"] = "attachment; filename=data.kml"
     return response
 
-
+'''
 if __name__ == '__main__':
     app.run()
+'''

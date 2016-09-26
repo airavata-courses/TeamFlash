@@ -1,0 +1,56 @@
+language: python
+
+python: 
+  - "3.5"
+
+branches:
+  only:
+    - Feature/StormDetection
+
+sudo: false
+
+install: true
+
+before_script:
+  - cd StormDetection
+  - pip install requests
+  - pip install nose
+  - pip install Flask
+
+script: nosetests
+
+before_deploy:
+  - cd ..
+  - zip -r TeamFlash_StormDetection.zip StormDetection scripts appspec.yml || true
+  - mkdir -p "StormDetection"
+  - mv TeamFlash_StormDetection.zip StormDetection/StormDetection.zip || true
+
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY # declared in Travis repo settings
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: teamflash
+    local_dir: StormDetection
+    region: us-east-1
+    skip_cleanup: true
+    acl: public_read
+    detect_encoding: true
+    on:
+	  branch: Feature/StormDetection
+
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY # declared in Travis repo settings
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: teamflash
+    key: StormDetection.zip
+    bundle_type: zip
+    application: TeamFlash
+    deployment_group: TeamFlash
+    region: us-east-1
+    on:
+	  branch: Feature/StormDetection
+  
+notifications:
+   email:
+     - akmehra@iu.edu
+  	 - pmpande@iu.edu
