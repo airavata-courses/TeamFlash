@@ -1,5 +1,5 @@
 echo 'starting installation process' >> /var/log/teamflash-stormclustering-install.log
-cd '/home/ec2-user/StormClustering'
+cd '/home/ec2-user/StormClustering/StormClustering'
 
 echo 'Activating virtualenv for StormClustering Microservice' >> /var/log/teamflash-stormclustering-install.log
 pip install virtualenv >> /var/log/teamflash-stormclustering-install.log
