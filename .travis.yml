@@ -32,3 +32,16 @@ deploy:
     detect_encoding: true
     on:
       branch: Feature/ForecastTrigger
+
+
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY # declared in Travis repo settings
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: teamflash
+    key: TeamFlash_ForecastTrigger.zip
+    bundle_type: zip
+    application: teamFlash
+    deployment_group: TeamFlash
+    region: us-east-1
+    on:
+      branch: Feature/ForecastTrigger
