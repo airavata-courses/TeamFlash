@@ -1,0 +1,56 @@
+language: python
+
+python: 
+  - "3.5"
+
+branches:
+  only:
+    - Feature/PythonServicesDeploy
+
+sudo: false
+
+install: true
+
+before_script:
+  - cd PythonServicesDeploy
+  - pip install requests
+  - pip install nose
+  - pip install Flask
+
+script: nosetests
+
+before_deploy:
+  - cd ..
+  - zip -r TeamFlash_PythonServicesDeploy.zip PythonServicesDeploy scripts appspec.yml || true
+  - mkdir -p "PythonServicesDeploy"
+  - mv TeamFlash_PythonServicesDeploy.zip PythonServicesDeploy/PythonServicesDeploy.zip || true
+
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY # declared in Travis repo settings
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: teamflash
+    local_dir: PythonServicesDeploy
+    region: us-east-1
+    skip_cleanup: true
+    acl: public_read
+    detect_encoding: true
+    on:
+	  branch: Feature/PythonServicesDeploy
+
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY # declared in Travis repo settings
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: teamflash
+    key: PythonServicesDeploy.zip
+    bundle_type: zip
+    application: TeamFlash
+    deployment_group: TeamFlash
+    region: us-east-1
+    on:
+	  branch: Feature/PythonServicesDeploy
+  
+notifications:
+   email:
+     - akmehra@iu.edu
+  	 - pmpande@iu.edu
