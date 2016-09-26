@@ -21,6 +21,7 @@ def detectClusters():
     response = Response(js, status=200, mimetype='application/json')
     return response
 
-
+'''
 if __name__ == '__main__':
     app.run()
+'''

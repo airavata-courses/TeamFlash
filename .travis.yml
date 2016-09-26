@@ -1,0 +1,56 @@
+language: python
+
+python: 
+  - "3.5"
+
+branches:
+  only:
+    - Feature/StormClustering
+
+sudo: false
+
+install: true
+
+before_script:
+  - cd StormClustering
+  - pip install requests
+  - pip install nose
+  - pip install Flask
+
+script: nosetests
+
+before_deploy:
+  - cd ..
+  - zip -r TeamFlash_StormClustering.zip StormClustering scripts appspec.yml || true
+  - mkdir -p "StormClustering"
+  - mv TeamFlash_StormClustering.zip StormClustering/StormClustering.zip || true
+
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY # declared in Travis repo settings
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: teamflash
+    local_dir: StormClustering
+    region: us-east-1
+    skip_cleanup: true
+    acl: public_read
+    detect_encoding: true
+    on:
+	  branch: Feature/StormClustering
+
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY # declared in Travis repo settings
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: teamflash
+    key: StormClustering.zip
+    bundle_type: zip
+    application: TeamFlash
+    deployment_group: TeamFlash
+    region: us-east-1
+    on:
+	  branch: Feature/StormClustering
+  
+notifications:
+   email:
+     - akmehra@iu.edu
+  	 - pmpande@iu.edu
