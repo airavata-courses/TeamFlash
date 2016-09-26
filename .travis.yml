@@ -14,11 +14,13 @@ install: true
 before_script:
   - cd StormDetection
   - pip install requests
+  - pip install request
   - pip install nose
   - pip install Flask
   - cd ..
   - cd StormClustering
   - pip install requests
+  - pip install request
   - pip install nose
   - pip install Flask 
 
