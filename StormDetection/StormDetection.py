@@ -2,7 +2,6 @@ from flask import Flask
 from flask import make_response
 from flask import request
 import requests
-#from urllib.request import urlopen
 import os
 
 app = Flask(__name__)
