@@ -1,7 +1,8 @@
 from flask import Flask
 from flask import make_response
 from flask import request
-from urllib.request import urlopen
+import requests
+#from urllib.request import urlopen
 import os
 
 app = Flask(__name__)
@@ -11,7 +12,8 @@ def detectStormLocation():
     #url = 'https://noaa-nexrad-level2.s3.amazonaws.com/' + year + '/' + month + '/' + day + '/' + station + '/' + filename + '.gz'
     url = request.args.get('url')
     try:
-        data = urlopen(url).read()
+        data = requests.get(url).read()
+        #data = urlopen(url).read()
     except:
         pass
     script_dir = os.path.dirname(__file__)
