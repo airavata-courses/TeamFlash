@@ -89,9 +89,11 @@ function gateway(handles,url,request,response,parameter)
 	var id=uuid.v4();
     console.log("Unique id is :"+id)
     createLog(handles,request,response,parameter+"&id="+id,'Gateway')
-	content=fs.readFileSync(__dirname +'/index.html','utf-8',read)
+	//content=fs.readFileSync(__dirname +'/index.html','utf-8',read)
+    var map=splitURL(parameter+"&id="+id)
+    var output=addHiddenParameter(map["username"],map["id"])
 	response.writeHead(200, {"content-type" : "text/html"});
-	response.write(content);
+	response.write(output);
 	response.end();
 }
 
@@ -133,11 +135,14 @@ function dataIngestor(handles,url,request,response,parameter)
         	var date=post['date']
         	var station=post['station']
         	var time=post['time']
+        	var username=post['username']
+        	var id=post['id']
             console.log("date :"+date)
             console.log("station :"+station)
             console.log("time :"+time)
-        	var endpoint1 ='?'+'date='+ date +'&station=' +station+ '&time='+ time
-        	var endpoint2 ='?url='
+            console.log("id :"+post['id'])
+        	var endpoint1 ='?username='+ username +'&id=' +id+'&date='+ date +'&station=' +station+ '&time='+ time
+        	var endpoint2 ='?username='+ username +'&id=' +id+'url='
             //response.writeHead(200, {"content-type" : "text/html"});
         	http.get(url+endpoint1, function(resp){
         	resp.on('data', function(chunk){
@@ -156,12 +161,40 @@ function dataIngestor(handles,url,request,response,parameter)
 	}
 }
 
+function splitURL(str)
+{
+	var map = {};
+	var arr=str.split("?")
+	var queryString=arr[1];
+	var parameters=queryString.split("&")
+	for(var i=0;i<parameters.length;i++) {
+		var param=parameters[i].split("=")
+		map[param[0]] = param[1];
+	}
+	return map
+}
+
 function printOutput(chunk)
 {
 	content=fs.readFileSync(__dirname +'/index.html','utf-8',read)
 	var flag='<label id="output">'
     var len= flag.length
     index=content.indexOf(flag)
+    console.log("index is :"+index)
+    console.log("length is :"+len)
+    var output=content.substring(0,index+len) + chunk + content.substring(index+len);
+    //console.log(output)
+    return output
+}
+
+function addHiddenParameter(username,id)
+{
+	content=fs.readFileSync(__dirname +'/index.html','utf-8',read)
+	var flag='<form method="post" id="Form1" name="Form1"action="/dataIngestor">'
+    var len= flag.length
+    index=content.indexOf(flag)
+    var chunk = '<input type="hidden" id="username" name="username" value='+username+'/>';
+	chunk= chunk + '<input type="hidden" id="id" name="id" value='+id+' />';
     console.log("index is :"+index)
     console.log("length is :"+len)
     var output=content.substring(0,index+len) + chunk + content.substring(index+len);
@@ -180,6 +213,7 @@ function stormDetector(handles,url,request,response,parameter)
 			  kml=printOutput(chunk)
 			  response.write(kml);
 			  response.end();
+			  //router.route(handles,"/stormCluster",request,response,endpoint2)
 		  });
 		}).on("error", function(e){
 		  console.log("Got error: " + e.message);
@@ -189,6 +223,16 @@ function stormDetector(handles,url,request,response,parameter)
 function stormCluster(handles,url,request,response,parameter)
 {
 	console.log("storm cluster of request handler"+url)
+	http.get(url+parameter, function(resp){
+		  resp.on('data', function(chunk){
+			  //console.log("Got response: " + chunk);
+			  kml=printOutput(chunk)
+			  response.write(kml);
+			  response.end();
+		  });
+		}).on("error", function(e){
+		  console.log("Got error: " + e.message);
+		});
 }
 
 function forecastTrigger(handles,url,request,response,parameter)
