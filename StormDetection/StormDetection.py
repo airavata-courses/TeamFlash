@@ -13,6 +13,7 @@ def detectStormLocation():
     url = request.args.get('url')
     try:
         data = requests.get(url).read()
+        print "test"
         #data = urlopen(url).read()
     except:
         pass
