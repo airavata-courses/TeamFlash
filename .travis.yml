@@ -16,6 +16,11 @@ before_script:
   - pip install requests
   - pip install nose
   - pip install Flask
+  - cd ..
+  - cd StormClustering
+  - pip install requests
+  - pip install nose
+  - pip install Flask 
 
 script: nosetests
 
