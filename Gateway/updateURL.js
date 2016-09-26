@@ -33,7 +33,7 @@ function parse(data,functionHandle,urlHandle)
 			var url=lines[i].split('=');
 			var route=(url[0]+'').trim();
 			var url=(url[1]+'').trim();
-			console.log("in update url: "+route);
+			//console.log("in update url: "+route);
 			switch (route) {
 			case '/':
 		    	functionHandle[route]=requestHandler.login;

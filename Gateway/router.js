@@ -2,7 +2,7 @@
  * http://usejsdoc.org/
  */
 
-function route(handles,pathname,request,response)
+function route(handles,pathname,request,response,parameter)
 {
 	console.log("About to route a request for "+pathname);
 	var fn=handles()[0]
@@ -10,7 +10,7 @@ function route(handles,pathname,request,response)
 	
 	if(typeof fn[pathname] === 'function')
 		{
-			fn[pathname](handles,url[pathname],request,response);
+			fn[pathname](handles,url[pathname],request,response,parameter);
 		}
 	else
 		{

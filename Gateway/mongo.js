@@ -5,6 +5,7 @@ var fs = require("fs")
 var mongodb = require('mongodb');
 var assert = require('assert');
 var http = require('http')
+var router = require("./router.js") 
 var MongoClient = mongodb.MongoClient;
 
 function dbConnect(host,port,databasename,username,password,func,request,response)
@@ -40,7 +41,7 @@ function read(err,data)
 	return data;
 }
 
-function authenticate(host,port,databasename,username,password,request,response)
+function authenticate(host,port,databasename,username,password,handles,request,response,parameter)
 {
 	console.log("Connected successfully to server");
 	var func=function(db,host,port,databasename,username,password,request,response)
@@ -55,20 +56,12 @@ function authenticate(host,port,databasename,username,password,request,response)
 				}
 			if(length>0)
 				{
-					//router.route(handles,"/Gateway",request,response);
-				content=fs.readFileSync(__dirname +'/index.html','utf-8',read)
-				response.writeHead(200, {"content-type" : "text/html"});
-				response.write(content);
-				response.end();
+					router.route(handles,"/Gateway",request,response,parameter);
 						
 				}
 			else
 				{
-				content=fs.readFileSync(__dirname +'/login.html','utf-8',read)
-				response.writeHead(200, {"content-type" : "text/html"});
-				response.write("<h1>Invalid Entry</h1>");
-				response.write(content);
-				response.end();
+				router.route(handles,"/login",request,response,parameter);
 				}
 		});
 	}

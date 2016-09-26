@@ -5,6 +5,6 @@
 /Gateway = http://localhost:8888/Gateway
 /registry = http://localhost:2345/audit
 /dataIngestor = http://localhost:5679/data
-/stormDetector = http://localhost:5000/detector
-/stormCluster = http://localhost:5001/cluster
+/stormDetector = http://localhost:5000/detectStorm
+/stormCluster = http://localhost:5001/detectClusters
 /stormTrigger = http://localhost:5002/trigger
