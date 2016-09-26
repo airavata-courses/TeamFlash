@@ -1,6 +1,6 @@
 echo 'killing existing tomcat process if any'
-cd /usr/local/tomcat7/apache-tomcat-7.0.72
-sudo sh ./bin/shutdown.sh
+cd /usr/share/tomcat7/
+sudo service tomcat7 stop
 sleep 20
 echo 'Setting up our java environment'
 #export JAVA_HOME=/usr/java/jdk1.8.0_45/jre
