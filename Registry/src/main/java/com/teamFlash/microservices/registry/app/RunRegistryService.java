@@ -15,19 +15,7 @@ public class RunRegistryService {
 		// TODO Auto-generated method stub
 		RunRegistryService instance=new RunRegistryService();
 		final String port = (args.length == 1 ? args[0] : "8765");
-		//instance.boot(port);
-
-		Log log = new Log();
-		log.setUserID(1);
-		log.setRequestID(5);
-		log.setMicroservice("reg");
-		log.setLogDescription("This is timestamp testing");
-		LoggerDAO loggerDAO = new LoggerDAO();
-		loggerDAO.insertLog(log);
-		//loggerDAO.deleteLog(1);
-
-
-
+		instance.boot(port);
 	}
 
 	@SuppressWarnings("deprecation")

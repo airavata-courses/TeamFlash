@@ -1,0 +1,5 @@
+com/teamFlash/microservices/registry/services/Log.class
+com/teamFlash/microservices/registry/services/RegistryService.class
+com/teamFlash/microservices/registry/services/LoggerDAO.class
+com/teamFlash/microservices/registry/app/RunRegistryService.class
+com/teamFlash/microservices/registry/routes/RouteRegistryService.class
