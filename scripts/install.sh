@@ -2,8 +2,7 @@ echo 'starting installation process' >> /var/log/teamflash-stormclustering-insta
 cd '/home/ec2-user/PythonServicesDeploy/StormClustering'
 echo 'Activating virtualenv for StormClustering Microservice' >> /var/log/teamflash-stormclustering-install.log
 pip install virtualenv >> /var/log/teamflash-stormclustering-install.log
-#virtualenv venv >> /var/log/teamflash-stormclustering-install.log
-virtualenv --python=/usr/bin/python3 venv >> /var/log/teamflash-stormclustering-install.log
+virtualenv venv >> /var/log/teamflash-stormclustering-install.log
 . venv/bin/activate >> /var/log/teamflash-stormclustering-install.log
 pip install requests >> /var/log/teamflash-stormclustering-install.log
 pip install request >> /var/log/teamflash-stormclustering-install.log
@@ -15,8 +14,7 @@ echo 'starting installation process' >> /var/log/teamflash-stormdetection-instal
 cd '/home/ec2-user/PythonServicesDeploy/StormDetection'
 echo 'Activating virtualenv for StormDetection Microservice' >> /var/log/teamflash-stormdetection-install.log
 pip install virtualenv >> /var/log/teamflash-stormdetection-install.log
-#virtualenv venv >> /var/log/teamflash-stormdetection-install.log
-virtualenv --python=/usr/bin/python3 venv >> /var/log/teamflash-stormdetection-install.log
+virtualenv venv >> /var/log/teamflash-stormdetection-install.log
 . venv/bin/activate >> /var/log/teamflash-stormdetection-install.log
 pip install requests >> /var/log/teamflash-stormdetection-install.log
 pip install request >> /var/log/teamflash-stormdetection-install.log
