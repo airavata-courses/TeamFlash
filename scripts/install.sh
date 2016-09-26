@@ -1,5 +1,5 @@
 echo 'starting installation process' >> /var/log/teamflash-stormdetection-install.log
-cd '/home/ec2-user/StormDetection'
+cd '/home/ec2-user/StormDetection/StormDetection'
 
 echo 'Activating virtualenv for StormDetection Microservice' >> /var/log/teamflash-stormdetection-install.log
 pip install virtualenv >> /var/log/teamflash-stormdetection-install.log
