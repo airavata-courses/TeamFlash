@@ -36,7 +36,7 @@ deploy:
     acl: public_read
     detect_encoding: true
     on:
-	  branch: Feature/StormClustering
+      branch: Feature/StormClustering
 
   - provider: codedeploy
     access_key_id: $AWS_ACCESS_KEY # declared in Travis repo settings
@@ -48,9 +48,9 @@ deploy:
     deployment_group: TeamFlash
     region: us-east-1
     on:
-	  branch: Feature/StormClustering
+      branch: Feature/StormClustering
   
 notifications:
    email:
      - akmehra@iu.edu
-  	 - pmpande@iu.edu
+     - pmpande@iu.edu
