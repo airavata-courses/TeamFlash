@@ -16,7 +16,7 @@ script: cd "StormCheck" && mvn clean install -DskipTests=true
 
 before_deploy:
   - cd ..
-  - zip -r TeamFlash_ForecastTrigger.zip StormCheck || true
+  - zip -r TeamFlash_ForecastTrigger.zip StormCheck scripts appspec.yml || true
   - mkdir -p "ForecastTrigger"
   - mv TeamFlash_ForecastTrigger.zip ForecastTrigger/ForecastTrigger.zip || true
 
