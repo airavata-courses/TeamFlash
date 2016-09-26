@@ -221,14 +221,14 @@ function dataIngestor(handles,url,request,response,parameter)
 function stormDetector(handles,url,request,response,parameter)
 {
 	console.log("storm detector of request handler"+url)
-	response.writeHead(200, {"content-type" : "text/html"});
+	//response.writeHead(200, {"content-type" : "text/html"});
 	http.get(url+parameter, function(resp){
 		  resp.on('data', function(chunk){
 			  //console.log("Got response: " + chunk);
 			  kml=printOutput(chunk)
 			  createLog(handles,request,response,parameter,'Storm Detector')
-			  response.write(kml);
-			  response.end();
+			  //response.write(kml);
+			  //response.end();
 			  router.route(handles,"/stormCluster",request,response,parameter)
 		  });
 		}).on("error", function(e){
@@ -244,6 +244,7 @@ function stormCluster(handles,url,request,response,parameter)
 			  //console.log("Got response: " + chunk);
 			  output=printOutput(chunk)
 			  createLog(handles,request,response,parameter,'Storm Cluster')
+			  router.route(handles,"/stormTrigger",request,response,parameter+'&value='+true)
 			  //response.write(kml);
 			  //response.end();
 		  });
@@ -254,7 +255,38 @@ function stormCluster(handles,url,request,response,parameter)
 
 function forecastTrigger(handles,url,request,response,parameter)
 {
-	console.log("forecast trigger of request handler"+url)
+	console.log("forecast trigger of request handler"+url+parameter)
+	response.writeHead(200, {"content-type" : "text/html"});
+	http.get(url+parameter, function(resp){
+		  resp.on('data', function(chunk){
+			  //console.log("Got response: " + chunk);
+			  output=printOutput(chunk)
+			  //console.log("Girish Webapp :"+output)
+			  createLog(handles,request,response,parameter,'Forecast Trigger')
+			  router.route(handles,"/weatherForecast",request,response,parameter+'&location=bloomington')
+			  response.write(output);
+			  response.end();
+		  });
+		}).on("error", function(e){
+		  console.log("Got error: " + e.message);
+		});
+}
+
+function predictWeatherforecast(handles,url,request,response,parameter)
+{
+	console.log("predict weather forecast of request handler"+url+parameter)
+	//response.writeHead(200, {"content-type" : "text/html"});
+	http.get(url+parameter, function(resp){
+		  resp.on('data', function(chunk){
+			  //console.log("Got response: " + chunk);
+			  output=printOutput(chunk)
+			  createLog(handles,request,response,parameter,'Weather Forecast')
+			  //response.write(output);
+			  //response.end();
+		  });
+		}).on("error", function(e){
+		  console.log("Got error: " + e.message);
+		});
 }
 
 exports.login=login;
@@ -265,5 +297,6 @@ exports.dataIngestor=dataIngestor;
 exports.stormDetector=stormDetector;
 exports.stormCluster=stormCluster;
 exports.forecastTrigger=forecastTrigger;
+exports.predictWeatherforecast=predictWeatherforecast;
 exports.CSS=CSS;
 exports.JS=JS;

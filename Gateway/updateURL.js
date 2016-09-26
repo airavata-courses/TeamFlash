@@ -71,6 +71,10 @@ function parse(data,functionHandle,urlHandle)
 		    	functionHandle[route]=requestHandler.forecastTrigger;
 		    	urlHandle[route]=url;
 		        break;
+		    case '/weatherForecast':
+		    	functionHandle[route]=requestHandler.predictWeatherforecast;
+		    	urlHandle[route]=url;
+		        break;
 		    default:
 		    	functionHandle[route]=requestHandler.login;
 		    	urlHandle[route]=url;
