@@ -12,7 +12,7 @@ sudo: false
 install: true
 
 before_script:
-  - cd PythonServicesDeploy
+  - cd StormDetection
   - pip install requests
   - pip install nose
   - pip install Flask
