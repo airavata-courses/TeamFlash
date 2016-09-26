@@ -40,8 +40,8 @@ deploy:
     bucket: teamflash1
     key: TeamFlash_ForecastTrigger.zip
     bundle_type: zip
-    application: TeamFlash
-    deployment_group: TeamFlash
+    application: TeamFlash1
+    deployment_group: TeamFlash1
     region: us-west-2
     on:
       branch: Feature/ForecastTrigger
