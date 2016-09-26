@@ -35,7 +35,7 @@ function read(err,data)
 	
 	return data;
 }
-function parse(data,functionHandle,urlHandle)
+function parse(data)
 {
 	var map={}
 	var lines=data.trim().split('\n')
