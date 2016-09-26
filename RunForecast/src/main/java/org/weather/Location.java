@@ -5,19 +5,19 @@ package org.weather;
  */
 public class Location {
 
-    private int locationID;
+    //private int locationID;
     private String locationName;
     private Double temperature;
     private Double windSpeed;
 
-    public int getLocationID() {
+    /*public int getLocationID() {
         return locationID;
     }
 
     public void setLocationID(int locationID) {
         this.locationID = locationID;
     }
-
+*/
     public String getLocationName() {
         return locationName;
     }
