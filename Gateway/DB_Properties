@@ -1,3 +1,6 @@
-host = localhost
-port = 56001
+HOST = 127.0.0.1
+PORT = 27017
+DB = LDAP
+LOGIN=
+PASSWORD=
 options = { raw: true},server: {poolSize: 10}

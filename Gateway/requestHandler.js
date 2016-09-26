@@ -35,10 +35,64 @@ function read(err,data)
 	
 	return data;
 }
+function parse(data,functionHandle,urlHandle)
+{
+	var map={}
+	var lines=data.trim().split('\n')
+	for (var i=0;i<lines.length;i++)
+		{
+			var line=lines[i].split('=');
+			var key=(line[0]+'').trim();
+			var value=(line[1]+'').trim();
+			map[key]=value
+		}
+	return map
+}
 
 function createLog(handles,request,response,endpoint,microservice)
 {
     router.route(handles,"/registry",request,response,endpoint+'&msvc='+microservice)
+}
+
+function splitURL(str)
+{
+	var map = {};
+	var arr=str.split("?")
+	var queryString=arr[1];
+	var parameters=queryString.split("&")
+	for(var i=0;i<parameters.length;i++) {
+		var param=parameters[i].split("=")
+		map[param[0]] = param[1];
+	}
+	return map
+}
+
+function printOutput(chunk)
+{
+	content=fs.readFileSync(__dirname +'/index.html','utf-8',read)
+	var flag='<label id="output">'
+    var len= flag.length
+    index=content.indexOf(flag)
+    console.log("index is :"+index)
+    console.log("length is :"+len)
+    var output=content.substring(0,index+len) + chunk + content.substring(index+len);
+    //console.log(output)
+    return output
+}
+
+function addHiddenParameter(username,id)
+{
+	content=fs.readFileSync(__dirname +'/index.html','utf-8',read)
+	var flag='<form method="post" id="Form1" name="Form1"action="/dataIngestor">'
+    var len= flag.length
+    index=content.indexOf(flag)
+    var chunk = '<input type="hidden" id="username" name="username" value='+username+' />';
+	chunk= chunk + '<input type="hidden" id="id" name="id" value='+id+' />';
+    console.log("index is :"+index)
+    console.log("length is :"+len)
+    var output=content.substring(0,index+len) + chunk + content.substring(index+len);
+    //console.log(output)
+    return output
 }
 
 function login(handles,url,request,response,parameter)
@@ -71,7 +125,9 @@ function authenticate(handles,url,request,response,parameter)
             console.log("password :"+post['password'])
             // use POST
             endpoint="?username="+post['login'];
-            mongo.authenticate('localhost','27017','LDAP',post['login'],post['password'],handles,request,response,endpoint);
+        	var data=fs.readFileSync(__dirname +'/DB_Properties','utf-8',read);
+        	var map=parse(data)
+            mongo.authenticate(map["HOST"],map["PORT"],map["DB"],post['login'],post['password'],handles,request,response,endpoint);
         	//var id=uuid.v4();
         	//console.log("Unique id is :"+id)
         	//endpoint="?username="+post['login']+"&id="+id+"&msvc='Gateway'";
@@ -142,13 +198,14 @@ function dataIngestor(handles,url,request,response,parameter)
             console.log("time :"+time)
             console.log("id :"+post['id'])
         	var endpoint1 ='?username='+ username +'&id=' +id+'&date='+ date +'&station=' +station+ '&time='+ time
-        	var endpoint2 ='?username='+ username +'&id=' +id+'url='
+        	var endpoint2 ='?username='+ username +'&id=' +id+'&url='
             //response.writeHead(200, {"content-type" : "text/html"});
         	http.get(url+endpoint1, function(resp){
         	resp.on('data', function(chunk){
         	  //console.log("Got response: " + chunk);
         	  //nextrad_URL=printOutput(chunk)
         	  endpoint2=endpoint2+chunk
+        	  createLog(handles,request,response,endpoint1,'Data Ingestor')
         	  router.route(handles,"/stormDetector",request,response,endpoint2)
         	  //stormDetector(handles,url+endpoint2,request,response)
         	  //response.write(output);
@@ -161,48 +218,6 @@ function dataIngestor(handles,url,request,response,parameter)
 	}
 }
 
-function splitURL(str)
-{
-	var map = {};
-	var arr=str.split("?")
-	var queryString=arr[1];
-	var parameters=queryString.split("&")
-	for(var i=0;i<parameters.length;i++) {
-		var param=parameters[i].split("=")
-		map[param[0]] = param[1];
-	}
-	return map
-}
-
-function printOutput(chunk)
-{
-	content=fs.readFileSync(__dirname +'/index.html','utf-8',read)
-	var flag='<label id="output">'
-    var len= flag.length
-    index=content.indexOf(flag)
-    console.log("index is :"+index)
-    console.log("length is :"+len)
-    var output=content.substring(0,index+len) + chunk + content.substring(index+len);
-    //console.log(output)
-    return output
-}
-
-function addHiddenParameter(username,id)
-{
-	content=fs.readFileSync(__dirname +'/index.html','utf-8',read)
-	var flag='<form method="post" id="Form1" name="Form1"action="/dataIngestor">'
-    var len= flag.length
-    index=content.indexOf(flag)
-    var chunk = '<input type="hidden" id="username" name="username" value='+username+'/>';
-	chunk= chunk + '<input type="hidden" id="id" name="id" value='+id+' />';
-    console.log("index is :"+index)
-    console.log("length is :"+len)
-    var output=content.substring(0,index+len) + chunk + content.substring(index+len);
-    //console.log(output)
-    return output
-}
-
-
 function stormDetector(handles,url,request,response,parameter)
 {
 	console.log("storm detector of request handler"+url)
@@ -211,9 +226,10 @@ function stormDetector(handles,url,request,response,parameter)
 		  resp.on('data', function(chunk){
 			  //console.log("Got response: " + chunk);
 			  kml=printOutput(chunk)
+			  createLog(handles,request,response,parameter,'Storm Detector')
 			  response.write(kml);
 			  response.end();
-			  //router.route(handles,"/stormCluster",request,response,endpoint2)
+			  router.route(handles,"/stormCluster",request,response,parameter)
 		  });
 		}).on("error", function(e){
 		  console.log("Got error: " + e.message);
@@ -226,9 +242,10 @@ function stormCluster(handles,url,request,response,parameter)
 	http.get(url+parameter, function(resp){
 		  resp.on('data', function(chunk){
 			  //console.log("Got response: " + chunk);
-			  kml=printOutput(chunk)
-			  response.write(kml);
-			  response.end();
+			  output=printOutput(chunk)
+			  createLog(handles,request,response,parameter,'Storm Cluster')
+			  //response.write(kml);
+			  //response.end();
 		  });
 		}).on("error", function(e){
 		  console.log("Got error: " + e.message);

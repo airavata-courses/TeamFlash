@@ -13,6 +13,7 @@ function dbConnect(host,port,databasename,username,password,func,request,respons
 // Connection URL
 //var url = 'mongodb://localhost:56001/LDAP';
 var url = 'mongodb://'+host+':'+port+'/'+databasename;
+console.log("DB URL :"+url)
 //var url = 'mongodb://'+username+':'+passowrd+'@'+host+':'+port+'/'+databasename;
 // Use connect method to connect to the server
 MongoClient.connect(url, function(err, db) {
@@ -43,7 +44,6 @@ function read(err,data)
 
 function authenticate(host,port,databasename,username,password,handles,request,response,parameter)
 {
-	console.log("Connected successfully to server");
 	var func=function(db,host,port,databasename,username,password,request,response)
 	{
 		var collection = db.collection('users');
@@ -66,7 +66,7 @@ function authenticate(host,port,databasename,username,password,handles,request,r
 		});
 	}
 	dbConnect(host,port,databasename,username,password,func,request,response)
-	
+	console.log("Connected successfully to server");
 }
 
 function insertDocument(db,request,response)
