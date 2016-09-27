@@ -1,25 +1,47 @@
-language: python
-python:
-  - "2.7"
-  - "pypy"
-
+language: java
 branches:
   only:
-    - MileStone1
-    - master
-    - dev
+    - Feature/Registry
 
 notifications:
-  email:
-    - akmehra@iu.edu
-    - pmpande@iu.edu
-    - girish-gabra@iu.edu
-    - debasisdwivedy@iu.edu
+   email:
+     - akmehra@iu.edu
+     - pmpande@iu.edu
 
-sudo: true
+jdk:
+  - oraclejdk8
+sudo: false
+install: true
+script: cd "Registry" && mvn clean install -DskipTests=true
 
-install:
-  - pip install -r StormClustering/requirements.txt
-#  - pyb install_dependencies
+before_deploy:
+  - cd ..
+  - zip -r TeamFlash_Registry.zip Registry scripts appspec.yml || true
+  - mkdir -p "Registry"
+  - mv TeamFlash_Registry.zip Registry/Registry.zip || true
 
-script: cd "StormClustering" && python StormClustering.py
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY # declared in Travis repo settings
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: teamflash
+    local_dir: Registry
+    region: us-east-1
+    skip_cleanup: true
+    acl: public_read
+    detect_encoding: true
+    on:
+      branch: Feature/Registry
+
+
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY # declared in Travis repo settings
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: teamflash
+    key: Registry.zip
+    bundle_type: zip
+    application: TeamFlash
+    deployment_group: TeamFlash
+    region: us-east-1
+    on:
+      branch: Feature/Registry
