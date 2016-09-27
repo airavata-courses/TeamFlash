@@ -83,11 +83,13 @@ public class LoggerDAO {
         }
         finally
         {
-            try {
-                conn.close();
-            } catch (SQLException e) {
+           if (conn != null) {
+                try {
+                    conn.close();
+                    } catch (SQLException e) {
                 e.printStackTrace();
-            }
+                 }
+               }
         }
     }
 
