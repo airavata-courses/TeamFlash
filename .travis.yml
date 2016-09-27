@@ -19,7 +19,7 @@ before_deploy:
   - cd ..
   - zip -r TeamFlash_DataIngestor.zip DataIngestor || true
   - mkdir -p "DataIngestor"
-  - mv TeamFlash_DataIngestor.zip DataIngestor/TeamFlash_DataIngestor.zip || true
+  - mv TeamFlash_DataIngestor.zip DataIngestor/DataIngestor.zip || true
 
 deploy:
   - provider: s3
@@ -31,5 +31,17 @@ deploy:
     skip_cleanup: true
     acl: public_read
     detect_encoding: true
+    on:
+      branch: Feature/DataIngestor
+
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY # declared in Travis repo settings
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: teamflash
+    key: DataIngestor.zip
+    bundle_type: zip
+    application: TeamFlash
+    deployment_group: TeamFlash
+    region: us-east-1
     on:
       branch: Feature/DataIngestor
