@@ -1,5 +1,5 @@
 echo 'Installing DataIngestor' 
-cd '/home/ec2-user/DataIngestor'
+cd '/home/ec2-user/DataIngestor/DataIngestor'
 mvn clean install >> /var/log/DataIngestor.log
 cd 'target'
 chmod 777 *
