@@ -13,3 +13,4 @@ Milestone 1
 5. Create a Forecast Trigger Microservice 
 6. Create a Run Weather Forecast Microservice 
   
+[![Build Status](https://travis-ci.org/airavata-courses/TeamFlash.svg?branch=Feature%2FDataIngestor)](https://travis-ci.org/airavata-courses/TeamFlash)
