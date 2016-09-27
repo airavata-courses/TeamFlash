@@ -66,16 +66,20 @@ public class LoggerDAO {
             String description = log.getLogDescription();
             Class.forName(JDBC_DRIVER);
             conn = DriverManager.getConnection(DB_URL,user,password);
+            System.out.println("Trying to initiate connection"); 
             Date date = new Date(System.currentTimeMillis());
             Timestamp now = new Timestamp(date.getTime());
+             System.out.println("Date: "+date);
             String sql = "Insert into user_request_log_dtls values (?,?,?,?,?)";
             pstmt = conn.prepareStatement(sql);
+            System.out.println("After prepared statement"); 
             pstmt.setString(1,requestID);
             pstmt.setString(2,userID);
             pstmt.setString(3,microservice);
             pstmt.setString(4,description);
             pstmt.setTimestamp(5,now);
             pstmt.executeUpdate();
+            System.out.println("After execute query"); 
         }
         catch(Exception e)
         {
@@ -85,9 +89,10 @@ public class LoggerDAO {
         {
            if (conn != null) {
                 try {
-                    conn.close();
+                     System.out.println("Inside try to cllose connection");
+                         conn.close();
                     } catch (SQLException e) {
-                e.printStackTrace();
+                         e.printStackTrace();
                  }
                }
         }
