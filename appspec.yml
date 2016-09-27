@@ -1,4 +1,5 @@
 version: 0.0
+#changing destination for better structure
 os: linux
 files:
   - source: /
