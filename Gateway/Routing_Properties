@@ -1,11 +1,11 @@
 #Routing URL
-/ = http://localhost:8888/login
-/login = http://localhost:8888/login
-/authenticate = http://localhost:8888/authenticate
-/Gateway = http://localhost:8888/Gateway
-/registry = http://localhost:2345/audit
-/dataIngestor = http://localhost:5679/data
-/stormDetector = http://localhost:5000/detectStorm
-/stormCluster = http://localhost:5001/detectClusters
-/stormTrigger = http://localhost:8080/StormExists/api/verify
-/weatherForecast = http://localhost:8080/RunForecast/api/run
+/ = http://ec2-54-89-71-2.compute-1.amazonaws.com:8888/login
+/login = http://ec2-54-89-71-2.compute-1.amazonaws.com:8888/login
+/authenticate = http://ec2-54-89-71-2.compute-1.amazonaws.com:8888/authenticate
+/Gateway = http://ec2-54-89-71-2.compute-1.amazonaws.com:8888/Gateway
+/registry = http://ec2-54-89-71-2.compute-1.amazonaws.com:2345/audit
+/dataIngestor = http://ec2-54-89-71-2.compute-1.amazonaws.com:5679/data
+/stormDetector = http://ec2-54-89-71-2.compute-1.amazonaws.com:5000/detectStorm
+/stormCluster = http://ec2-54-89-71-2.compute-1.amazonaws.com:5001/detectClusters
+/stormTrigger = http://ec2-54-89-71-2.compute-1.amazonaws.com:8080/StormExists/api/verify
+/weatherForecast = http://ec2-54-89-71-2.compute-1.amazonaws.com:8080/RunForecast/api/run
