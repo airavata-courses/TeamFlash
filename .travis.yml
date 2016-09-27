@@ -29,7 +29,6 @@ sudo: false
 install: true
 
 before_deploy:
-  - cd ..
   - zip -r TeamFlash_Gateway.zip Gateway scripts appspec.yml makefile || true
   - mkdir -p "Gateway"
   - mv TeamFlash_Gateway.zip Gateway/Gateway.zip || true
