@@ -31,7 +31,7 @@ public class LoggerDAO {
 
         try {
 
-            input = new FileInputStream("config.properties");
+            input = new FileInputStream("/config.properties");
             // load a properties file
             prop.load(input);
             // get the property value and print it out
