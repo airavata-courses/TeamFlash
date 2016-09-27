@@ -7,18 +7,18 @@ function route(handles,pathname,request,response,parameter)
 	console.log("About to route a request for "+pathname);
 	var fn=handles()[0]
 	var url=handles()[1]
-	
+	var str = ''+pathname
 	if(typeof fn[pathname] === 'function')
 		{
 			fn[pathname](handles,url[pathname],request,response,parameter);
 		}
 	else
 		{
-		if((''+pathname).includes('.css'))
+		if(str.indexOf('.css') > -1)
 			{
 				fn['.css'](pathname,request,response)
 			}
-		else if((''+pathname).includes('.js'))
+		else if(str.indexOf('.js') > -1)
 			{
 				fn['.js'](pathname,request,response)
 			}
