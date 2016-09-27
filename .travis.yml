@@ -1,0 +1,60 @@
+language: node_js
+
+node_js:
+  - "4.4.6"
+
+env:
+  - CXX=g++-4.8
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
+
+services:
+  - mongodb
+
+branches:
+  only:
+    - Gateway
+
+notifications:
+   email:
+     - akmehra@iu.edu
+     - pmpande@iu.edu
+
+sudo: false
+install: true
+
+before_deploy:
+  - zip -r TeamFlash_Gateway.zip Gateway scripts appspec.yml makefile || true
+  - mkdir -p "Gateway"
+  - mv TeamFlash_Gateway.zip Gateway/Gateway.zip || true
+
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY # declared in Travis repo settings
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: teamflash
+    local_dir: Gateway
+    region: us-east-1
+    skip_cleanup: true
+    acl: public_read
+    detect_encoding: true
+    on:
+      branch: Gateway
+
+
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY # declared in Travis repo settings
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: teamflash
+    key: Gateway.zip
+    bundle_type: zip
+    application: TeamFlash
+    deployment_group: TeamFlash
+    region: us-east-1
+    on:
+      branch: Gateway
