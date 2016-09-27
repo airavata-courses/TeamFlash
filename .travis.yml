@@ -1,0 +1,47 @@
+language: java
+branches:
+  only:
+    - Feature/RunWeatherForecast
+
+notifications:
+   email:
+     - akmehra@iu.edu
+     - pmpande@iu.edu
+
+jdk:
+  - oraclejdk8
+sudo: false
+install: true
+script: cd "RunForecast" && mvn clean install -DskipTests=true
+
+before_deploy:
+  - cd ..
+  - zip -r TeamFlash_RunForecast.zip RunForecast scripts appspec.yml || true
+  - mkdir -p "RunForecast"
+  - mv TeamFlash_RunForecast.zip RunForecast/RunForecast.zip || true
+
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY # declared in Travis repo settings
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: teamflash
+    local_dir: RunForecast
+    region: us-east-1
+    skip_cleanup: true
+    acl: public_read
+    detect_encoding: true
+    on:
+      branch: Feature/RunWeatherForecast
+
+
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY # declared in Travis repo settings
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: teamflash
+    key: RunForecast.zip
+    bundle_type: zip
+    application: TeamFlash
+    deployment_group: TeamFlash
+    region: us-east-1
+    on:
+      branch: Feature/RunWeatherForecast

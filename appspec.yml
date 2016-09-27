@@ -1,0 +1,16 @@
+version: 0.0
+#changing destination for better structure
+os: linux
+files:
+  - source: /
+    destination: /home/ec2-user/RunForecast
+hooks:
+  BeforeInstall:
+    - location: scripts/before-install.sh
+      timeout: 3600
+      runas: root
+  ApplicationStart:
+    - location: scripts/install.sh
+      timeout: 3600
+      runas: root
+
