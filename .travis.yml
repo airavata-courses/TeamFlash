@@ -18,10 +18,6 @@ notifications:
 sudo: false
 install: true
 
-before_script:
-  - cd Gateway
-  - npm install
-
 before_deploy:
   - cd ..
   - zip -r TeamFlash_Gateway.zip Gateway scripts appspec.yml || true
