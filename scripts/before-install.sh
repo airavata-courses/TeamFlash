@@ -9,3 +9,4 @@ if [ "$?" -ne 0 ]; then
 	sudo yum install -y apache-maven
 	mvn --version
 fi
+sudo pkill -f 'Registry-1.0-SNAPSHOT.jar'
