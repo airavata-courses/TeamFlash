@@ -3,7 +3,7 @@
 /login = http://ec2-54-89-71-2.compute-1.amazonaws.com:8888/login
 /authenticate = http://ec2-54-89-71-2.compute-1.amazonaws.com:8888/authenticate
 /Gateway = http://ec2-54-89-71-2.compute-1.amazonaws.com:8888/Gateway
-/registry = http://ec2-54-89-71-2.compute-1.amazonaws.com:8800/audit
+/registry = http://ec2-54-89-71-2.compute-1.amazonaws.com:8550/audit
 /dataIngestor = http://ec2-54-89-71-2.compute-1.amazonaws.com:8765/data
 /stormDetector = http://ec2-54-89-71-2.compute-1.amazonaws.com:7000/detectStorm
 /stormCluster = http://ec2-54-89-71-2.compute-1.amazonaws.com:8000/detectClusters
