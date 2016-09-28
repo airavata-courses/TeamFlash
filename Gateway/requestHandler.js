@@ -256,16 +256,24 @@ function stormCluster(handles,url,request,response,parameter)
 function forecastTrigger(handles,url,request,response,parameter)
 {
 	console.log("forecast trigger of request handler"+url+parameter)
-	response.writeHead(200, {"content-type" : "text/html"});
 	http.get(url+parameter, function(resp){
 		  resp.on('data', function(chunk){
-			  //console.log("Got response: " + chunk);
-			  output=printOutput(chunk)
+			  output=JSON.parse(chunk)
+			  console.log("Got response: " + output.message);
+			  
 			  //console.log("Girish Webapp :"+output)
 			  createLog(handles,request,response,parameter,'Forecast Trigger')
-			  router.route(handles,"/weatherForecast",request,response,parameter+'&location=bloomington')
-			  response.write(output);
-			  response.end();
+			  if(output.message=='Yes')
+				  {
+				  	router.route(handles,"/weatherForecast",request,response,parameter+'&location=bloomington')
+				  }
+			  else
+				  {
+				  response.writeHead(200, {"content-type" : "text/html"});
+				  output=printOutput(output.message)
+				  response.write(output);
+				  response.end();
+				  }
 		  });
 		}).on("error", function(e){
 		  console.log("Got error: " + e.message);
@@ -275,14 +283,14 @@ function forecastTrigger(handles,url,request,response,parameter)
 function predictWeatherforecast(handles,url,request,response,parameter)
 {
 	console.log("predict weather forecast of request handler"+url+parameter)
-	//response.writeHead(200, {"content-type" : "text/html"});
+	response.writeHead(200, {"content-type" : "text/html"});
 	http.get(url+parameter, function(resp){
 		  resp.on('data', function(chunk){
 			  //console.log("Got response: " + chunk);
 			  output=printOutput(chunk)
 			  createLog(handles,request,response,parameter,'Weather Forecast')
-			  //response.write(output);
-			  //response.end();
+			  response.write(output);
+			  response.end();
 		  });
 		}).on("error", function(e){
 		  console.log("Got error: " + e.message);
