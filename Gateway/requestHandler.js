@@ -35,6 +35,11 @@ function read(err,data)
 	
 	return data;
 }
+
+function randomIntInc (low, high) {
+    return Math.floor(Math.random() * (high - low + 1) + low);
+}
+
 function parse(data)
 {
 	var map={}
@@ -244,7 +249,11 @@ function stormCluster(handles,url,request,response,parameter)
 			  //console.log("Got response: " + chunk);
 			  output=printOutput(chunk)
 			  createLog(handles,request,response,parameter,'Storm Cluster')
-			  router.route(handles,"/stormTrigger",request,response,parameter+'&value='+true)
+			  var rand=randomIntInc(0,1)
+			  if(rand==0)
+				  router.route(handles,"/stormTrigger",request,response,parameter+'&value='+true)
+			  else
+				  router.route(handles,"/stormTrigger",request,response,parameter+'&value='+false)
 			  //response.write(kml);
 			  //response.end();
 		  });
