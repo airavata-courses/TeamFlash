@@ -13,3 +13,5 @@ Debasis Dwivedy(debasisdwivedy)
 
 **Description**
 This is for Running Weather Forecast Microservice 
+
+[![Build Status](https://travis-ci.org/airavata-courses/TeamFlash.svg?branch=Feature%2FRunWeatherForecast)](https://travis-ci.org/airavata-courses/TeamFlash)
