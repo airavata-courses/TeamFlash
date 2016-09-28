@@ -83,7 +83,7 @@ function printOutput(chunk)
 function addHiddenParameter(username,id)
 {
 	content=fs.readFileSync(__dirname +'/index.html','utf-8',read)
-	var flag='<form method="post" id="Form1" name="Form1"action="/dataIngestor">'
+	var flag='<form method="post" id="Form1" name="Form1" action="/dataIngestor" >'
     var len= flag.length
     index=content.indexOf(flag)
     var chunk = '<input type="hidden" id="username" name="username" value='+username+' />';
