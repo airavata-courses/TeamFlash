@@ -302,7 +302,7 @@ function predictWeatherforecast(handles,url,request,response,parameter)
 			  response.end();
 		  });
 		}).on("error", function(e){
-		  console.log("Got error: " + e.message);
+		  console.log("Got error: " + e.message); 
 		});
 }
 
