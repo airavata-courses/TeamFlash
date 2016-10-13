@@ -1,4 +1,4 @@
-HOST = ec2-54-89-71-2.compute-1.amazonaws.com
+HOST = ec2-54-152-53-201.compute-1.amazonaws.com
 PORT = 27017
 DB = LDAP
 LOGIN=
