@@ -1,11 +1,11 @@
 #Routing URL
-/ = http://ec2-54-152-53-201.compute-1.amazonaws.com:8888/login
-/login = http://ec2-54-152-53-201.compute-1.amazonaws.com:8888/login
-/authenticate = http://ec2-54-152-53-201.compute-1.amazonaws.com:8888/authenticate
-/Gateway = http://ec2-54-152-53-201.compute-1.amazonaws.com:8888/Gateway
-/registry = http://ec2-54-152-53-201.compute-1.amazonaws.com:8550/audit
-/dataIngestor = http://ec2-54-152-53-201.compute-1.amazonaws.com:8765/data
-/stormDetector = http://ec2-54-152-53-201.compute-1.amazonaws.com:7000/detectStorm
-/stormCluster = http://ec2-54-152-53-201.compute-1.amazonaws.com:8000/detectClusters
-/stormTrigger = http://ec2-54-152-53-201.compute-1.amazonaws.com:8080/StormExists/api/verify
-/weatherForecast = http://ec2-54-152-53-201.compute-1.amazonaws.com:8080/RunForecast/api/run
+/ = http://http://52.55.196.63/:8888/login
+/login = http://http://52.55.196.63/:8888/login
+/authenticate = http://http://52.55.196.63/:8888/authenticate
+/Gateway = http://http://52.55.196.63/:8888/Gateway
+/registry = http://http://52.55.196.63/:8550/audit
+/dataIngestor = http://http://52.55.196.63/:8765/data
+/stormDetector = http://http://52.55.196.63/:7000/detectStorm
+/stormCluster = http://http://52.55.196.63/:8000/detectClusters
+/stormTrigger = http://http://52.55.196.63/:8080/StormExists/api/verify
+/weatherForecast = http://http://52.55.196.63/:8080/RunForecast/api/run
