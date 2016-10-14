@@ -1,11 +1,11 @@
 #Routing URL
-/ = http://http://52.55.196.63:8888/login
-/login = http://http://52.55.196.63:8888/login
-/authenticate = http://http://52.55.196.63:8888/authenticate
-/Gateway = http://http://52.55.196.63:8888/Gateway
-/registry = http://http://52.55.196.63:8550/audit
-/dataIngestor = http://http://52.55.196.63:8765/data
-/stormDetector = http://http://52.55.196.63:7000/detectStorm
-/stormCluster = http://http://52.55.196.63:8000/detectClusters
-/stormTrigger = http://http://52.55.196.63:8080/StormExists/api/verify
-/weatherForecast = http://http://52.55.196.63:8080/RunForecast/api/run
+/ = http://52.55.196.63:8888/login
+/login = http://52.55.196.63:8888/login
+/authenticate = http://52.55.196.63:8888/authenticate
+/Gateway = http://52.55.196.63:8888/Gateway
+/registry = http://52.55.196.63:8550/audit
+/dataIngestor = http://52.55.196.63:8765/data
+/stormDetector = http://52.55.196.63:7000/detectStorm
+/stormCluster = http://52.55.196.63:8000/detectClusters
+/stormTrigger = http://52.55.196.63:8080/StormExists/api/verify
+/weatherForecast = http://52.55.196.63:8080/RunForecast/api/run
