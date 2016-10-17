@@ -1,3 +1,4 @@
 Start Continuous deployment
 Starting Deployment
 build
+final check
