@@ -1,3 +1,5 @@
 Start Deployment
 Start Deployment
 Checking for failure of dummy.kml (health constraint)
+Fixing the dummy kml file error
+
