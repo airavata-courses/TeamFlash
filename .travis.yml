@@ -12,7 +12,8 @@ jdk:
   - oraclejdk8
 sudo: required
 
-script: cd "StormCheck" && mvn clean install -DskipTests=true
+before_install: 
+  - cd "StormCheck" && mvn clean install -DskipTests=true
 
 install:
   - docker build -t stormcheck ./StormCheck
