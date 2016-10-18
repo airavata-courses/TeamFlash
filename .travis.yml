@@ -16,7 +16,7 @@ before_install:
   - cd "StormCheck" && mvn clean install -DskipTests=true
 
 install:
-  - docker build -t stormcheck ./StormCheck
+  - docker build -t stormcheck .
   - docker run -d -p 127.0.0.1:80:80 --name StormCheck stormcheck
 
 services:
