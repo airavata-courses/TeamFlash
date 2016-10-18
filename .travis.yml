@@ -15,8 +15,8 @@ sudo: required
 script: cd "StormCheck" && mvn clean install -DskipTests=true
 
 install:
-  - docker build -t StormCheck .
-  - docker run -d -p 127.0.0.1:80:80 --name StormCheck StormCheck
+  - docker build -t stormcheck .
+  - docker run -d -p 127.0.0.1:80:80 --name StormCheck stormcheck
 
 services:
   - docker
