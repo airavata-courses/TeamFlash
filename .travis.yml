@@ -10,9 +10,16 @@ notifications:
 
 jdk:
   - oraclejdk8
-sudo: false
-install: true
+sudo: required
+
 script: cd "StormCheck" && mvn clean install -DskipTests=true
+
+install:
+  - docker build -t StormCheck .
+  - docker run -d -p 127.0.0.1:80:80 --name StormCheck StormCheck
+
+services:
+  - docker
 
 before_deploy:
   - cd ..
