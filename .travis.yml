@@ -16,6 +16,7 @@ before_script:
   - pip install requests
   - pip install nose
   - pip install Flask
+  - cd ..
 
 script: 
   - nosetests -v tests/TestClusters.py
