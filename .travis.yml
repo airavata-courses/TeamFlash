@@ -17,7 +17,8 @@ before_script:
   - pip install nose
   - pip install Flask
 
-script: nosetests
+script: 
+  - nosetests -v --with-coverage --cover-tests --cover-package=tests tests/TestClusters.py
 
 before_deploy:
   - cd ..
