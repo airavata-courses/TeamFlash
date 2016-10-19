@@ -12,13 +12,17 @@ public class RunWeatherForecast {
     @Produces(MediaType.APPLICATION_JSON)
     public String runForecast(@QueryParam("location") String locationName)
     {
+        if(locationName==null || locationName.length()==0 ){
+            throw new IllegalArgumentException();
+        }
+
         Location location = new Location();
         //location.setLocationID(locationid);
         location.setLocationName(locationName);
         location.setTemperature(10.0);
         location.setWindSpeed(12.5);
         Gson gson =  new Gson();
-        System.out.println("Before fun call");
+        //System.out.println("Before fun call");
         // LocationDAO locationDAO = new LocationDAO();
         // locationDAO.getWeatherInfo(locationid);
         return gson.toJson(location);
