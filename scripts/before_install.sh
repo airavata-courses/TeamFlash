@@ -1,3 +1,4 @@
-echo 'killing existing flask process if any running' >> /var/log/flask-before.log
-ps -ef | grep python | grep -v grep | awk '{print $2}' | xargs kill >> /var/log/flask-before.log
+echo 'killing existing flask process if any running' >> /var/log/flask-before-detection.log
+#ps -ef | grep python | grep -v grep | awk '{print $2}' | xargs kill >> /var/log/flask-before.log
+kill $(lsof -t -i:9000) >> /var/log/flask-before-detection.log
 sleep 5
