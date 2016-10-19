@@ -8,5 +8,5 @@ virtualenv venv >> /var/log/teamflash-stormdetection-install.log
 pip install requests
 pip install Flask >> /var/log/teamflash-stormdetection-install.log
 export FLASK_APP=StormDetection.py
-flask run --host=0.0.0.0 --port=9000 >> /var/log/teamflash-stormdetection-server.log 2>&1 &
+flask run --host=0.0.0.0 --port=7000 >> /var/log/teamflash-stormdetection-server.log 2>&1 &
 
