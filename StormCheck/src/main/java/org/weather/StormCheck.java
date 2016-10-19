@@ -20,6 +20,7 @@ public class StormCheck {
         if(!exists){
             isStormPresent = "{\"message\": \"No\"}";
         }
+
         return isStormPresent;
     }
 }
