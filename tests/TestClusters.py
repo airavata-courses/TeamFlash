@@ -1,5 +1,5 @@
 import unittest
-from StormClustering.StormClustering import app
+from TeamFlash.StormClustering.StormClustering import app
  
 class TestClustering(unittest.TestCase):
     def test_clustering(self):
