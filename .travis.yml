@@ -16,9 +16,10 @@ before_script:
   - pip install nose
   - pip install Flask
 
-script: 
-  - pwd
+script:
+  - cd StormClustering
   - nosetests -v tests/TestClusters.py
+  - cd ..
 
 before_deploy:
   - zip -r TeamFlash_StormClustering.zip StormClustering scripts appspec.yml || true
