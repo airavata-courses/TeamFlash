@@ -10,16 +10,23 @@ branches:
 sudo: false
 
 install: true
-  
-script:
+
+before_script:
   - cd StormClustering
+  - pip install requests
+  - pip install request
+  - pip install nose
+  - pip install Flask
+
+script:
+  - pwd
   - nosetests -v StormClustering/TestClustering.py
-  - cd ..
 
 services:
   - docker
 
 before_deploy:
+  - cd ..
   - zip -r TeamFlash_StormClustering.zip StormClustering scripts appspec.yml || true
   - mkdir -p "StormClustering"
   - mv TeamFlash_StormClustering.zip StormClustering/StormClustering.zip || true
