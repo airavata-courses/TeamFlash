@@ -2,6 +2,7 @@ echo 'starting installation process' >> /var/log/teamflash-stormclustering-insta
 cd '/home/ec2-user/StormClustering/'
 docker build --no-cache=true -t stormclustering . >> /var/log/teamflash-stormclustering-docker-install.log
 docker run -p 8000:8000 --name StormClustering stormclustering >> /var/log/teamflash-stormclustering-docker-server.log 2>&1 &
+
 #echo 'Activating virtualenv for StormClustering Microservice' >> /var/log/teamflash-stormclustering-install.log
 #pip install virtualenv >> /var/log/teamflash-stormclustering-install.log
 #virtualenv venv >> /var/log/teamflash-stormclustering-install.log
