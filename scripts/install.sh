@@ -9,5 +9,4 @@ mvn -e clean install >> /var/log/RunForecast.log
 docker build -t runweatherforecast .
 docker rmi -f $(docker images -f "dangling=true" -q)
 docker run -p 8081:8080 --name RunWeatherForecast runweatherforecast >> /var/log/runweatherforecast.log 2>&1 &
-
 #sh ./start.sh >> /var/log/tomcat.log 2>&1 &
