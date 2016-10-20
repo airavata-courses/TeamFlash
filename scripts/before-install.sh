@@ -13,3 +13,7 @@ if [ "$?" -ne 0 ]; then
 	sudo yum install -y apache-maven
 	mvn --version
 fi
+
+docker ps -a | grep 'foresttrigger' | awk '{print $1}' | xargs --no-run-if-empty docker stop
+docker ps -a | grep 'foresttrigger' | awk '{print $1}' | xargs --no-run-if-empty docker rm
+
