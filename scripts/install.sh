@@ -1,6 +1,7 @@
 echo 'starting installation process' >> /var/log/teamflash-stormdetection-docker-install.log
 cd '/home/ec2-user/StormDetection/'
 docker build --no-cache=true -t stormdetection . >> /var/log/teamflash-stormdetection-docker-install.log
+docker rmi -f $(docker images -f "dangling=true" -q) >> /var/log/teamflash-stormdetection-docker-install.log
 docker run -p 7000:7000 --name StormDetection stormdetection >> /var/log/teamflash-stormdetection-docker-server.log 2>&1 &
 
 #echo 'starting installation process' >> /var/log/teamflash-stormdetection-install.log
