@@ -1,8 +1,11 @@
+import os
 from flask import Flask
 from flask import Response
 from flask import json
 
+
 app = Flask(__name__)
+
 
 @app.route('/detectClusters', methods=['GET'])
 def detectClusters():
@@ -21,7 +24,8 @@ def detectClusters():
     response = Response(js, status=200, mimetype='application/json')
     return response
 
-'''
+
 if __name__ == '__main__':
-    app.run()
-'''
+    port = int(os.environ.get('PORT', 8000))
+    app.run(host='0.0.0.0', port=port)
+
