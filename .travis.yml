@@ -12,7 +12,7 @@ jdk:
   - oraclejdk8
 sudo: false
 install: true
-script: cd "RunForecast" && mvn clean install -DskipTests=true
+script: cd "RunForecast" && mvn clean install -DskipTests=false
 
 before_deploy:
   - cd ..
