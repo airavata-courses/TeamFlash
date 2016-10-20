@@ -10,4 +10,6 @@ if [ "$?" -ne 0 ]; then
 	sudo yum install -y apache-maven
 	mvn --version
 fi
-sudo pkill -f 'DataIngestor-1.0-SNAPSHOT.jar'
+#sudo pkill -f 'DataIngestor-1.0-SNAPSHOT.jar'
+docker ps -a | grep 'DataIngestor' | awk '{print $1}' | xargs --no-run-if-empty docker stop >> /var/log/flask-before-clustering.log
+docker ps -a | grep 'DataIngestor' | awk '{print $1}' | xargs --no-run-if-empty docker rm >> /var/log/flask-before-clustering.log
