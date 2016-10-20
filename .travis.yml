@@ -16,10 +16,6 @@ sudo: required
 before_install:
   - cd "DataIngestor" && mvn clean install
 
-install:
-  - docker build -t dataingestor .
-  - docker run -d -p 127.0.0.1:80:80 --name DataIngestor dataingestor
-
 services:
   - docker
 
