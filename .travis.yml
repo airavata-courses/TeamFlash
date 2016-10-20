@@ -20,7 +20,7 @@ before_script:
 
 script:
   - pwd
-  - nosetests -v StormClustering/TestClustering.py
+  - nosetests -v TestClustering.py
 
 services:
   - docker
