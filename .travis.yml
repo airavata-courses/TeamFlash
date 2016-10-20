@@ -14,14 +14,19 @@ install: true
 before_script:
   - cd StormDetection
   - pip install requests
+  - pip install request
   - pip install nose
   - pip install Flask
 
-script: nosetests
+script: 
+  - nosetests -v TestDetection.py
+
+services:
+  - docker
 
 before_deploy:
   - cd ..
-  - zip -r TeamFlash_StormDetection.zip StormDetection scripts appspec.yml || true
+  - zip -r TeamFlash_StormDetection.zip StormDetection scripts appspec.yml Dockerfile || true
   - mkdir -p "StormDetection"
   - mv TeamFlash_StormDetection.zip StormDetection/StormDetection.zip || true
 
