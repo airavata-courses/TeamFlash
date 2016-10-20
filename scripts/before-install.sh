@@ -4,6 +4,7 @@ sh ./stop.sh
 sleep 20
 echo 'Setting up our java environment'
 #export JAVA_HOME=/usr/java/jdk1.8.0_45/jre
+
 echo 'check if maven is installed'
 mvn --version
 if [ "$?" -ne 0 ]; then
