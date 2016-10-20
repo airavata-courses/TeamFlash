@@ -11,9 +11,17 @@ notifications:
      - ddwivedy@iu.edu
 jdk:
   - oraclejdk8
-sudo: false
-install: true
-script: cd "DataIngestor" && mvn clean install -DskipTests=true
+sudo: required
+
+before_install:
+  - cd "DataIngestor" && mvn clean install
+
+install:
+  - docker build -t dataingestor .
+  - docker run -p 8080:8765 --name DataIngestor dataingestor
+
+services:
+  - docker
 
 before_deploy:
   - cd ..
