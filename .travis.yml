@@ -58,6 +58,5 @@ deploy:
   
 notifications:
    email:
-     - akmehra@iu.edu
      - pmpande@iu.edu
 
