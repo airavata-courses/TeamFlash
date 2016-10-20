@@ -13,7 +13,7 @@ jdk:
 sudo: required
 
 before_install: 
-  - cd "StormCheck" && mvn clean install -DskipTests=true
+  - cd "StormCheck" && mvn clean install
 
 install:
   - docker build -t stormcheck .
