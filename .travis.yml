@@ -18,7 +18,7 @@ before_install:
 
 install:
   - docker build -t dataingestor .
-  - docker run -p 8080:8765 --name DataIngestor dataingestor
+  - docker run -p 8765:8765 --name DataIngestor dataingestor
 
 services:
   - docker
