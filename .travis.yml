@@ -5,13 +5,16 @@ branches:
 
 notifications:
    email:
-     - akmehra@iu.edu
      - pmpande@iu.edu
 
 jdk:
   - oraclejdk8
-sudo: false
-install: true
+
+sudo: required
+
+services:
+  - docker
+
 script: cd "RunForecast" && mvn clean install -DskipTests=false
 
 before_deploy:
