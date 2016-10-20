@@ -23,13 +23,10 @@
                 </configuration>
             </plugin>
         </plugins>
-<<<<<<< HEAD
         <resources>
             <resource><directory>src/resources</directory></resource>
             <resource><directory>src/test</directory></resource>
         </resources>
-=======
->>>>>>> 9238f8234d2c59dfe68e56a930dce9b8fd5d0b84
         <testSourceDirectory>src/test</testSourceDirectory>
     </build>
 
@@ -42,16 +39,12 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-<<<<<<< HEAD
-
-
-=======
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>4.11</version> <!-- Or whatever JUnit you're using. -->
             </dependency>
->>>>>>> 9238f8234d2c59dfe68e56a930dce9b8fd5d0b84
+
         </dependencies>
     </dependencyManagement>
 
@@ -88,10 +81,7 @@
             <artifactId>junit</artifactId>
             <version>4.11</version> <!-- Or whatever JUnit you're using. -->
         </dependency>
-<<<<<<< HEAD
-=======
 
->>>>>>> 9238f8234d2c59dfe68e56a930dce9b8fd5d0b84
     </dependencies>
     <properties>
         <jersey.version>2.16</jersey.version>
