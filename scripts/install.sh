@@ -6,4 +6,5 @@ mvn -e clean install >> /var/log/ForecastTrigger.log
 docker build -t forecasttrigger .
 docker rmi -f $(docker images -f "dangling=true" -q)
 docker run -p 8080:8080 --name StormCheck forecasttrigger >> /var/log/forecastTriggerDocker.log 2>&1 &
+
 #sh ./start.sh >> /var/log/tomcat.log 2>&1 &
