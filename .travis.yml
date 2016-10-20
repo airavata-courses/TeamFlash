@@ -19,7 +19,7 @@ before_script:
   - pip install Flask
 
 script:
-  - nosetests -v tests/TestClusters.py
+  - nosetests
 
 before_deploy:
   - cd ..
