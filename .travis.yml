@@ -12,7 +12,7 @@ sudo: false
 install: true
   
 script:
-  - nosetests -v TestClustering.py
+  - nosetests -v StormClustering/TestClustering.py
 
 services:
   - docker
