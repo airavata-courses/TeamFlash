@@ -97,6 +97,59 @@ public class LoggerDAO {
                }
         }
     }
+    
+    public StringBuilder fetchLog(String id)
+    {
+    	StringBuilder res=new StringBuilder();
+        Connection conn=null;
+        PreparedStatement pstmt = null;
+        try
+        {
+            
+            Class.forName(JDBC_DRIVER);
+            conn = DriverManager.getConnection(DB_URL,user,password);
+            System.out.println("Trying to initiate connection");
+            
+            String sql = "select * from user_request_log_dtls where request_id = '"+id+"'";
+            pstmt = conn.prepareStatement(sql);
+            System.out.println("sql query: "+sql);
+            //pstmt.setString(1, id);
+            System.out.println("After prepared statement"); 
+            ResultSet rs = pstmt.executeQuery(sql);
+            while (rs.next())
+            {
+              String requestID = rs.getString("request_id");
+              String userID = rs.getString("username");
+              Date dateCreated = rs.getDate("log_date");
+              String description = rs.getString("log_description");
+              String microservice = rs.getString("microservice");
+              res.append(requestID + ",");
+              res.append(userID + ",");
+              res.append(dateCreated + ",");
+              res.append(description + ",");
+              res.append(microservice + ";");
+              
+            }
+            
+            System.out.println("After execute query"); 
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+           if (conn != null) {
+                try {
+                     System.out.println("Inside try to close connection");
+                         conn.close();
+                    } catch (SQLException e) {
+                         e.printStackTrace();
+                 }
+               }
+        }
+        return res;
+    }
 
 
     public void deleteLog(String requestID)

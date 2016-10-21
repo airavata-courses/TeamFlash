@@ -12,10 +12,15 @@ public class RouteRegistryService extends RouteBuilder{
 		System.out.println("in RouteRegistryService.configure ---");
 		//from("direct:getAudit").setExchangePattern(ExchangePattern.InOut).to(ExchangePattern.InOut, "jetty:http://0.0.0.0:{{port}}/result");
 	    // add HTTP interface
-	    from("jetty:http://0.0.0.0:{{port}}/audit")
+	    from("jetty:http://0.0.0.0:{{port}}/audit/update")
 	    .setExchangePattern(ExchangePattern.InOut)
 	    .to("direct:getAudit");
 	    
+	    from("jetty:http://0.0.0.0:{{port}}/audit/fetch")
+	    .setExchangePattern(ExchangePattern.InOut)
+	    .to("direct:getFetch");
+	    
 	    from("direct:getAudit").setExchangePattern(ExchangePattern.InOut).bean(new RegistryService(), "process");
+	    from("direct:getFetch").setExchangePattern(ExchangePattern.InOut).bean(new RegistryService(), "process1");
 	}
 }

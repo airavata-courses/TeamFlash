@@ -7,9 +7,15 @@ public class RegistryService implements Processor{
 
 	public void getAudit(Exchange exchange) throws Exception
 	{
-		String audit="in audit";
+		System.out.println("in update registry...");
 		process(exchange);
 		//return audit;
+	}
+	public String getFetch(Exchange exchange) throws Exception
+	{
+		System.out.println("in fetch registry...");
+		return process1(exchange);
+		//return fetch;
 	}
 	
 	public void process(Exchange exchange) throws Exception
@@ -27,7 +33,20 @@ public class RegistryService implements Processor{
 		log.setLogDescription("This is timestamp testing");
 		LoggerDAO loggerDAO = new LoggerDAO();
 		loggerDAO.insertLog(log);
-		//loggerDAO.deleteLog(1);
+	}
+	
+	public String process1(Exchange exchange) throws Exception
+	{
+		String userRequestId = (String) exchange.getIn().getHeader("id");
+		String userName=(String) exchange.getIn().getHeader("username");
+        System.out.println(userRequestId+"------>"+userName);
+        LoggerDAO loggerDAO = new LoggerDAO();
+        
+        StringBuilder sb=new StringBuilder();
+        
+        sb.append(loggerDAO.fetchLog(userRequestId));
+        
+        return sb.toString();
 	}
 	
 }
