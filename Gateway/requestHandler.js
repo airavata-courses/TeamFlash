@@ -307,11 +307,14 @@ function forecastTrigger(handles,url,request,response,parameter)
 			  else
 				  {
 					  console.log("forecast trigger else statement");
+					  if(response!=null)
+					  {
 				  response.writeHead(200, {"content-type" : "text/html"});
 				  indexHtml=getIndexHtml()
 				  var final_output=printOutput(indexHtml,output.message)
 				  response.write(final_output);
 				  response.end();
+					  }
 				  }
 		  });
 		}).on("error", function(e){
