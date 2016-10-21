@@ -325,6 +325,8 @@ function forecastTrigger(handles,url,request,response,parameter)
 function predictWeatherforecast(handles,url,request,response,parameter)
 {
 	console.log("predict weather forecast of request handler"+url+parameter)
+	if(response!=null && !response.isCommitted())
+	{
 	response.writeHead(200, {"content-type" : "text/html"});
 	http.get(url+parameter, function(resp){
 		  resp.on('data', function(chunk){
@@ -338,6 +340,7 @@ function predictWeatherforecast(handles,url,request,response,parameter)
 		}).on("error", function(e){
 		  console.log("Got error: " + e.message); 
 		});
+	}
 }
 
 exports.login=login;
