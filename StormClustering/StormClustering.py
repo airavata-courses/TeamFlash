@@ -11,12 +11,7 @@ app = Flask(__name__)
 
 @app.route('/detectClusters', methods=['GET'])
 def detectClusters():
-	try:
-		id = request.args.get('id')
-		if(id == null):
-			requests.get("http://52.55.196.63:8888/login")
-	except:
-		pass
+	
 	clusters = {
 		
         "data" : [
