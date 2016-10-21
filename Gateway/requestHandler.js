@@ -172,8 +172,6 @@ function registry(handles,url,request,response,parameter)
 	http.get(url+parameter, function(resp){
 		  resp.on('data', function(chunk){
 			  console.log("Got response: " + chunk);
-			  //response.write(chunk);
-			  //response.end();
 		  });
 		}).on("error", function(e){
 		  console.log("Got error: " + e.message);
@@ -244,17 +242,11 @@ function dataIngestor(handles,url,request,response,parameter)
             console.log("id :"+post['id'])
         	var endpoint1 ='?username='+ username +'&id=' +id+'&date='+ date +'&station=' +station+ '&time='+ time
         	var endpoint2 ='?username='+ username +'&id=' +id+'&url='
-            //response.writeHead(200, {"content-type" : "text/html"});
         	http.get(url+endpoint1, function(resp){
         	resp.on('data', function(chunk){
-        	  //console.log("Got response: " + chunk);
-        	  //nextrad_URL=printOutput(chunk)
         	  endpoint2=endpoint2+chunk
         	  createLog(handles,request,response,endpoint1,'Data Ingestor')
-        	  router.route(handles,"/stormDetector",request,response,endpoint2)
-        	  //stormDetector(handles,url+endpoint2,request,response)
-        	  //response.write(output);
-        	  //response.end();
+        	  router.route(handles,"/stormDetector",request,response,endpoint2);
         		});
         	}).on("error", function(e){
         		console.log("Got error: " + e.message);
@@ -266,15 +258,12 @@ function dataIngestor(handles,url,request,response,parameter)
 function stormDetector(handles,url,request,response,parameter)
 {
 	console.log("storm detector of request handler"+url)
-	//response.writeHead(200, {"content-type" : "text/html"});
 	http.get(url+parameter, function(resp){
 		  resp.on('data', function(chunk){
-			  //console.log("Got response: " + chunk);
+			  
 			  indexHtml=getIndexHtml()
 			  kml=printOutput(indexHtml,chunk)
 			  createLog(handles,request,response,parameter,'Storm Detector')
-			  //response.write(kml);
-			  //response.end();
 			  router.route(handles,"/stormCluster",request,response,parameter)
 		  });
 		}).on("error", function(e){
@@ -287,7 +276,6 @@ function stormCluster(handles,url,request,response,parameter)
 	console.log("storm cluster of request handler"+url)
 	http.get(url+parameter, function(resp){
 		  resp.on('data', function(chunk){
-			  //console.log("Got response: " + chunk);
 			  indexHtml=getIndexHtml()
 			  output=printOutput(indexHtml,chunk)
 			  createLog(handles,request,response,parameter,'Storm Cluster')
@@ -296,8 +284,7 @@ function stormCluster(handles,url,request,response,parameter)
 				  router.route(handles,"/stormTrigger",request,response,parameter+'&value='+true)
 			  else
 				  router.route(handles,"/stormTrigger",request,response,parameter+'&value='+false)
-			  //response.write(kml);
-			  //response.end();
+			  
 		  });
 		}).on("error", function(e){
 		  console.log("Got error: " + e.message);
@@ -311,19 +298,19 @@ function forecastTrigger(handles,url,request,response,parameter)
 		  resp.on('data', function(chunk){
 			  output=JSON.parse(chunk)
 			  console.log("Got response: " + output.message);
-			  
-			  //console.log("Girish Webapp :"+output)
 			  createLog(handles,request,response,parameter,'Forecast Trigger')
 			  if(output.message=='Yes')
 				  {
+					  console.log("forecast trigger if statement");
 				  	router.route(handles,"/weatherForecast",request,response,parameter+'&location=bloomington')
 				  }
 			  else
 				  {
+					  console.log("forecast trigger else statement");
 				  response.writeHead(200, {"content-type" : "text/html"});
 				  indexHtml=getIndexHtml()
-				  output=printOutput(indexHtml,output.message)
-				  response.write(output);
+				  var final_output=printOutput(indexHtml,output.message)
+				  response.write(final_output);
 				  response.end();
 				  }
 		  });
@@ -338,7 +325,7 @@ function predictWeatherforecast(handles,url,request,response,parameter)
 	response.writeHead(200, {"content-type" : "text/html"});
 	http.get(url+parameter, function(resp){
 		  resp.on('data', function(chunk){
-			  //console.log("Got response: " + chunk);
+			  
 			  indexHtml=getIndexHtml()
 			  output=printOutput(indexHtml,chunk)
 			  createLog(handles,request,response,parameter,'Weather Forecast')
