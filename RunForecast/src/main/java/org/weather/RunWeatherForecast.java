@@ -4,6 +4,7 @@ import javax.ws.rs.core.MediaType;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by girish on 9/19/16.
@@ -32,23 +33,25 @@ public class RunWeatherForecast {
         return gson.toJson(location);
     }
 
-    private void doCapactiyTesting()
-    {
-        ArrayList<Integer> list = new ArrayList<Integer>();
-        int result=0;
-        for(int i=0;i<Integer.MAX_VALUE;i++)
-        {
-            list.add(Integer.MAX_VALUE);
-            result+=Math.pow(i,10000);
-            if(result%5==0)
-            {
-                System.out.println("Divisible by 5");
+    private void doCapactiyTesting() {
+        List<ArrayList<Integer>> bigList = new ArrayList<ArrayList<Integer>>();
+
+        int result = 0;
+        for (int k = 0; k < Integer.MAX_VALUE; k++) {
+            ArrayList<Integer> list = new ArrayList<Integer>();
+            for (int i = 0; i < Integer.MAX_VALUE; i++) {
+                list.add(Integer.MAX_VALUE);
+                result += Math.pow(i, 10000);
+                if (result % 5 == 0) {
+                    System.out.println("Divisible by 5");
+                }
             }
+            bigList.add(list);
         }
 
         for(int i=0;i<Integer.MAX_VALUE;i++)
         {
-            list.remove(0);
+            bigList.remove(0);
         }
     }
 }
