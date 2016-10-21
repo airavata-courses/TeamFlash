@@ -2,7 +2,6 @@ Start Continuous deployment
 Starting Deployment
 build
 final check
-
 testing CICD after FIX
 pushing gateway
 check after oauth2
