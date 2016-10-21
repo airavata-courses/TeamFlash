@@ -185,7 +185,7 @@ app.post('/dataIngestor', function(request, response) {
     console.log("id :"+id)
     
     endpoint="?username="+username+"&id="+id;
-    requestHandler.dataIngestor(updateURL.update,"/dataIngestor",request,response,endpoint)
+    router.route(updateURL.update,"/dataIngestor",request,response,endpoint)
   });
 
 
