@@ -15,7 +15,7 @@ sudo: required
 services:
   - docker
 
-script: cd "RunForecast" && mvn clean install -DskipTests=false
+script: cd "RunForecast" && mvn clean install -DskipTests=true
 
 before_deploy:
   - cd ..
