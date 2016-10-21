@@ -307,7 +307,7 @@ function forecastTrigger(handles,url,request,response,parameter)
 			  else
 				  {
 					  console.log("forecast trigger else statement");
-					  if(response!=null)
+					  if(response!=null && !response.isCommitted())
 					  {
 				  response.writeHead(200, {"content-type" : "text/html"});
 				  indexHtml=getIndexHtml()
