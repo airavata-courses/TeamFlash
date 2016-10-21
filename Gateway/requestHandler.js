@@ -307,14 +307,17 @@ function forecastTrigger(handles,url,request,response,parameter)
 			  else
 				  {
 					  console.log("forecast trigger else statement");
-					  if(response!=null && !response.isCommitted())
-					  {
-				  response.writeHead(200, {"content-type" : "text/html"});
+					  if(response!=null && !response.headersSent)
+						{
+							response.writeHead(200, {"content-type" : "text/html"});
+						}
 				  indexHtml=getIndexHtml()
 				  var final_output=printOutput(indexHtml,output.message)
+				  if(response!=null && !response.finished)
+				  {
 				  response.write(final_output);
 				  response.end();
-					  }
+				  }
 				  }
 		  });
 		}).on("error", function(e){
@@ -325,22 +328,25 @@ function forecastTrigger(handles,url,request,response,parameter)
 function predictWeatherforecast(handles,url,request,response,parameter)
 {
 	console.log("predict weather forecast of request handler"+url+parameter)
-	if(response!=null && !response.isCommitted())
+	if(response!=null && !response.headersSent)
 	{
 	response.writeHead(200, {"content-type" : "text/html"});
+	}
 	http.get(url+parameter, function(resp){
 		  resp.on('data', function(chunk){
 			  
 			  indexHtml=getIndexHtml()
 			  output=printOutput(indexHtml,chunk)
 			  createLog(handles,request,response,parameter,'Weather Forecast')
-			  response.write(output);
-			  response.end();
+			  if(response!=null && !response.finished)
+				  {
+			  		response.write(output);
+			  		response.end();
+				  }
 		  });
 		}).on("error", function(e){
 		  console.log("Got error: " + e.message); 
 		});
-	}
 }
 
 exports.login=login;
