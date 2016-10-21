@@ -7,7 +7,7 @@ var auth = require('./auth')(config);
 
 
 var fs = require("fs")
-var http = require('follow-redirects').http;
+var http = require('http');
 var qs = require("querystring")
 var mongo = require("./mongo.js")
 var router = require("./router.js") 
@@ -206,7 +206,7 @@ function fetch(handles,url,request,response,parameter)
 	http.get(url+parameter, function(resp){
 		  resp.on('data', function(chunk){
 			  indexHtml=getIndexHtml()
-			  output=addHiddenParameter(indexHtml,request.session.user.id,request.session.id)
+			  output=addHiddenParameter(indexHtml,request.query.username,request.session.id)
 			  table=createTableAudit(chunk);
 			  output=printOutput(output,table);
 			  //console.log("Got response: " + chunk);

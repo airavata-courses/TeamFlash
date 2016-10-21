@@ -140,13 +140,54 @@ app.post('/authenticate', function(request, response) {
 
 /* fetch data from registry */
   app.get('/audit', function(request, response) {
-    var username=request.session.user.id;
-    var id=request.session.id
-    console.log("/audit username---->"+id);
-    console.log("/audit id----->"+request.session.id);
+    var username=null;
+    var id=null;
+    if(request.session.user==null)
+    {
+      username=request.query.username;
+    }
+    else{
+      username=request.session.user.id;
+    }
+    if(request.session==null)
+    {
+      id=request.query.id
+    }
+    else{
+        id=request.session.id
+    }
+    console.log("/audit username---->"+username);
+    console.log("/audit id----->"+id);
     endpoint="?username="+username+"&id="+id;
     router.route(updateURL.update,"/fetch",request,response,endpoint);
   });
+
+  /* Data ingestor module*/
+app.post('/dataIngestor', function(request, response) {
+    var username=null;
+    var id=null;
+  if(request.session.user==null)
+    {
+      username=request.query.username;
+    }
+    else{
+      username=request.session.user.id;
+    }
+    if(request.session==null)
+    {
+      id=request.query.id
+    }
+    else{
+        id=request.session.id
+    }
+    
+    console.log("username :"+username)
+    console.log("id :"+id)
+    
+    endpoint="?username="+username+"&id="+id;
+    requestHandler.dataIngestor(updateURL.update,"/dataIngestor",request,response,endpoint)
+  });
+
 
 /* Run web application */
 app.listen(8888);
