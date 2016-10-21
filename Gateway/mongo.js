@@ -17,18 +17,22 @@ console.log("DB URL :"+url)
 //var url = 'mongodb://'+username+':'+passowrd+'@'+host+':'+port+'/'+databasename;
 // Use connect method to connect to the server
 MongoClient.connect(url, function(err, db) {
-  assert.equal(null, err);
+  //assert.equal(null, err);
   if (err) 
   {
 	    console.log('Unable to connect to the mongoDB server. Error:', err);
+			console.log("unable to connect to Mongo DB");
+			func(db,host,port,"","","",request,response);
 	    
   } 
   else 
   {
 	  func(db,host,port,databasename,username,password,request,response);
-  }
-  		//Close connection
+		console.log("Connected successfully to server");
+		//Close connection
   	   db.close();
+  }
+  		
 });
 }
 
@@ -46,6 +50,14 @@ function authenticate(host,port,databasename,username,password,handles,request,r
 {
 	var func=function(db,host,port,databasename,username,password,request,response)
 	{
+		if(username==null || username=="")
+		{
+			console.log("route back to login");
+			router.route(handles,"/login",request,response,parameter);
+		}
+		else
+		{
+		console.log("sucessfull authentication");
 		var collection = db.collection('users');
 		var flag=collection.find({name : username.toString(), password : password.toString()}).toArray(function (err, docs,func) {
 			console.log("print document length: "+docs.length)
@@ -64,9 +76,9 @@ function authenticate(host,port,databasename,username,password,handles,request,r
 				router.route(handles,"/login",request,response,parameter);
 				}
 		});
+		}
 	}
 	dbConnect(host,port,databasename,username,password,func,request,response)
-	console.log("Connected successfully to server");
 }
 
 function insertDocument(db,request,response)

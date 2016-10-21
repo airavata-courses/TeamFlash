@@ -85,7 +85,6 @@ app.get('/oauth2callback', function(req, res, next) {
   auth.getUser(req.query.code, function(err, user) {
     if (err) return next(err);
     req.session.user = user;
-    
     endpoint="?username="+user.id;
     router.route(updateURL.update,"/Gateway",req,res,endpoint);
   });
