@@ -1,8 +1,13 @@
 /**
  * http://usejsdoc.org/
  */
+/* Require "auth" service for authenticating users and getting profile info */
+var config = require('./config');
+var auth = require('./auth')(config);
+
+
 var fs = require("fs")
-var http = require("http")
+var http = require('follow-redirects').http;
 var qs = require("querystring")
 var mongo = require("./mongo.js")
 var router = require("./router.js") 
@@ -72,9 +77,9 @@ function splitURL(str)
 	return map
 }
 
-function printOutput(chunk)
+function printOutput(content,chunk)
 {
-	content=fs.readFileSync(__dirname +'/index.html','utf-8',read)
+	console.log("in print output");
 	var flag='<label id="output">'
     var len= flag.length
     index=content.indexOf(flag)
@@ -85,9 +90,15 @@ function printOutput(chunk)
     return output
 }
 
-function addHiddenParameter(username,id)
+function getIndexHtml()
 {
-	content=fs.readFileSync(__dirname +'/index.html','utf-8',read)
+	content=fs.readFileSync(__dirname +'/public/index.html','utf-8',read)
+	return content
+}
+
+function addHiddenParameter(content,username,id)
+{
+	console.log(username+"-----in hidden------>"+id);
 	var flag='<form method="post" id="Form1" name="Form1" action="/dataIngestor" >'
     var len= flag.length
     index=content.indexOf(flag)
@@ -133,13 +144,7 @@ function authenticate(handles,url,request,response,parameter)
         	var data=fs.readFileSync(__dirname +'/DB_Properties','utf-8',read);
         	var map=parse(data)
             mongo.authenticate(map["HOST"],map["PORT"],map["DB"],post['login'],post['password'],handles,request,response,endpoint);
-        	//var id=uuid.v4();
-        	//console.log("Unique id is :"+id)
-        	//endpoint="?username="+post['login']+"&id="+id+"&msvc='Gateway'";
-        	//router.route(handles,"/registry",request,response,endpoint)
-        	//createLog(handles,request,response,'',post['login'],id,'Gateway')
-        	//endpoint="?username="+post['login']+"&id="+id
-        	//router.route(handles,"/Gateway",request,response,endpoint);
+        	
         });
     }
 }
@@ -148,11 +153,13 @@ function gateway(handles,url,request,response,parameter)
 {
 	console.log("start of request handler"+url)
 	var id=uuid.v4();
+	request.session.id=id;
     console.log("Unique id is :"+id)
     createLog(handles,request,response,parameter+"&id="+id,'Gateway')
 	//content=fs.readFileSync(__dirname +'/index.html','utf-8',read)
     var map=splitURL(parameter+"&id="+id)
-    var output=addHiddenParameter(map["username"],map["id"])
+	var indexHtml=getIndexHtml()
+    var output=addHiddenParameter(indexHtml,map["username"],map["id"])
 	response.writeHead(200, {"content-type" : "text/html"});
 	response.write(output);
 	response.end();
@@ -160,18 +167,51 @@ function gateway(handles,url,request,response,parameter)
 
 function registry(handles,url,request,response,parameter)
 {
-	console.log("audit of request handler"+url+parameter);
-	/*var options = {
-			  host: 'localhost',
-			  port: 2345,
-			  path: '/audit'
-			};*/
-	//response.writeHead(200, {"content-type" : "text/html"});
+	console.log("registry of request handler"+url+parameter);
+	
 	http.get(url+parameter, function(resp){
 		  resp.on('data', function(chunk){
 			  console.log("Got response: " + chunk);
 			  //response.write(chunk);
 			  //response.end();
+		  });
+		}).on("error", function(e){
+		  console.log("Got error: " + e.message);
+		});
+}
+
+function createTableAudit(user_data)
+{
+	console.log("in table");
+	var userArr = (user_data+"").split(';');
+	var table = "<table style='width:100%'>";
+	table=table + "<tr><th>Request ID</th><th>User Name</th><th>Date Created</th><th>Description</th><th>Microservice</th></tr>"
+	for (var i=0; i< userArr.length; i++) {
+		var userValues = userArr[i].split(',');
+		table=table+"<tr>";
+		for(var j=0;j<userValues.length;j++)
+		{
+    		table = table + "<td>"+ userValues[j]+"</td>"; 
+		}
+		table=table+"</tr>";
+	}
+	table = table + "</table>";
+	return table;
+}
+function fetch(handles,url,request,response,parameter)
+{
+	console.log("audit of request handler"+url+parameter);
+	console.log("boom boom:- "+request.session.id);
+	response.writeHead(200, {"content-type" : "text/html"});
+	http.get(url+parameter, function(resp){
+		  resp.on('data', function(chunk){
+			  indexHtml=getIndexHtml()
+			  output=addHiddenParameter(indexHtml,request.session.user.id,request.session.id)
+			  table=createTableAudit(chunk);
+			  output=printOutput(output,table);
+			  //console.log("Got response: " + chunk);
+			  response.write(output);
+			  response.end();
 		  });
 		}).on("error", function(e){
 		  console.log("Got error: " + e.message);
@@ -230,7 +270,8 @@ function stormDetector(handles,url,request,response,parameter)
 	http.get(url+parameter, function(resp){
 		  resp.on('data', function(chunk){
 			  //console.log("Got response: " + chunk);
-			  kml=printOutput(chunk)
+			  indexHtml=getIndexHtml()
+			  kml=printOutput(indexHtml,chunk)
 			  createLog(handles,request,response,parameter,'Storm Detector')
 			  //response.write(kml);
 			  //response.end();
@@ -247,7 +288,8 @@ function stormCluster(handles,url,request,response,parameter)
 	http.get(url+parameter, function(resp){
 		  resp.on('data', function(chunk){
 			  //console.log("Got response: " + chunk);
-			  output=printOutput(chunk)
+			  indexHtml=getIndexHtml()
+			  output=printOutput(indexHtml,chunk)
 			  createLog(handles,request,response,parameter,'Storm Cluster')
 			  var rand=randomIntInc(0,1)
 			  if(rand==0)
@@ -279,7 +321,8 @@ function forecastTrigger(handles,url,request,response,parameter)
 			  else
 				  {
 				  response.writeHead(200, {"content-type" : "text/html"});
-				  output=printOutput(output.message)
+				  indexHtml=getIndexHtml()
+				  output=printOutput(indexHtml,output.message)
 				  response.write(output);
 				  response.end();
 				  }
@@ -296,7 +339,8 @@ function predictWeatherforecast(handles,url,request,response,parameter)
 	http.get(url+parameter, function(resp){
 		  resp.on('data', function(chunk){
 			  //console.log("Got response: " + chunk);
-			  output=printOutput(chunk)
+			  indexHtml=getIndexHtml()
+			  output=printOutput(indexHtml,chunk)
 			  createLog(handles,request,response,parameter,'Weather Forecast')
 			  response.write(output);
 			  response.end();
@@ -308,6 +352,7 @@ function predictWeatherforecast(handles,url,request,response,parameter)
 
 exports.login=login;
 exports.authenticate=authenticate;
+exports.fetch=fetch;
 exports.gateway=gateway;
 exports.registry=registry;
 exports.dataIngestor=dataIngestor;

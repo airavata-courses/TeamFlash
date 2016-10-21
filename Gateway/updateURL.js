@@ -47,12 +47,24 @@ function parse(data,functionHandle,urlHandle)
 		    	functionHandle[route]=requestHandler.authenticate;
 		    	urlHandle[route]=url;
 		        break;
+			case '/googleAuthenticate':
+		    	functionHandle[route]=requestHandler.googleAuthenticate;
+		    	urlHandle[route]=url;
+		        break;
+			case '/oauth2callback':
+		    	functionHandle[route]=requestHandler.oauth2callback;
+		    	urlHandle[route]=url;
+		        break;
 		    case '/Gateway':
 		    	functionHandle[route]=requestHandler.gateway;
 		    	urlHandle[route]=url;
 		        break;
 		    case '/registry':
 		    	functionHandle[route]=requestHandler.registry;
+		    	urlHandle[route]=url;
+		        break;
+		    case '/fetch':
+		    	functionHandle[route]=requestHandler.fetch;
 		    	urlHandle[route]=url;
 		        break;
 		    case '/dataIngestor':

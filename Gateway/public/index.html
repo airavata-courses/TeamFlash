@@ -21,11 +21,26 @@
       return false;
       }
     }
+
+    function authenticate()
+    {
+      var userid=document.getElementById('username');
+      if(userid==null || userid=="")
+      {
+        var method = "get";
+        var path = "/login";
+        var form = document.createElement("form");
+        form.setAttribute("method", method);
+        form.setAttribute("action", path);
+        form.submit();
+
+      }
+    }
 </script>
 <link rel="stylesheet" type="text/css" href="style.css" />
 <title>Weather Gateway</title>
 </head>
-<body>
+<body onload="return authenticate();">
 
 <div id="top">
 <div id="header">
@@ -61,7 +76,8 @@ Location
        tabindex="-1"/>
 <a id="dataIngestorButton" onclick="document.getElementById('commit').click()">Weather Forecast</a>
 </li>
-<li><a id="registryButton" href="/login">Log Out</a></li>
+<li><a id="auditButton" href="/audit">Audit</a></li>
+<li><a id="registryButton" href="/logout">Log Out</a></li>
 </ul>
 </div>
 </form>
