@@ -12,3 +12,4 @@
 /stormCluster = http://52.55.196.63:8000/detectClusters
 /stormTrigger = http://52.55.196.63:8080/StormExists/api/verify
 /weatherForecast = http://52.55.196.63:8081/RunForecast/api/run
+
