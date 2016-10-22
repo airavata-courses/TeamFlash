@@ -173,8 +173,8 @@ function gateway(handles,url,request,response,parameter)
 	request.session.id=id;
     console.log("Unique id is :"+id)
     createLog(handles,request,response,parameter+"&id="+id,'Gateway')
-	//content=fs.readFileSync(__dirname +'/index.html','utf-8',read)
     var map=splitURL(parameter+"&id="+id)
+	request.session.user=map["username"]
 	var indexHtml=getIndexHtml()
     var output=addHiddenParameter(indexHtml,map["username"],map["id"]);
 	if(response!=null && !response.headersSent)
@@ -222,6 +222,9 @@ function createTableAudit(user_data)
 function fetch(handles,url,request,response,parameter)
 {
 	console.log("audit of request handler"+url+parameter);
+	var map=splitURL(parameter)
+	var username=map["username"];
+	var id=map["id"];
 	if(response!=null && !response.headersSent)
 	{
 	response.writeHead(200, {"content-type" : "text/html"});
@@ -229,7 +232,7 @@ function fetch(handles,url,request,response,parameter)
 	http.get(url+parameter, function(resp){
 		  resp.on('data', function(chunk){
 			  indexHtml=getIndexHtml()
-			  output=addHiddenParameter(indexHtml,request.query.username,request.session.id)
+			  output=addHiddenParameter(indexHtml,username,id);
 			  table=createTableAudit(chunk);
 			  output=printOutput(output,table);
 			  //console.log("Got response: " + chunk);
@@ -238,7 +241,7 @@ function fetch(handles,url,request,response,parameter)
 		  });
 		}).on("error", function(e){
 			indexHtml=getIndexHtml()
-			output=addHiddenParameter(indexHtml,request.query.username,request.session.id)
+			output=addHiddenParameter(indexHtml,username,id)
 			output=printOutput(output,"Unable to connect to Registry Database");
 		  console.log("Got error: " + e.message);
 		  if(response!=null && !response.finished)
@@ -277,6 +280,7 @@ function dataIngestor(handles,url,request,response,parameter)
         	http.get(url+endpoint1, function(resp){
         	resp.on('data', function(chunk){
         	  endpoint2=endpoint2+chunk
+			  console.log("username :"+username);
         	  createLog(handles,request,response,endpoint1,'Data Ingestor')
         	  router.route(handles,"/stormDetector",request,response,endpoint2);
         		});
@@ -306,13 +310,9 @@ function stormDetector(handles,url,request,response,parameter)
 	var body = [];
 	var count=0;
 	console.log("storm detector of request handler"+url+parameter);
-	request.on('data', function (data) {
-        	body.push(data);
-        });
-		body = Buffer.concat(body).toString();
-		var post = qs.parse(body)
-        var username=post['username']
-        var id=post['id']
+	var map=splitURL(parameter)
+	var username=map["username"];
+	var id=map["id"];
 		http.get(url+parameter, function(resp){
 		  resp.on('data', function(chunk){
 			  count++;
@@ -321,6 +321,7 @@ function stormDetector(handles,url,request,response,parameter)
 			  kml=printOutput(output,chunk)
 			  if(count<=1)
 			  {
+				  console.log("username :"+username);
 			  	createLog(handles,request,response,parameter,'Storm Detector')
 			  	router.route(handles,"/stormCluster",request,response,parameter)
 			  }
@@ -346,14 +347,10 @@ function stormCluster(handles,url,request,response,parameter)
 {
 	var body = [];
 	var count=0;
-	request.on('data', function (data) {
-        	body.push(data);
-        });
-		body = Buffer.concat(body).toString();
-		var post = qs.parse(body)
-        var username=post['username']
-        var id=post['id']
 		console.log("storm cluster of request handler"+url+parameter)
+		var map=splitURL(parameter)
+		var username=map["username"];
+		var id=map["id"];
 		http.get(url+parameter, function(resp){
 		  resp.on('data', function(chunk){
 			  count++;
@@ -362,6 +359,7 @@ function stormCluster(handles,url,request,response,parameter)
 			  output=printOutput(output,chunk)
 			  if(count<=1)
 			  {
+				  console.log("username :"+username);
 			  createLog(handles,request,response,parameter,'Storm Cluster')
 			  var rand=randomIntInc(0,1)
 			  if(rand==0)
@@ -392,14 +390,10 @@ function forecastTrigger(handles,url,request,response,parameter)
 {
 	var body = [];
 	var count=0;
-	request.on('data', function (data) {
-        	body.push(data);
-        });
-		body = Buffer.concat(body).toString();
-		var post = qs.parse(body)
-        var username=post['username']
-        var id=post['id']
 		console.log("forecast trigger of request handler"+url+parameter)
+		var map=splitURL(parameter)
+		var username=map["username"];
+		var id=map["id"];
 		http.get(url+parameter, function(resp){
 		  resp.on('data', function(chunk){
 			  count++;
@@ -407,6 +401,7 @@ function forecastTrigger(handles,url,request,response,parameter)
 			  console.log("Got response: " + output.message);
 			  if(count<=1)
 			  {
+				  console.log("username :"+username);
 			  createLog(handles,request,response,parameter,'Forecast Trigger')
 			  if(output.message=='Yes')
 				  {
@@ -452,14 +447,10 @@ function predictWeatherforecast(handles,url,request,response,parameter)
 {
 	var body = [];
 	var count=0;
-	request.on('data', function (data) {
-        	body.push(data);
-        });
-		body = Buffer.concat(body).toString();
-		var post = qs.parse(body)
-        var username=post['username']
-        var id=post['id']
 	console.log("predict weather forecast of request handler"+url+parameter)
+	var map=splitURL(parameter)
+		var username=map["username"];
+		var id=map["id"];
 	if(response!=null && !response.headersSent)
 	{
 	response.writeHead(200, {"content-type" : "text/html"});
@@ -472,6 +463,7 @@ function predictWeatherforecast(handles,url,request,response,parameter)
 			  output=printOutput(output,chunk)
 			  if(count<=1)
 			  {
+				  console.log("username :"+username);
 			  createLog(handles,request,response,parameter,'Weather Forecast')
 			  if(response!=null && !response.finished)
 				  {
