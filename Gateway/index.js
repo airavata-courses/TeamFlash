@@ -146,7 +146,7 @@ app.post('/authenticate', function(request, response) {
       username=request.query.username;
     }
     else{
-      username=request.session.user.id;
+      username=request.session.user;
     }
     if(request.session==null)
     {
