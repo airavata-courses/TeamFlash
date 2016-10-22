@@ -251,7 +251,7 @@ function fetch(handles,url,request,response,parameter)
 
 function dataIngestor(handles,url,request,response,parameter)
 {
-	console.log("data ingestor of request handler"+url);
+	console.log("data ingestor of request handler"+url+parameter);
 	var body = [];
 	if (request.method == 'POST') {
 		request.on('data', function (data) {
@@ -299,10 +299,13 @@ function dataIngestor(handles,url,request,response,parameter)
 	}
 }
 
+
+/* Some mistake here */
 function stormDetector(handles,url,request,response,parameter)
 {
 	var body = [];
-	console.log("storm detector of request handler"+url);
+	var count=0;
+	console.log("storm detector of request handler"+url+parameter);
 	request.on('data', function (data) {
         	body.push(data);
         });
@@ -312,10 +315,15 @@ function stormDetector(handles,url,request,response,parameter)
         var id=post['id']
 		http.get(url+parameter, function(resp){
 		  resp.on('data', function(chunk){
+			  count++;
 			  indexHtml=getIndexHtml()
-			  kml=printOutput(indexHtml,chunk)
-			  createLog(handles,request,response,parameter,'Storm Detector')
-			  router.route(handles,"/stormCluster",request,response,parameter)
+			  output=addHiddenParameter(indexHtml,username,id)
+			  kml=printOutput(output,chunk)
+			  if(count<=1)
+			  {
+			  	createLog(handles,request,response,parameter,'Storm Detector')
+			  	router.route(handles,"/stormCluster",request,response,parameter)
+			  }
 		  });
 		}).on("error", function(e){
 				if(response!=null && !response.headersSent)
@@ -337,6 +345,7 @@ function stormDetector(handles,url,request,response,parameter)
 function stormCluster(handles,url,request,response,parameter)
 {
 	var body = [];
+	var count=0;
 	request.on('data', function (data) {
         	body.push(data);
         });
@@ -344,17 +353,22 @@ function stormCluster(handles,url,request,response,parameter)
 		var post = qs.parse(body)
         var username=post['username']
         var id=post['id']
-		console.log("storm cluster of request handler"+url)
+		console.log("storm cluster of request handler"+url+parameter)
 		http.get(url+parameter, function(resp){
 		  resp.on('data', function(chunk){
+			  count++;
 			  indexHtml=getIndexHtml()
-			  output=printOutput(indexHtml,chunk)
+			  output=addHiddenParameter(indexHtml,username,id)
+			  output=printOutput(output,chunk)
+			  if(count<=1)
+			  {
 			  createLog(handles,request,response,parameter,'Storm Cluster')
 			  var rand=randomIntInc(0,1)
 			  if(rand==0)
 				  router.route(handles,"/stormTrigger",request,response,parameter+'&value='+true)
 			  else
 				  router.route(handles,"/stormTrigger",request,response,parameter+'&value='+false)
+			  }
 			  
 		  });
 		}).on("error", function(e){
@@ -377,6 +391,7 @@ function stormCluster(handles,url,request,response,parameter)
 function forecastTrigger(handles,url,request,response,parameter)
 {
 	var body = [];
+	var count=0;
 	request.on('data', function (data) {
         	body.push(data);
         });
@@ -387,8 +402,11 @@ function forecastTrigger(handles,url,request,response,parameter)
 		console.log("forecast trigger of request handler"+url+parameter)
 		http.get(url+parameter, function(resp){
 		  resp.on('data', function(chunk){
+			  count++;
 			  output=JSON.parse(chunk)
 			  console.log("Got response: " + output.message);
+			  if(count<=1)
+			  {
 			  createLog(handles,request,response,parameter,'Forecast Trigger')
 			  if(output.message=='Yes')
 				  {
@@ -403,13 +421,15 @@ function forecastTrigger(handles,url,request,response,parameter)
 							response.writeHead(200, {"content-type" : "text/html"});
 						}
 				  indexHtml=getIndexHtml()
-				  var final_output=printOutput(indexHtml,output.message)
+				  final_output=addHiddenParameter(indexHtml,username,id)
+				  final_output=printOutput(final_output,output.message)
 				  if(response!=null && !response.finished)
 				  {
 				  	response.write(final_output);
 				  	response.end();
 				  }
 				  }
+			  }
 		  });
 		}).on("error", function(e){
 				if(response!=null && !response.headersSent)
@@ -431,6 +451,7 @@ function forecastTrigger(handles,url,request,response,parameter)
 function predictWeatherforecast(handles,url,request,response,parameter)
 {
 	var body = [];
+	var count=0;
 	request.on('data', function (data) {
         	body.push(data);
         });
@@ -445,15 +466,19 @@ function predictWeatherforecast(handles,url,request,response,parameter)
 	}
 	http.get(url+parameter, function(resp){
 		  resp.on('data', function(chunk){
-			  
+			  count++;
 			  indexHtml=getIndexHtml()
-			  output=printOutput(indexHtml,chunk)
+			  output=addHiddenParameter(indexHtml,username,id)
+			  output=printOutput(output,chunk)
+			  if(count<=1)
+			  {
 			  createLog(handles,request,response,parameter,'Weather Forecast')
 			  if(response!=null && !response.finished)
 				  {
 			  		response.write(output);
 			  		response.end();
 				  }
+			  }
 		  });
 		}).on("error", function(e){
 				indexHtml=getIndexHtml()
