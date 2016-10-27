@@ -1,6 +1,12 @@
 
-echo 'Installing Registry' 
-cd '/home/ec2-user/Registry/Registry'
+echo 'Installing Registry'
+
+rm -r /home/ec2-user/registry
+mv /home/ec2-user/Registry  /home/ec2-user/registry
+
+cd /home/ec2-user/registry/
+cd Registry
+
 mvn clean install >> /var/log/Registry.log
 cp config.properties target/
 sudo rm -rf /var/log/Registry1.log

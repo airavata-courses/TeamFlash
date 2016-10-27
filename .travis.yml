@@ -17,15 +17,15 @@ script: cd "Registry" && mvn clean install -DskipTests=true
 before_deploy:
   - cd ..
   - zip -r TeamFlash_Registry.zip Registry scripts appspec.yml || true
-  - mkdir -p "Registry"
-  - mv TeamFlash_Registry.zip Registry/Registry.zip || true
+  - mkdir -p "registry"
+  - mv TeamFlash_Registry.zip registry/Registry.zip || true
 
 deploy:
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY # declared in Travis repo settings
     secret_access_key: $AWS_SECRET_KEY
     bucket: teamflash
-    local_dir: Registry
+    local_dir: registry
     region: us-east-1
     skip_cleanup: true
     acl: public_read
