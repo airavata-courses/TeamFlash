@@ -28,7 +28,7 @@ services:
 before_deploy:
   - cd ..
   - zip -r TeamFlash_StormClustering.zip StormClustering scripts appspec.yml Dockerfile || true
-  - mkdir -p "StormClustering"
+  - mkdir "StormClustering"
   - mv TeamFlash_StormClustering.zip StormClustering/StormClustering.zip || true
 
 deploy:
