@@ -1,6 +1,6 @@
 language: python
 
-python: 
+python:
   - "2.7"
 
 branches:
@@ -28,15 +28,15 @@ services:
 before_deploy:
   - cd ..
   - zip -r TeamFlash_StormClustering.zip StormClustering scripts appspec.yml Dockerfile || true
-  - mkdir "StormClustering"
-  - mv TeamFlash_StormClustering.zip StormClustering/StormClustering.zip || true
+  - mkdir "stormClustering"
+  - mv TeamFlash_StormClustering.zip stormClustering/StormClustering.zip || true
 
 deploy:
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY # declared in Travis repo settings
     secret_access_key: $AWS_SECRET_KEY
     bucket: teamflash
-    local_dir: StormClustering
+    local_dir: stormClustering
     region: us-east-1
     skip_cleanup: true
     acl: public_read
@@ -55,8 +55,7 @@ deploy:
     region: us-east-1
     on:
       branch: Feature/StormClustering
-  
+
 notifications:
    email:
      - pmpande@iu.edu
-

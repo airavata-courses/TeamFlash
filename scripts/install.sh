@@ -1,5 +1,12 @@
 echo 'starting installation process' >> /var/log/teamflash-stormclustering-install.log
-cd '/home/ec2-user/StormClustering/'
+
+rm -r /home/ec2-user/stormClustering
+mv /home/ec2-user/StormClustering  /home/ec2-user/stormClustering
+
+cd /home/ec2-user/stormClustering/
+chmod 777 stormClustering
+cd StormClustering
+
 docker build --no-cache=true -t stormclustering . >> /var/log/teamflash-stormclustering-docker-install.log
 docker rmi -f $(docker images -f "dangling=true" -q) >> /var/log/teamflash-stormclustering-docker-install.log
 docker run -p 8000:8000 --name StormClustering stormclustering >> /var/log/teamflash-stormclustering-docker-server.log 2>&1 &
@@ -14,4 +21,3 @@ docker run -p 8000:8000 --name StormClustering stormclustering >> /var/log/teamf
 #pip install Flask >> /var/log/teamflash-stormclustering-install.log
 #export FLASK_APP=StormClustering.py
 #flask run --host=0.0.0.0 --port=8000 >> /var/log/teamflash-stormclustering-server.log 2>&1 &
-
