@@ -1,6 +1,6 @@
 language: python
 
-python: 
+python:
   - "2.7"
 
 branches:
@@ -18,7 +18,7 @@ before_script:
   - pip install nose
   - pip install Flask
 
-script: 
+script:
   - nosetests -v TestDetection.py
 
 services:
@@ -27,15 +27,15 @@ services:
 before_deploy:
   - cd ..
   - zip -r TeamFlash_StormDetection.zip StormDetection scripts appspec.yml Dockerfile || true
-  - mkdir -p "StormDetection"
-  - mv TeamFlash_StormDetection.zip StormDetection/StormDetection.zip || true
+  - mkdir -p "stormDetection"
+  - mv TeamFlash_StormDetection.zip stormDetection/StormDetection.zip || true
 
 deploy:
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY # declared in Travis repo settings
     secret_access_key: $AWS_SECRET_KEY
     bucket: teamflash
-    local_dir: StormDetection
+    local_dir: stormDetection
     region: us-east-1
     skip_cleanup: true
     acl: public_read
@@ -54,7 +54,7 @@ deploy:
     region: us-east-1
     on:
       branch: Feature/StormDetection
-  
+
 notifications:
    email:
      - akmehra@iu.edu
