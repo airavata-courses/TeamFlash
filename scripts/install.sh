@@ -1,5 +1,11 @@
 echo 'starting installation process' >> /var/log/teamflash-gateway-install.log
-cd '/home/ec2-user/Gateway/Gateway' >> /var/log/teamflash-gateway-install.log
+rm -r /home/ec2-user/gateway
+mv /home/ec2-user/Gateway  /home/ec2-user/gateway
+
+cd /home/ec2-user/gateway/
+chmod 777 gateway
+cd Gateway
+
 npm install mongodb >> /var/log/teamflash-gateway-install.log
 npm install node-uuid >> /var/log/teamflash-gateway-install.log
 npm link mongodb >> /var/log/teamflash-gateway-install.log

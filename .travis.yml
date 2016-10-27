@@ -30,15 +30,15 @@ install: true
 
 before_deploy:
   - zip -r TeamFlash_Gateway.zip Gateway scripts appspec.yml makefile || true
-  - mkdir -p "Gateway"
-  - mv TeamFlash_Gateway.zip Gateway/Gateway.zip || true
+  - mkdir -p "gateway"
+  - mv TeamFlash_Gateway.zip gateway/Gateway.zip || true
 
 deploy:
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY # declared in Travis repo settings
     secret_access_key: $AWS_SECRET_KEY
     bucket: teamflash
-    local_dir: Gateway
+    local_dir: gateway
     region: us-east-1
     skip_cleanup: true
     acl: public_read
