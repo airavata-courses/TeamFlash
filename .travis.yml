@@ -20,15 +20,15 @@ script: cd "RunForecast" && mvn clean install -DskipTests=true
 before_deploy:
   - cd ..
   - zip -r TeamFlash_RunForecast.zip RunForecast scripts appspec.yml || true
-  - mkdir -p "RunForecast"
-  - mv TeamFlash_RunForecast.zip RunForecast/RunForecast.zip || true
+  - mkdir -p "runForecast"
+  - mv TeamFlash_RunForecast.zip runForecast/RunForecast.zip || true
 
 deploy:
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY # declared in Travis repo settings
     secret_access_key: $AWS_SECRET_KEY
     bucket: teamflash
-    local_dir: RunForecast
+    local_dir: runForecast
     region: us-east-1
     skip_cleanup: true
     acl: public_read
