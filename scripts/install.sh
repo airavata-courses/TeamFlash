@@ -1,5 +1,12 @@
 echo 'Installing ForecastTrigger' 
-cd '/home/ec2-user/ForecastTrigger/StormCheck'
+
+rm -r /home/ec2-user/forecastTrigger
+mv /home/ec2-user/ForecastTrigger  /home/ec2-user/forecastTrigger
+
+cd /home/ec2-user/forecastTrigger/
+chmod 777 forecasttrigger
+cd StormCheck
+
 mvn -e clean install >> /var/log/ForecastTrigger.log
 #cp target/*.war /usr/share/tomcat7/webapps/ >> /var/log/tomcat.log
 #cd  /usr/share/tomcat7/bin

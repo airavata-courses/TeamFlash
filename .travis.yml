@@ -25,15 +25,15 @@ services:
 before_deploy:
   - cd ..
   - zip -r TeamFlash_ForecastTrigger.zip StormCheck scripts appspec.yml || true
-  - mkdir -p "ForecastTrigger"
-  - mv TeamFlash_ForecastTrigger.zip ForecastTrigger/ForecastTrigger.zip || true
+  - mkdir -p "forecastTrigger"
+  - mv TeamFlash_ForecastTrigger.zip forecastTrigger/ForecastTrigger.zip || true
 
 deploy:
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY # declared in Travis repo settings
     secret_access_key: $AWS_SECRET_KEY
     bucket: teamflash
-    local_dir: ForecastTrigger
+    local_dir: forecastTrigger
     region: us-east-1
     skip_cleanup: true
     acl: public_read
