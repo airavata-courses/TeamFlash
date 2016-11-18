@@ -1,15 +1,15 @@
 #Routing URL
-/ = http://54.193.40.236:8888/login
-/login = http://54.193.40.236:8888/login
-/authenticate = http://54.193.40.236:8888/authenticate
+/ = http://52.9.64.108:8888/login
+/login = http://52.9.64.108:8888/login
+/authenticate = http://52.9.64.108:8888/authenticate
 /googleAuthenticate = http://ec2-52-55-196-63.compute-1.amazonaws.com:8888/googleAuthenticate
 /oauth2callback=http://ec2-52-55-196-63.compute-1.amazonaws.com:8888/oauth2callback
-/Gateway = http://54.193.40.236:8888/Gateway
-/fetch = http://54.193.40.236:8550/audit/fetch
-/registry = http://54.193.40.236:8550/audit/update
-/dataIngestor = http://54.193.40.236:8765/data
-/stormDetector = http://54.193.40.236:7000/detectStorm
-/stormCluster = http://54.193.40.236:8000/detectClusters
-/stormTrigger = http://54.193.40.236:8080/StormExists/api/verify
-/weatherForecast = http://54.193.40.236:8081/RunForecast/api/run
+/Gateway = http://52.9.64.108:8888/Gateway
+/fetch = http://52.9.64.108:8550/audit/fetch
+/registry = http://52.9.64.108:8550/audit/update
+/dataIngestor = http://52.9.64.108:8765/data
+/stormDetector = http://52.9.64.108:7000/detectStorm
+/stormCluster = http://52.9.64.108:8000/detectClusters
+/stormTrigger = http://52.9.64.108:8080/StormExists/api/verify
+/weatherForecast = http://52.9.64.108:8081/RunForecast/api/run
 
