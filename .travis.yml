@@ -34,9 +34,9 @@ deploy:
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY # declared in Travis repo settings
     secret_access_key: $AWS_SECRET_KEY
-    bucket: teamflash
+    bucket: teamflashwest
     local_dir: stormDetection
-    region: us-east-1
+    region: us-west-1
     skip_cleanup: true
     acl: public_read
     detect_encoding: true
@@ -46,12 +46,12 @@ deploy:
   - provider: codedeploy
     access_key_id: $AWS_ACCESS_KEY # declared in Travis repo settings
     secret_access_key: $AWS_SECRET_KEY
-    bucket: teamflash
+    bucket: teamflashwest
     key: StormDetection.zip
     bundle_type: zip
     application: TeamFlash
     deployment_group: TeamFlash
-    region: us-east-1
+    region: us-west-1
     on:
       branch: Feature/StormDetection
 
