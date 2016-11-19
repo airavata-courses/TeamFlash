@@ -4,7 +4,6 @@ rm -r /home/ec2-user/stormDetection
 mv /home/ec2-user/StormDetection  /home/ec2-user/stormDetection
 
 cd /home/ec2-user/stormDetection/
-cd StormDetection
 docker build --no-cache=true -t stormdetection . >> /var/log/teamflash-stormdetection-docker-install.log
 docker rmi -f $(docker images -f "dangling=true" -q) >> /var/log/teamflash-stormdetection-docker-install.log
 docker run -p 7000:7000 --name StormDetection stormdetection >> /var/log/teamflash-stormdetection-docker-server.log 2>&1 &
