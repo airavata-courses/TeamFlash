@@ -12,7 +12,7 @@ jdk:
 sudo: required
 
 before_install:
-  - cd "LoadBalancer" && mvn clean install
+  - cd "loadBalancer" && mvn clean install
 
 services:
   - docker
