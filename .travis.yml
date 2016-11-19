@@ -19,7 +19,7 @@ services:
 
 before_deploy:
   - cd ..
-  - zip -r TeamFlash_LoadBalancer.zip LoadBalancer deployable scripts appspec.yml || true
+  - zip -r TeamFlash_LoadBalancer.zip zookeeperManager scripts appspec.yml || true
   - mkdir -p "loadBalancer"
   - mv TeamFlash_LoadBalancer.zip loadBalancer/LoadBalancer.zip || true
 
