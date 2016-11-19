@@ -4,7 +4,6 @@ rm -r /home/ec2-user/stormClustering
 mv /home/ec2-user/StormClustering  /home/ec2-user/stormClustering
 
 cd /home/ec2-user/stormClustering/
-cd StormClustering
 
 docker build --no-cache=true -t stormclustering . >> /var/log/teamflash-stormclustering-docker-install.log
 docker rmi -f $(docker images -f "dangling=true" -q) >> /var/log/teamflash-stormclustering-docker-install.log
