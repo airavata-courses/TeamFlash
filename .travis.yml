@@ -1,7 +1,7 @@
 language: java
 branches:
   only:
-    - Feature/DataIngestor
+    - Feature/Load-Balancer
 
 notifications:
    email:
@@ -12,38 +12,38 @@ jdk:
 sudo: required
 
 before_install:
-  - cd "DataIngestor" && mvn clean install
+  - cd "LoadBalancer" && mvn clean install
 
 services:
   - docker
 
 before_deploy:
   - cd ..
-  - zip -r TeamFlash_DataIngestor.zip DataIngestor scripts appspec.yml || true
-  - mkdir -p "dataIngestor"
-  - mv TeamFlash_DataIngestor.zip dataIngestor/DataIngestor.zip || true
+  - zip -r TeamFlash_LoadBalancer.zip LoadBalancer scripts appspec.yml || true
+  - mkdir -p "loadBalancer"
+  - mv TeamFlash_LoadBalancer.zip loadBalancer/LoadBalancer.zip || true
 
 deploy:
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY # declared in Travis repo settings
     secret_access_key: $AWS_SECRET_KEY
     bucket: teamflash
-    local_dir: dataIngestor
-    region: us-east-1
+    local_dir: loadBalancer
+    region: us-west-1
     skip_cleanup: true
     acl: public_read
     detect_encoding: true
     on:
-      branch: Feature/DataIngestor
+      branch: Feature/Load-Balancer
 
   - provider: codedeploy
     access_key_id: $AWS_ACCESS_KEY # declared in Travis repo settings
     secret_access_key: $AWS_SECRET_KEY
     bucket: teamflash
-    key: DataIngestor.zip
+    key: LoadBalancer.zip
     bundle_type: zip
     application: TeamFlash
     deployment_group: TeamFlash
-    region: us-east-1
+    region: us-west-1
     on:
-      branch: Feature/DataIngestor
+      branch: Feature/Load-Balancer

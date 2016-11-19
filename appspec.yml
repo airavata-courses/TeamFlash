@@ -3,7 +3,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ec2-user/DataIngestor
+    destination: /home/ec2-user/LoadBalancer
 hooks:
   BeforeInstall:
     - location: scripts/before-install.sh
