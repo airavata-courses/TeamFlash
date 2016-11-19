@@ -12,7 +12,7 @@ jdk:
 sudo: required
 
 before_install:
-  - cd "loadBalancer" && mvn clean install
+  - cd "zookeeperManager" && mvn clean install
 
 services:
   - docker
