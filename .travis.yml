@@ -12,14 +12,14 @@ jdk:
 sudo: required
 
 before_install:
-  - cd "zookeeperManager" && mvn clean install
+  - cd "LoadBalancer" && mvn clean install
 
 services:
   - docker
 
 before_deploy:
   - cd ..
-  - zip -r TeamFlash_LoadBalancer.zip zookeeperManager scripts appspec.yml || true
+  - zip -r TeamFlash_LoadBalancer.zip LoadBalancer scripts appspec.yml || true
   - mkdir -p "loadBalancer"
   - mv TeamFlash_LoadBalancer.zip loadBalancer/LoadBalancer.zip || true
 
