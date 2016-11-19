@@ -21,7 +21,7 @@ public class RunWeatherForecast {
             throw new IllegalArgumentException();
         }
 
-        doCapactiyTesting();
+        //doCapactiyTesting();
         Location location = new Location();
         location.setLocationName(locationName);
         location.setTemperature(10.0);
