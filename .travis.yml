@@ -42,8 +42,8 @@ deploy:
     bucket: teamflashwest
     key: LoadBalancer.zip
     bundle_type: zip
-    application: TeamFlashZookeeper
-    deployment_group: TeamFlashZookeeper
+    application: TeamFlashManager
+    deployment_group: TeamFlashManager
     region: us-west-1
     on:
       branch: Feature/Load-Balancer
