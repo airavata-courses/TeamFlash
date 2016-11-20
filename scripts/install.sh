@@ -15,4 +15,4 @@ docker rmi -f $(docker images -f "dangling=true" -q) >> /var/log/forecastTrigger
 docker run -p 8080:8080 --name StormChecklatest forecasttrigger >> /var/log/forecastTriggerDocker.log 2>&1 &
 
 #sh ./start.sh >> /var/log/tomcat.log 2>&1 &
-curl -L 52.52.165.77:8080/StormExists/api/RegisterFTWorker >> /var/log/test.log
+
