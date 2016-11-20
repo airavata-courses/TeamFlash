@@ -209,7 +209,7 @@ public class Manager {
         String query = String.format("value=%s",URLEncoder.encode(URLvalue, charset));
 
 
-        URL url = new URL(address + "/StormExists?"+query);
+        URL url = new URL(address + "/StormExists/api/verify?"+query);
         
         URLConnection conn = url.openConnection();
         conn.setRequestProperty("Accept-Charset", charset);
