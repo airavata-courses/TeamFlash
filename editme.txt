@@ -1,2 +1,2 @@
 Start Deployment testing
-Replicate Service
+Replicate Service.
