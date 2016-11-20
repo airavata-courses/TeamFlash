@@ -22,8 +22,11 @@ public class Worker implements ServletContextListener
     @Override
     public void contextInitialized(ServletContextEvent servletContext)
     {
-         //ServiceProvider<Void> serviceProvider;
-         String[] urlEndpoints = {"52.52.165.77","52.52.164.169"};
+        //ServiceProvider<Void> serviceProvider;
+        //String[] urlEndpoints = {"52.52.165.77","52.52.164.169"};
+        URL url = new URL("http://checkip.amazonaws.com");
+        BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+        String ip = in.readLine();
 
         ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
 
@@ -34,32 +37,26 @@ public class Worker implements ServletContextListener
 
         int port = 8080;
 
-        for(int i=0;i<urlEndpoints.length;i++)
+        try
         {
-            try
-            {
-                ServiceInstance serviceInstance = ServiceInstance.builder()
-                        .uriSpec(new UriSpec("{scheme}://{address}:{port}"))
-                        .address(urlEndpoints[i])
-                        .port(port)
-                        .name("worker")
-                        .build();
+            ServiceInstance serviceInstance = ServiceInstance.builder()
+                    .uriSpec(new UriSpec("{scheme}://{address}:{port}"))
+                    .address(ip)
+                    .port(port)
+                    .name("worker")
+                    .build();
 
-                ServiceDiscoveryBuilder.builder(Void.class)
-                        .basePath("ForecastTrigger")
-                        .client(curatorFramework)
-                        .thisInstance(serviceInstance)
-                        .build()
-                        .start();
-            }
-            catch(Exception e)
-            {
-                e.printStackTrace();
-            }
-
-
+            ServiceDiscoveryBuilder.builder(Void.class)
+                    .basePath("ForecastTrigger")
+                    .client(curatorFramework)
+                    .thisInstance(serviceInstance)
+                    .build()
+                    .start();
         }
-
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override
