@@ -194,7 +194,11 @@ public class Manager {
     @GET
     @Path("/verify")
     public static String forecastTriggerDelegate(@QueryParam("value") boolean exists) throws Exception {
-        
+       ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
+
+        CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient("localhost:2181", retryPolicy);
+
+        curatorFramework.start(); 
         /*for service forecast trigger*/
         ServiceDiscovery<Void> forecastTriggerServiceDiscovery = ServiceDiscoveryBuilder.builder(Void.class)
                 .basePath("ForecastTrigger")
