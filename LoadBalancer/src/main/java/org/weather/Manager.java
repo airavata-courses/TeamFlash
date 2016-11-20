@@ -210,6 +210,9 @@ public class Manager {
 
 
         URL url = new URL(address + "/StormExists?"+query);
+        
+        return url;
+        
         URLConnection conn = url.openConnection();
         conn.setRequestProperty("Accept-Charset", charset);
         conn.connect();
