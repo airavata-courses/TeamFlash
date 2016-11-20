@@ -12,4 +12,3 @@ cd  /usr/share/tomcat7/bin
 
 sudo service tomcat7 start >> /var/log/tomcat.log 2>&1 &
 
-curl -L http://52.52.144.190:8080/loadBalancer/api/runManager >> /var/log/ManagerRegister.log
