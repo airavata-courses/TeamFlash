@@ -193,7 +193,7 @@ public class Manager {
 
     @GET
     @Path("/verify")
-    public String forecastTriggerDelegate(@QueryParam("value") boolean exists) throws Exception {
+    public static String forecastTriggerDelegate(@QueryParam("value") boolean exists) throws Exception {
         ServiceInstance<Void> instance;
         instance = forecastTriggerServiceProvider.getInstance();
         if (instance == null) {
