@@ -194,8 +194,22 @@ public class Manager {
     @GET
     @Path("/verify")
     public static String forecastTriggerDelegate(@QueryParam("value") boolean exists) throws Exception {
+        
+        /*for service forecast trigger*/
+        ServiceDiscovery<Void> forecastTriggerServiceDiscovery = ServiceDiscoveryBuilder.builder(Void.class)
+                .basePath("ForecastTrigger")
+                .client(curatorFramework).build();
+
+        forecastTriggerServiceDiscovery.start();
+
+        forecastTriggerServiceProvider = forecastTriggerServiceDiscovery
+                .serviceProviderBuilder()
+                .serviceName("worker").build();
+        forecastTriggerServiceProvider.start();
+        
         ServiceInstance<Void> instance;
         instance = forecastTriggerServiceProvider.getInstance();
+        
         if (instance == null) {
             return "instance is null";
         }
