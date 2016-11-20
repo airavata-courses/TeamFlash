@@ -15,6 +15,6 @@ if [ "$?" -ne 0 ]; then
 	mvn --version
 fi
 
-docker ps -a | grep 'foresttrigger' | awk '{print $1}' | xargs --no-run-if-empty docker stop
-docker ps -a | grep 'foresttrigger' | awk '{print $1}' | xargs --no-run-if-empty docker rm
+docker ps -a | grep 'StormChecklatest' | awk '{print $1}' | xargs --no-run-if-empty docker stop
+docker ps -a | grep 'StormChecklatest' | awk '{print $1}' | xargs --no-run-if-empty docker rm
 
