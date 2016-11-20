@@ -213,12 +213,12 @@ public class Manager {
         
         return url.toString();
         
-        URLConnection conn = url.openConnection();
+        /*URLConnection conn = url.openConnection();
         conn.setRequestProperty("Accept-Charset", charset);
         conn.connect();
         InputStream inputStream = conn.getInputStream();
         String response = IOUtils.toString(inputStream, charset);
-        return response;
+        return response;*/
     }
 
     @GET
