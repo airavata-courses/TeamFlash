@@ -13,7 +13,3 @@ hooks:
     - location: scripts/install.sh
       timeout: 3600
       runas: root
-  ValidateService:
-    - location: scripts/postinstall.sh
-      timeout: 3600
-      runas: root
