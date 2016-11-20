@@ -26,7 +26,7 @@ public class Worker {
     {
         ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
 
-        CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient("localhost:2181", retryPolicy);
+        CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient("http://52.9.64.108:2181", retryPolicy);
 
         curatorFramework.start();
 
