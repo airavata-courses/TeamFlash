@@ -13,7 +13,7 @@ public class StormCheckTest {
     public void checkStormExists() throws Exception {
 
         StormCheck stormcheck = new StormCheck();
-        String res = stormcheck.checkStormExists(false);
+        String res = stormcheck.checkStormExists("no");
         assertTrue(res!=null);
     }
     

@@ -13,10 +13,10 @@ public class TestStormCheck {
     public void checkStormExists() throws Exception {
 
         StormCheck stormcheck = new StormCheck();
-        String res = stormcheck.checkStormExists(false);
+        String res = stormcheck.checkStormExists("no");
         Assert.assertTrue(res!=null);
 
-        res = stormcheck.checkStormExists(true);
+        res = stormcheck.checkStormExists("yes");
         Assert.assertTrue(res!=null);
 
     }

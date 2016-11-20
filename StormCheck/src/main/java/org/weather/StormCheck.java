@@ -13,14 +13,14 @@ public class StormCheck {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String checkStormExists(@QueryParam("value") boolean exists )
+    public String checkStormExists(@QueryParam("value") String exists )
     {
 
         System.out.println(exists);
         long start = System.currentTimeMillis();
-        doCapactiyTesting();
+        //doCapactiyTesting();
 
-        if(!exists){
+        if(exists.equalsIgnoreCase("no")){
             isStormPresent = "{\"message\": \"No\"}";
         }
         long end = System.currentTimeMillis();
