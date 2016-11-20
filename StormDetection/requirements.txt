@@ -3,3 +3,6 @@ Jinja2
 Werkzeug
 distribute
 wsgiref
+kazoo
+uuid
+logging

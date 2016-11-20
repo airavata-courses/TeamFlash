@@ -17,6 +17,9 @@ before_script:
   - pip install request
   - pip install nose
   - pip install Flask
+  - pip install kazoo
+  - pip install uuid
+  - pip install logging
 
 script:
   - nosetests -v TestDetection.py
