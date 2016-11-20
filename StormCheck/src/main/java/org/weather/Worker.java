@@ -19,7 +19,7 @@ import javax.ws.rs.Path;
 public class Worker {
 
     static ServiceProvider<Void> serviceProvider;
-    static String[] urlEndpoints = {"http://52.52.165.77","http://52.52.164.169"};
+    static String[] urlEndpoints = {"52.52.165.77","52.52.164.169"};
 
     @GET
     public static String registerForecastTrigger() throws Exception
