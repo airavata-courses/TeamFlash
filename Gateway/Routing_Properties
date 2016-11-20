@@ -10,6 +10,6 @@
 /dataIngestor = http://52.9.64.108:8765/data
 /stormDetector = http://52.9.64.108:7000/detectStorm
 /stormCluster = http://52.9.64.108:8000/detectClusters
-/stormTrigger = http://52.9.64.108:8080/StormExists/api/verify
+/stormTrigger = http://52.52.144.190:8080/loadBalancer/api/runManager/verify
 /weatherForecast = http://52.9.64.108:8081/RunForecast/api/run
 
