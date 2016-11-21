@@ -18,7 +18,7 @@ import java.util.*;
 /**
  * Created by girish on 9/18/16.
  */
-@Path("/runManager")
+@Path("/")
 public class Manager {
 
     static ServiceProvider<Void>  dataIngestorServiceProvider;
