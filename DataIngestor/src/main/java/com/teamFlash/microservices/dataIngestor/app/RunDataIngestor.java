@@ -18,7 +18,7 @@ public class RunDataIngestor {
 		// TODO Auto-generated method stub
 		RunDataIngestor instance=new RunDataIngestor();
 		final String port = (args.length == 1 ? args[0] : "8765");
-		registerService();
+		instance.registerService();
 		instance.boot(port);
 	}
 
