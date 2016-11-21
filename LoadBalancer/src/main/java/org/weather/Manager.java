@@ -243,7 +243,7 @@ public class Manager {
     }
 
     @GET
-    @Path("/verify")
+    @Path("/forecastTrigger")
     public static String forecastTriggerDelegate(@QueryParam("value") boolean exists) throws Exception {
        ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
 
