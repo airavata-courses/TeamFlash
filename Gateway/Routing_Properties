@@ -8,8 +8,8 @@
 /fetch = http://52.9.64.108:8550/audit/fetch
 /registry = http://52.9.64.108:8550/audit/update
 /dataIngestor = http://52.9.64.108:8765/data
-/stormDetector = http://52.9.64.108:7000/detectStorm
-/stormCluster = http://52.9.64.108:8000/detectClusters
+/stormDetector = http://52.52.144.190:8080/loadBalancer/api/runManager/detectStorm
+/stormCluster = http://52.52.144.190:8080/loadBalancer/api/runManager/detectClusters
 /stormTrigger = http://52.52.144.190:8080/loadBalancer/api/runManager/verify
-/weatherForecast = http://52.9.64.108:8081/RunForecast/api/run
+/weatherForecast = http://52.52.144.190:8080/loadBalancer/api/runManager/runForecast
 
