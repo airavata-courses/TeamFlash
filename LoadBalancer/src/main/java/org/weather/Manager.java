@@ -27,7 +27,7 @@ public class Manager {
     static  ServiceProvider<Void> forecastTriggerServiceProvider;
     static  ServiceProvider<Void> runForecastServiceProvider;
 
-    @GET
+    /*@GET
     public static String initializeCurator() throws Exception {
 
         ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
@@ -37,7 +37,7 @@ public class Manager {
         curatorFramework.start();
         //System.out.println("after curator framework start");
 
-        /*for service Data Ingestor*/
+        *//*for service Data Ingestor*//*
         ServiceDiscovery<Void> dataIngestorServiceDiscovery = ServiceDiscoveryBuilder.builder(Void.class)
                 .basePath("DataIngestor")
                 .client(curatorFramework).build();
@@ -49,7 +49,7 @@ public class Manager {
                 .serviceName("worker").build();
         dataIngestorServiceProvider.start();
 
-        /* for service storm cluster*/
+        *//* for service storm cluster*//*
         ServiceDiscovery<Void> stormClusterServiceDiscovery = ServiceDiscoveryBuilder.builder(Void.class)
                 .basePath("StormClustering")
                 .client(curatorFramework).build();
@@ -61,7 +61,7 @@ public class Manager {
                 .serviceName("worker").build();
         stormClusterServiceProvider.start();
 
-        /*for service forecast trigger*/
+        *//*for service forecast trigger*//*
         ServiceDiscovery<Void> forecastTriggerServiceDiscovery = ServiceDiscoveryBuilder.builder(Void.class)
                 .basePath("ForecastTrigger")
                 .client(curatorFramework).build();
@@ -73,7 +73,7 @@ public class Manager {
                 .serviceName("worker").build();
         forecastTriggerServiceProvider.start();
 
-        /* for service Run Forecast*/
+        *//* for service Run Forecast*//*
         ServiceDiscovery<Void> runForecastServiceDiscovery = ServiceDiscoveryBuilder.builder(Void.class)
                 .basePath("RunForecast")
                 .client(curatorFramework).build();
@@ -85,7 +85,7 @@ public class Manager {
                 .serviceName("worker").build();
         runForecastServiceProvider.start();
 
-        /**/
+        *//**//*
         ServiceDiscovery<Void> stormDetectionServiceDiscovery = ServiceDiscoveryBuilder.builder(Void.class)
                 .basePath("StormDetection")
                 .client(curatorFramework).build();
@@ -98,13 +98,28 @@ public class Manager {
         stormDetectionServiceProvider.start();
 
         return "done";
-    }
+    }*/
 
     @GET
     @Path("/dataIngestor")
     public String delegate(@QueryParam("username") String username, @QueryParam("id") String id, @QueryParam("date") String date
             ,@QueryParam("time") String time, @QueryParam("value") String station,
                            @QueryParam("msvc") String msvc              ) throws Exception {
+        ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
+        CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient("localhost:2181", retryPolicy);
+        curatorFramework.start();
+        /*for service Storm Detectionr*/
+        ServiceDiscovery<Void> dataIngestorServiceDiscovery = ServiceDiscoveryBuilder.builder(Void.class)
+                .basePath("DataIngestor")
+                .client(curatorFramework).build();
+
+        dataIngestorServiceDiscovery.start();
+
+        dataIngestorServiceProvider = dataIngestorServiceDiscovery
+                .serviceProviderBuilder()
+                .serviceName("worker").build();
+        dataIngestorServiceProvider.start();
+
         ServiceInstance<Void> instance;
         instance = dataIngestorServiceProvider.getInstance();
         if(instance==null){
@@ -146,6 +161,24 @@ public class Manager {
     @GET
     @Path("/detectClusters")
     public String stormClusterDelegate() throws Exception {
+
+        /**/
+        ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
+        CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient("localhost:2181", retryPolicy);
+        curatorFramework.start();
+        /*for service Storm Detectionr*/
+        ServiceDiscovery<Void> stormClusteringrServiceDiscovery = ServiceDiscoveryBuilder.builder(Void.class)
+                .basePath("StormClustering")
+                .client(curatorFramework).build();
+
+        stormClusteringrServiceDiscovery.start();
+
+        stormClusterServiceProvider = stormClusteringrServiceDiscovery
+                .serviceProviderBuilder()
+                .serviceName("worker").build();
+        stormClusterServiceProvider.start();
+
+
         ServiceInstance<Void> instance;
         instance = stormClusterServiceProvider.getInstance();
         if (instance == null) {
@@ -169,6 +202,24 @@ public class Manager {
     @GET
     @Path("/detectStorm")
     public String detectStormDelegate(@QueryParam("url") String url) throws Exception {
+
+        /**/
+        ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
+        CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient("localhost:2181", retryPolicy);
+        curatorFramework.start();
+        /*for service Storm Detectionr*/
+        ServiceDiscovery<Void> stormDetectionrServiceDiscovery = ServiceDiscoveryBuilder.builder(Void.class)
+                .basePath("StormDetection")
+                .client(curatorFramework).build();
+
+        stormDetectionrServiceDiscovery.start();
+
+        stormDetectionServiceProvider = stormDetectionrServiceDiscovery
+                .serviceProviderBuilder()
+                .serviceName("worker").build();
+        stormDetectionServiceProvider.start();
+
+
         ServiceInstance<Void> instance;
         instance = stormDetectionServiceProvider.getInstance();
         if (instance == null) {
