@@ -240,6 +240,21 @@ public class Manager {
     @GET
     @Path("/runForecast")
     public String runForecastDelegate(@QueryParam("location") String locationName) throws Exception {
+        ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
+        CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient("localhost:2181", retryPolicy);
+        curatorFramework.start(); 
+        ServiceDiscovery<Void> runForecastServiceDiscovery = ServiceDiscoveryBuilder.builder(Void.class)
+                .basePath("RunForecast")
+                .client(curatorFramework).build();
+
+        runForecastServiceDiscovery.start();
+
+        runForecastServiceProvider = runForecastServiceDiscovery
+                .serviceProviderBuilder()
+                .serviceName("worker").build();
+        runForecastServiceProvider.start();
+        
+        
         ServiceInstance<Void> instance;
         instance = runForecastServiceProvider.getInstance();
         if (instance == null) {
