@@ -34,7 +34,7 @@ public class Worker implements ServletContextListener
            URL url = new URL("http://checkip.amazonaws.com");
            BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
            String ip = in.readLine(); 
-           int port = 8080; 
+           int port = 8081; 
             ServiceInstance serviceInstance = ServiceInstance.builder()
                     .uriSpec(new UriSpec("{scheme}://{address}:{port}"))
                     .address(ip)
