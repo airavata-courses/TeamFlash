@@ -255,7 +255,7 @@ public class Manager {
                 URLEncoder.encode(locationName, charset)
         );
 
-        URL url = new URL(address + "/run?"+query);
+        URL url = new URL(address + "/RunForecast/api/run?"+query);
         URLConnection conn = url.openConnection();
         conn.setRequestProperty("Accept-Charset", charset);
         conn.connect();
