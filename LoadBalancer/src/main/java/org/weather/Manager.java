@@ -114,7 +114,7 @@ public class Manager {
                 .client(curatorFramework).build();
 
         dataIngestorServiceDiscovery.start();
-
+        ServiceProvider<Void>  dataIngestorServiceProvider;
         dataIngestorServiceProvider = dataIngestorServiceDiscovery
                 .serviceProviderBuilder()
                 .serviceName("worker").build();
