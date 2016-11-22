@@ -18,7 +18,7 @@ public class StormCheck {
 
         System.out.println(exists);
         long start = System.currentTimeMillis();
-        doCapactiyTesting();
+        //doCapactiyTesting();
 
         if(exists.equalsIgnoreCase("no")){
             isStormPresent = "{\"message\": \"No\"}";
@@ -35,9 +35,9 @@ public class StormCheck {
         List<ArrayList<Integer>> bigList = new ArrayList<ArrayList<Integer>>();
 
         int result = 0;
-        for (int k = 0; k < Integer.MAX_VALUE; k++) {
+        for (int k = 0; k < 20000; k++) {
             ArrayList<Integer> list = new ArrayList<Integer>();
-            for (int i = 0; i < Integer.MAX_VALUE; i++) {
+            for (int i = 0; i < 20000; i++) {
                 list.add(Integer.MAX_VALUE);
                 result += Math.pow(i, 10000);
                 if (result % 5 == 0) {
