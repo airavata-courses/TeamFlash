@@ -35,9 +35,9 @@ public class StormCheck {
         List<ArrayList<Integer>> bigList = new ArrayList<ArrayList<Integer>>();
 
         int result = 0;
-        for (int k = 0; k < 10; k++) {
+        for (int k = 0; k < 100; k++) {
             ArrayList<Integer> list = new ArrayList<Integer>();
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 100; i++) {
                 list.add(Integer.MAX_VALUE);
                 result += Math.pow(i, 10000);
                 if (result % 5 == 0) {
