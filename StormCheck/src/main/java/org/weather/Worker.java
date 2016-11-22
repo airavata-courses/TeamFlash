@@ -48,6 +48,7 @@ public class Worker implements ServletContextListener
                     .thisInstance(serviceInstance)
                     .build()
                     .start();
+          curatorFramework.close();          
         }
         catch(Exception e)
         {
