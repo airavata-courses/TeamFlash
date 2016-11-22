@@ -293,6 +293,8 @@ public class Manager {
         String response = IOUtils.toString(inputStream, charset);
         inputStream.close();
         curatorFramework.close();
+        forecastTriggerServiceDiscovery.close();
+        forecastTriggerServiceProvider.close();
         return response;
     }
 
