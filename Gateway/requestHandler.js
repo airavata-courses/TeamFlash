@@ -281,8 +281,23 @@ function dataIngestor(handles,url,request,response,parameter)
         	resp.on('data', function(chunk){
         	  endpoint2=endpoint2+chunk
 			  console.log("username :"+username);
-        	  createLog(handles,request,response,endpoint1,'Data Ingestor')
-        	  router.route(handles,"/stormDetector",request,response,endpoint2);
+        	  createLog(handles,request,response,endpoint1,'Data Ingestor');
+			if(chunk.indexOf("html")>0)
+			  {
+				  if(response!=null && !response.headersSent)
+				{
+					response.writeHead(200, {"content-type" : "text/html"});
+				}
+				if(response!=null && !response.finished)
+				  {
+					response.write(chunk);
+			  		response.end();
+				  }
+			  }
+			else
+			{
+        	  		router.route(handles,"/stormDetector",request,response,endpoint2);
+			}
         		});
         	}).on("error", function(e){
 				if(response!=null && !response.headersSent)
