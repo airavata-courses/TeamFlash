@@ -156,6 +156,7 @@ public class Manager {
         InputStream inputStream = conn.getInputStream();
         String response = IOUtils.toString(inputStream, charset);
         inputStream.close();
+        curatorFramework.close();
         return response;
     }
 
@@ -198,6 +199,7 @@ public class Manager {
         InputStream inputStream = conn.getInputStream();
         String response = IOUtils.toString(inputStream, charset);
         inputStream.close();
+        curatorFramework.close();
         return response;
     }
 
@@ -242,6 +244,7 @@ public class Manager {
         InputStream inputStream = conn.getInputStream();
         String response = IOUtils.toString(inputStream, charset);
         inputStream.close();
+        curatorFramework.close();
         return response;
     }
 
