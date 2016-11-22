@@ -137,7 +137,7 @@ public class Manager {
         String date = "1999-04-05";
         String time = "000408";*/
         station = "KAMX";
-        /*String msvc = "Data Ingestor";*/
+        msvc = "Data Ingestor";
 
         String query = String.format("username=%s&id=%s&date=%s&time=%s&station=%s&msvc=%s",
                 URLEncoder.encode(username, charset),
