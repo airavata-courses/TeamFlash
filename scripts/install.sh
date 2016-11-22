@@ -3,6 +3,9 @@ echo 'Installing ForecastTrigger'
 rm -r /home/ec2-user/forecastTrigger
 mv /home/ec2-user/ForecastTrigger  /home/ec2-user/forecastTrigger
 
+sudo rm -r /var/log/forecastTriggerDocker.log
+sudo rm -r /var/log/ForecastTrigger.log
+
 cd /home/ec2-user/forecastTrigger/
 chmod 777 forecasttrigger
 cd StormCheck
