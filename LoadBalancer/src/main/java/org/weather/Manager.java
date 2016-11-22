@@ -135,9 +135,9 @@ public class Manager {
         /*String username = "debasisdwivedy";
         String id = "dfb3b368-3430-4f14-ab1c-231c2e93cf41";
         String date = "1999-04-05";
-        String time = "000408";
-        String station = "KAMX";
-        String msvc = "Data Ingestor";*/
+        String time = "000408";*/
+        station = "KAMX";
+        /*String msvc = "Data Ingestor";*/
 
         String query = String.format("username=%s&id=%s&date=%s&time=%s&station=%s&msvc=%s",
                 URLEncoder.encode(username, charset),
