@@ -265,7 +265,14 @@ function dataIngestor(handles,url,request,response,parameter)
         });
         request.on('end', function () {
         	body = Buffer.concat(body).toString();
+			try{
         	var post = qs.parse(body)
+			}
+			catch (e) {
+				   var err = new Error(e.message);
+				   console.log(e.message);
+    			   throw err;
+  				}
         	var date=post['date']
         	var station=post['station']
         	var time=post['time']
@@ -282,7 +289,7 @@ function dataIngestor(handles,url,request,response,parameter)
         	  endpoint2=endpoint2+chunk
 			  console.log("username :"+username);
         	  createLog(handles,request,response,endpoint1,'Data Ingestor');
-			if(chunk.indexOf("html")>0)
+			  if(chunk.indexOf("html")>0)
 			  {
 				  if(response!=null && !response.headersSent)
 				{
@@ -294,10 +301,9 @@ function dataIngestor(handles,url,request,response,parameter)
 			  		response.end();
 				  }
 			  }
-			else
-			{
-        	  		router.route(handles,"/stormDetector",request,response,endpoint2);
-			}
+			  else{
+        	  router.route(handles,"/stormDetector",request,response,endpoint2);
+			  }
         		});
         	}).on("error", function(e){
 				if(response!=null && !response.headersSent)
@@ -412,7 +418,14 @@ function forecastTrigger(handles,url,request,response,parameter)
 		http.get(url+parameter, function(resp){
 		  resp.on('data', function(chunk){
 			  count++;
+			  try {
 			  output=JSON.parse(chunk)
+			  }
+			  catch (e) {
+				   var err = new Error(e.message);
+				   console.log(e.message);
+    			   throw err;
+  				}
 			  console.log("Got response: " + output.message);
 			  if(count<=1)
 			  {
