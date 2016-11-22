@@ -155,6 +155,7 @@ public class Manager {
         conn.connect();
         InputStream inputStream = conn.getInputStream();
         String response = IOUtils.toString(inputStream, charset);
+        conn.close();
         return response;
     }
 
@@ -196,6 +197,7 @@ public class Manager {
         conn.connect();
         InputStream inputStream = conn.getInputStream();
         String response = IOUtils.toString(inputStream, charset);
+        conn.close();
         return response;
     }
 
@@ -239,6 +241,7 @@ public class Manager {
         conn.connect();
         InputStream inputStream = conn.getInputStream();
         String response = IOUtils.toString(inputStream, charset);
+        conn.close();
         return response;
     }
 
@@ -285,6 +288,7 @@ public class Manager {
         conn.connect();
         InputStream inputStream = conn.getInputStream();
         String response = IOUtils.toString(inputStream, charset);
+        conn.close();
         return response;
     }
 
@@ -327,6 +331,7 @@ public class Manager {
         conn.connect();
         InputStream inputStream = conn.getInputStream();
         String response = IOUtils.toString(inputStream, charset);
+        conn.close();
         return response;
     }
 
