@@ -7,7 +7,7 @@
 /Gateway = http://52.9.64.108:8888/Gateway
 /fetch = http://52.9.64.108:8550/audit/fetch
 /registry = http://52.9.64.108:8550/audit/update
-/dataIngestor = http://52.9.64.108:8765/data
+/dataIngestor = http://52.52.144.190:8765/loadBalancer/api/dataIngestor
 /stormDetector = http://52.52.144.190:8080/loadBalancer/api/detectStorm
 /stormCluster = http://52.52.144.190:8080/loadBalancer/api/detectClusters
 /stormTrigger = http://52.52.144.190:8080/loadBalancer/api/forecastTrigger
