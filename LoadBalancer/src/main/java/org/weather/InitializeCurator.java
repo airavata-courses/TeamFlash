@@ -25,11 +25,12 @@ public class InitializeCurator implements ServletContextListener
         ServiceProvider<Void> forecastTriggerServiceProvider;
         ServiceProvider<Void> runForecastServiceProvider;
 
+        CuratorFramework curatorFramework=null;
         try
         {
             ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
 
-            CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient("localhost:2181", retryPolicy);
+            curatorFramework = CuratorFrameworkFactory.newClient("localhost:2181", retryPolicy);
 
             curatorFramework.start();
 
@@ -92,13 +93,16 @@ public class InitializeCurator implements ServletContextListener
                     .serviceProviderBuilder()
                     .serviceName("worker").build();
             stormDetectionServiceProvider.start();
-            curatorFramework.close();
+
+
         }
         catch(Exception e)
         {
             e.printStackTrace();
         }
-
+        finally {
+            curatorFramework.close();
+        }
 
     }
 

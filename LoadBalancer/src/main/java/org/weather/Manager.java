@@ -21,11 +21,11 @@ import java.util.*;
 @Path("/")
 public class Manager {
 
-    static ServiceProvider<Void>  dataIngestorServiceProvider;
-    static  ServiceProvider<Void> stormDetectionServiceProvider;
-    static ServiceProvider<Void>  stormClusterServiceProvider;
-    static  ServiceProvider<Void> forecastTriggerServiceProvider;
-    static  ServiceProvider<Void> runForecastServiceProvider;
+    ServiceProvider<Void>  dataIngestorServiceProvider;
+    ServiceProvider<Void> stormDetectionServiceProvider;
+    ServiceProvider<Void>  stormClusterServiceProvider;
+    ServiceProvider<Void> forecastTriggerServiceProvider;
+    ServiceProvider<Void> runForecastServiceProvider;
 
     /*@GET
     public static String initializeCurator() throws Exception {
@@ -208,54 +208,67 @@ public class Manager {
     public String detectStormDelegate(@QueryParam("url") String url) throws Exception {
 
         /**/
-        ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
-        CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient("localhost:2181", retryPolicy);
-        curatorFramework.start();
+        CuratorFramework curatorFramework=null;
+        String response="";
+        try
+        {
+            ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
+            curatorFramework = CuratorFrameworkFactory.newClient("localhost:2181", retryPolicy);
+            curatorFramework.start();
         /*for service Storm Detectionr*/
-        ServiceDiscovery<Void> stormDetectionrServiceDiscovery = ServiceDiscoveryBuilder.builder(Void.class)
-                .basePath("StormDetection")
-                .client(curatorFramework).build();
+            ServiceDiscovery<Void> stormDetectionrServiceDiscovery = ServiceDiscoveryBuilder.builder(Void.class)
+                    .basePath("StormDetection")
+                    .client(curatorFramework).build();
 
-        stormDetectionrServiceDiscovery.start();
+            stormDetectionrServiceDiscovery.start();
 
-        stormDetectionServiceProvider = stormDetectionrServiceDiscovery
-                .serviceProviderBuilder()
-                .serviceName("worker").build();
-        stormDetectionServiceProvider.start();
+            stormDetectionServiceProvider = stormDetectionrServiceDiscovery
+                    .serviceProviderBuilder()
+                    .serviceName("worker").build();
+            stormDetectionServiceProvider.start();
 
 
-        ServiceInstance<Void> instance;
-        instance = stormDetectionServiceProvider.getInstance();
-        if (instance == null) {
-            return "instance is null";
+            ServiceInstance<Void> instance;
+            instance = stormDetectionServiceProvider.getInstance();
+            if (instance == null) {
+                return "instance is null";
+            }
+            String address = instance.buildUriSpec();
+
+            if (address == null) {
+                return "address not found";
+            }
+            String charset = "UTF-8";
+            String query = String.format("url%s",URLEncoder.encode(url, charset));
+
+            URL url1= new URL(address + "/detectStorm?"+query);
+            URLConnection conn = url1.openConnection();
+            conn.setRequestProperty("Accept-Charset", charset);
+            conn.connect();
+            InputStream inputStream = conn.getInputStream();
+            response = IOUtils.toString(inputStream, charset);
+            inputStream.close();
+
         }
-        String address = instance.buildUriSpec();
-
-        if (address == null) {
-            return "address not found";
+        catch(Exception e)
+        {
+               e.printStackTrace();
         }
-        String charset = "UTF-8";
-        String query = String.format("url%s",URLEncoder.encode(url, charset));
+        finally
+        {
+            curatorFramework.close();
+        }
 
-        URL url1= new URL(address + "/detectStorm?"+query);
-        URLConnection conn = url1.openConnection();
-        conn.setRequestProperty("Accept-Charset", charset);
-        conn.connect();
-        InputStream inputStream = conn.getInputStream();
-        String response = IOUtils.toString(inputStream, charset);
-        inputStream.close();
-        curatorFramework.close();
         return response;
     }
 
     @GET
     @Path("/forecastTrigger")
-    public static String forecastTriggerDelegate(@QueryParam("value") boolean exists) throws Exception {
-       //ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
+    public  String forecastTriggerDelegate(@QueryParam("value") boolean exists) throws Exception {
+       ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
+        CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient("localhost:2181", retryPolicy);
 
-        //CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient("localhost:2181", retryPolicy);
-
-        //curatorFramework.start(); 
+        curatorFramework.start();
         /*for service forecast trigger*/
         ServiceDiscovery<Void> forecastTriggerServiceDiscovery = ServiceDiscoveryBuilder.builder(Void.class)
                 .basePath("ForecastTrigger")
