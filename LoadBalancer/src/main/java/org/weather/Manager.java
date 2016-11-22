@@ -103,7 +103,7 @@ public class Manager {
     @GET
     @Path("/dataIngestor")
     public String delegate(@QueryParam("username") String username, @QueryParam("id") String id, @QueryParam("date") String date
-            ,@QueryParam("time") String time, @QueryParam("value") String station,
+            ,@QueryParam("time") String time, @QueryParam("station") String station,
                            @QueryParam("msvc") String msvc) throws Exception {
         ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
         CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient("localhost:2181", retryPolicy);
@@ -136,7 +136,7 @@ public class Manager {
         String id = "dfb3b368-3430-4f14-ab1c-231c2e93cf41";
         String date = "1999-04-05";
         String time = "000408";*/
-        station = "KAMX";
+        //station = "KAMX";
         msvc = "Data Ingestor";
 
         String query = String.format("username=%s&id=%s&date=%s&time=%s&station=%s&msvc=%s",
