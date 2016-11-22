@@ -104,7 +104,7 @@ public class Manager {
     @Path("/dataIngestor")
     public String delegate(@QueryParam("username") String username, @QueryParam("id") String id, @QueryParam("date") String date
             ,@QueryParam("time") String time, @QueryParam("value") String station,
-                           @QueryParam("msvc") String msvc              ) throws Exception {
+                           @QueryParam("msvc") String msvc) throws Exception {
         ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
         CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient("localhost:2181", retryPolicy);
         curatorFramework.start();
@@ -132,12 +132,12 @@ public class Manager {
         }
 
         String charset = "UTF-8";  // Or in Java 7 and later, use the constant: java.nio.charset.StandardCharsets.UTF_8.name()
-        /*String username = "debasisdwivedy";
+        String username = "debasisdwivedy";
         String id = "dfb3b368-3430-4f14-ab1c-231c2e93cf41";
         String date = "1999-04-05";
         String time = "000408";
         String station = "KAMX";
-        String msvc = "Data Ingestor";*/
+        String msvc = "Data Ingestor";
 
         String query = String.format("username=%s&id=%s&date=%s&time=%s&station=%s&msvc=%s",
                 URLEncoder.encode(username, charset),
