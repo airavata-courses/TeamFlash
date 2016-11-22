@@ -292,7 +292,7 @@ public class Manager {
         InputStream inputStream = conn.getInputStream();
         String response = IOUtils.toString(inputStream, charset);
         inputStream.close();
-        curatorFramework.close();
+        //curatorFramework.close();
         return response;
     }
 
