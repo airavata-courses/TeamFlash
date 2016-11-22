@@ -53,8 +53,8 @@ deploy:
     bucket: teamflashwest
     key: Gateway.zip
     bundle_type: zip
-    application: TeamFlashZookeeper
-    deployment_group: TeamFlashZookeeper
+    application: TeamFlash
+    deployment_group: TeamFlash
     region: us-west-1
     on:
       branch: Gateway
