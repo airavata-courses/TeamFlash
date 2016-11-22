@@ -266,8 +266,8 @@ public class Manager {
     @Path("/forecastTrigger")
     public  String forecastTriggerDelegate(@QueryParam("value") boolean exists) throws Exception {
         ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
-        CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient(Config.get().get("zk.quorum"),Config.get().getInt("zk.session.timeout", 3000),1000,retryPolicy);
-
+        //CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient(Config.get().get("zk.quorum"),Config.get().getInt("zk.session.timeout", 3000),1000,retryPolicy);
+        CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient("52.52.144.190:2181",retryPolicy);
         curatorFramework.start();
         /*for service forecast trigger*/
         ServiceDiscovery<Void> forecastTriggerServiceDiscovery = ServiceDiscoveryBuilder.builder(Void.class)
