@@ -92,6 +92,7 @@ public class InitializeCurator implements ServletContextListener
                     .serviceProviderBuilder()
                     .serviceName("worker").build();
             stormDetectionServiceProvider.start();
+            curatorFramework.close();
         }
         catch(Exception e)
         {
