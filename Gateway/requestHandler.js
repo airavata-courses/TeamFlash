@@ -289,6 +289,7 @@ function dataIngestor(handles,url,request,response,parameter)
         	  endpoint2=endpoint2+chunk
 			  console.log("username :"+username);
         	  createLog(handles,request,response,endpoint1,'Data Ingestor');
+			chunk=chunk.toString;
 			  if(chunk.indexOf("html")>0)
 			  {
 				  if(response!=null && !response.headersSent)
