@@ -423,9 +423,19 @@ function forecastTrigger(handles,url,request,response,parameter)
 			  output=JSON.parse(chunk)
 			  }
 			  catch (e) {
-				   var err = new Error(e.message);
-				   console.log(e.message);
-    			   throw err;
+				   console.log("forecast trigger exception in JSON Parse");
+					  if(response!=null && !response.headersSent)
+						{
+							response.writeHead(200, {"content-type" : "text/html"});
+						}
+				  indexHtml=getIndexHtml()
+				  final_output=addHiddenParameter(indexHtml,username,id)
+				  final_output=printOutput(final_output,chunk+"--->"+e.message)
+				  if(response!=null && !response.finished)
+				  {
+				  	response.write(final_output);
+				  	response.end();
+				  }
   				}
 			  console.log("Got response: " + output.message);
 			  if(count<=1)
