@@ -419,6 +419,12 @@ function forecastTrigger(handles,url,request,response,parameter)
 		http.get(url+parameter, function(resp){
 		  resp.on('data', function(chunk){
 			  count++;
+			  if(chunk==null)
+			  {
+				  output.message='No';
+			  }
+			  else
+			  {
 			  try {
 			  output=JSON.parse(chunk)
 			  }
@@ -437,6 +443,7 @@ function forecastTrigger(handles,url,request,response,parameter)
 				  	response.end();
 				  }
   				}
+			  }
 			  console.log("Got response: " + output.message);
 			  if(count<=1)
 			  {
