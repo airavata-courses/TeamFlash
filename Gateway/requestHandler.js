@@ -282,6 +282,11 @@ function dataIngestor(handles,url,request,response,parameter)
             console.log("station :"+station)
             console.log("time :"+time)
             console.log("id :"+post['id'])
+
+			d= new Date(date); 
+			date=d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2) + "-" +("0" + d.getDate()).slice(-2)
+			console.log("date is :"+date)
+			
         	var endpoint1 ='?username='+ username +'&id=' +id+'&date='+ date +'&station=' +station+ '&time='+ time
         	var endpoint2 ='?username='+ username +'&id=' +id+'&url='
         	http.get(url+endpoint1, function(resp){
