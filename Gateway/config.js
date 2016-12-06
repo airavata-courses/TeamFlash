@@ -1,11 +1,11 @@
 module.exports = {
-  projectId: 'velvety-harbor-146921',
+  projectId: 'science-gateway-project-new',
   keyFilename: './client_secret.json',
   bucketName: '[your Google Cloud Storage bucket name]',
   cookieSecret: '[cooking signing key]',
   oauth2: {
-    clientId: '454533374641-7pi0orpb4u90odj6umitgsnpjj4vge1p.apps.googleusercontent.com',
-    clientSecret: 'Ickb2LRup5yIKisnyydmz0Ay',
-    redirectUrl: process.env.REDIRECT_URL || 'http://ec2-52-55-196-63.compute-1.amazonaws.com:8888/oauth2callback'
+    clientId: '842652899246-1eqq9510atpnsu3aktjmup6l8kmqk3q3.apps.googleusercontent.com',
+    clientSecret: 'htkmqlCVmuTf199NEk56kAnt',
+    redirectUrl: process.env.REDIRECT_URL || 'http://ec2-52-9-64-108.us-west-1.compute.amazonaws.com:8888/oauth2callback'
   }
 };
