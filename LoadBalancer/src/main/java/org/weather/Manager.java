@@ -192,7 +192,7 @@ public class Manager {
             return "address not found";
         }
         String charset = "UTF-8";
-        URL url = new URL(address + "/detectClusters");
+        URL url = new URL(address);
         URLConnection conn = url.openConnection();
         conn.setRequestProperty("Accept-Charset", charset);
         conn.connect();
