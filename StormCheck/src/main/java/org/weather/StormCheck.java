@@ -37,8 +37,8 @@ public class StormCheck {
         int result = 0;
         for (int k = 0; k < 5000; k++) {
             ArrayList<Integer> list = new ArrayList<Integer>();
-            for (int i = 0; i < Integer.MAX_VALUE; i++) {
-                list.add(Integer.MAX_VALUE);
+            for (int i = 0; i < 5000; i++) {
+                list.add(i);
                 result += Math.pow(i, 10000);
             }
             bigList.add(list);
