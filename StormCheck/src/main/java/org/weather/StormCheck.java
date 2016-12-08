@@ -44,9 +44,6 @@ public class StormCheck {
             bigList.add(list);
         }
 
-        /*for(int i=0;i<10;i++)
-        {
-            bigList.remove(0);
-	}*/
+       
     }
 }
