@@ -91,6 +91,7 @@ function splitURL(str)
 
 function printOutput(content,chunk)
 {
+	chunk=chunk.toString();
 	console.log("in print output");
 	if(chunk.indexOf("html")>0)
 	{
@@ -116,6 +117,7 @@ function printOutput(content,chunk)
 
 function addKML(content,chunk)
 {
+	chunk=chunk.toString();
 	console.log("KML add");
 	var flag='<label id="map">'
     var len= flag.length
@@ -262,8 +264,11 @@ function fetch(handles,url,request,response,parameter)
 			  table=createTableAudit(chunk);
 			  output=printOutput(output,table);
 			  //console.log("Got response: " + chunk);
-			  response.write(output);
-			  response.end();
+			  if(response!=null && !response.finished)
+				  {
+		  			response.write(output);
+			  		response.end();
+				  }
 		  });
 		}).on("error", function(e){
 			indexHtml=getIndexHtml()
@@ -327,11 +332,15 @@ function dataIngestor(handles,url,request,response,parameter)
 			  {
 				  if(response!=null && !response.headersSent)
 				{
-					response.writeHead(200, {"content-type" : "text/html"});
+		  			response.writeHead(200, {"content-type" : "text/html"});
 				}
+				indexHtml=getIndexHtml()
+				output=addHiddenParameter(indexHtml,username,id)
+				output=printOutput(output,"Unable to connect to Forecast Trigger");
+        		console.log("Got error: " + e.message);
 				if(response!=null && !response.finished)
 				  {
-					response.write(chunk.toString());
+					response.write(output);
 			  		response.end();
 				  }
 			  }
