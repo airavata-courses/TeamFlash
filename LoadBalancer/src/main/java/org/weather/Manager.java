@@ -241,7 +241,7 @@ public class Manager {
             String charset = "UTF-8";
             String query = String.format("url%s",URLEncoder.encode(url, charset));
 
-            URL url1= new URL(address + "/detectStorm?"+query);
+            URL url1= new URL(address + "?"+query);
             URLConnection conn = url1.openConnection();
             conn.setRequestProperty("Accept-Charset", charset);
             conn.connect();
