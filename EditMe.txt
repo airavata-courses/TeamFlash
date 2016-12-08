@@ -1,4 +1,2 @@
 Check for memory
 Second check for memory
-Replicate service.
-
