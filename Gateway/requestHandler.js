@@ -92,11 +92,37 @@ function splitURL(str)
 function printOutput(content,chunk)
 {
 	console.log("in print output");
+	if(chunk.indexOf("html")>0)
+	{
+		chunk='No'
 	var flag='<label id="output">'
     var len= flag.length
     index=content.indexOf(flag)
     console.log("index is :"+index)
     console.log("length is :"+len)
+    var output=content.substring(0,index+len) + chunk + content.substring(index+len);
+	}
+	else{
+	var flag='<label id="output">'
+    var len= flag.length
+    index=content.indexOf(flag)
+    console.log("index is :"+index)
+    console.log("length is :"+len)
+    var output=content.substring(0,index+len) + chunk + content.substring(index+len);
+    //console.log(output)
+	}
+    return output
+}
+
+function addKML(content,chunk)
+{
+	console.log("KML add");
+	var flag='<label id="map">'
+    var len= flag.length
+    index=content.indexOf(flag)
+    console.log("index is :"+index)
+    console.log("length is :"+len)
+	chunk='<iframe src="'+chunk+'" name="iframe_a" width= "100%" height="580px"></iframe>';
     var output=content.substring(0,index+len) + chunk + content.substring(index+len);
     //console.log(output)
     return output
@@ -278,6 +304,7 @@ function dataIngestor(handles,url,request,response,parameter)
         	var time=post['time']
         	var username=post['username']
         	var id=post['id']
+			
             console.log("date :"+date)
             console.log("station :"+station)
             console.log("time :"+time)
@@ -286,15 +313,16 @@ function dataIngestor(handles,url,request,response,parameter)
 			d= new Date(date); 
 			date=d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2) + "-" +("0" + d.getDate()).slice(-2)
 			console.log("date is :"+date)
-			
+
         	var endpoint1 ='?username='+ username +'&id=' +id+'&date='+ date +'&station=' +station+ '&time='+ time
         	var endpoint2 ='?username='+ username +'&id=' +id+'&url='
         	http.get(url+endpoint1, function(resp){
         	resp.on('data', function(chunk){
+				console.log("kml is :-"+chunk)
         	  endpoint2=endpoint2+chunk
 			  console.log("username :"+username);
         	  createLog(handles,request,response,endpoint1,'Data Ingestor');
-			chunk=chunk.toString();
+				chunk=chunk.toString();
 			  if(chunk.indexOf("html")>0)
 			  {
 				  if(response!=null && !response.headersSent)
@@ -303,7 +331,7 @@ function dataIngestor(handles,url,request,response,parameter)
 				}
 				if(response!=null && !response.finished)
 				  {
-					response.write(chunk);
+					response.write(chunk.toString());
 			  		response.end();
 				  }
 			  }
@@ -346,6 +374,7 @@ function stormDetector(handles,url,request,response,parameter)
 			  indexHtml=getIndexHtml()
 			  output=addHiddenParameter(indexHtml,username,id)
 			  kml=printOutput(output,chunk)
+			  
 			  if(count<=1)
 			  {
 				  console.log("username :"+username);
@@ -384,6 +413,7 @@ function stormCluster(handles,url,request,response,parameter)
 			  indexHtml=getIndexHtml()
 			  output=addHiddenParameter(indexHtml,username,id)
 			  output=printOutput(output,chunk)
+			  
 			  if(count<=1)
 			  {
 				  console.log("username :"+username);
@@ -431,22 +461,13 @@ function forecastTrigger(handles,url,request,response,parameter)
 			  else
 			  {
 			  try {
+				  console.log("chunk: "+chunk)
 			  output=JSON.parse(chunk)
+			  //output.message='Yes'
 			  }
 			  catch (e) {
-				   console.log("forecast trigger exception in JSON Parse");
-					  if(response!=null && !response.headersSent)
-						{
-							response.writeHead(200, {"content-type" : "text/html"});
-						}
-				  indexHtml=getIndexHtml()
-				  final_output=addHiddenParameter(indexHtml,username,id)
-				  final_output=printOutput(final_output,chunk+"--->"+e.message)
-				  if(response!=null && !response.finished)
-				  {
-				  	response.write(final_output);
-				  	response.end();
-				  }
+				   chunk='{"message": "No"}'
+				   output=JSON.parse(chunk)
   				}
 			  }
 			  console.log("Got response: " + output.message);
@@ -512,9 +533,11 @@ function predictWeatherforecast(handles,url,request,response,parameter)
 			  indexHtml=getIndexHtml()
 			  output=addHiddenParameter(indexHtml,username,id)
 			  output=printOutput(output,chunk)
+			  output=addKML(output,'test.html')
 			  if(count<=1)
 			  {
 				  console.log("username :"+username);
+				  console.log("output :"+output);
 			  createLog(handles,request,response,parameter,'Weather Forecast')
 			  if(response!=null && !response.finished)
 				  {
@@ -535,6 +558,7 @@ function predictWeatherforecast(handles,url,request,response,parameter)
 				  }
 		});
 }
+
 
 exports.login=login;
 exports.authenticate=authenticate;
