@@ -268,8 +268,8 @@ public class Manager {
         ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
         //CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient(Config.get().get("zk.quorum"),Config.get().getInt("zk.session.timeout", 3000),1000,retryPolicy);
         //List<String> hosts = ["52.52.144.190:2181", "52.52.165.77:2181", "52.52.164.169:2181"];
-        List<String> hosts = Arrays.asList("52.52.144.190:2181", "52.52.165.77:2181", "52.52.164.169:2181");
-        CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient(hosts,retryPolicy);
+        //List<String> hosts = Arrays.asList("52.52.144.190:2181", "52.52.165.77:2181", "52.52.164.169:2181");
+        CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient("localhost:2181",retryPolicy);
         curatorFramework.start();
         /*for service forecast trigger*/
         ServiceDiscovery<Void> forecastTriggerServiceDiscovery = ServiceDiscoveryBuilder.builder(Void.class)
