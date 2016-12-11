@@ -1,4 +1,4 @@
-package org.weather;
+package org.teamFlash.weather.forecast;
 
 /**
  * Created by girish on 9/19/16.

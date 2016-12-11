@@ -1,10 +1,8 @@
 package org.weather;
 
-import static org.junit.Assert.*;
-import org.junit.*;
-
 import org.junit.Assert;
 import org.junit.Test;
+import org.teamFlash.weather.forecast.RunWeatherForecast;
 
 /**
  * Created by girish on 10/19/16.

@@ -1,4 +1,4 @@
-package org.weather;
+package org.teamFlash.weather.forecast;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;

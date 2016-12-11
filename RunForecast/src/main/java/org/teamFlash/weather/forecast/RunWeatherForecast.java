@@ -1,7 +1,8 @@
-package org.weather;
+package org.teamFlash.weather.forecast;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import com.google.gson.Gson;
+import org.teamFlash.weather.forecast.Location;
 
 import java.util.ArrayList;
 import java.util.List;
