@@ -463,7 +463,8 @@ function forecastTrigger(handles,url,request,response,parameter)
 		http.get(url+parameter, function(resp){
 		  resp.on('data', function(chunk){
 			  count++;
-			  if(chunk==null)
+			   output=JSON.parse(chunk)
+			  /*if(chunk==null)
 			  {
 				  output.message='No';
 			  }
@@ -478,7 +479,7 @@ function forecastTrigger(handles,url,request,response,parameter)
 				   chunk='{"message": "No"}'
 				   output=JSON.parse(chunk)
   				}
-			  }
+			  }*/
 			  console.log("Got response: " + output.message);
 			  if(count<=1)
 			  {
