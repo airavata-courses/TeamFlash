@@ -18,7 +18,7 @@ public class StormCheck {
 
         System.out.println(exists);
         long start = System.currentTimeMillis();
-        doCapactiyTesting();
+        //doCapactiyTesting();
 
         if(exists.equalsIgnoreCase("no")){
             isStormPresent = "{\"message\": \"No\"}";
