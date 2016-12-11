@@ -28,9 +28,10 @@ public class InitializeCurator implements ServletContextListener
         CuratorFramework curatorFramework=null;
         try
         {
+            String hosts = "52.52.144.190:2181,52.52.165.77:2181,52.52.164.169:2181";
             ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
 
-            curatorFramework = CuratorFrameworkFactory.newClient("localhost:2181", retryPolicy);
+            curatorFramework = CuratorFrameworkFactory.newClient(hosts, retryPolicy);
 
             curatorFramework.start();
 
