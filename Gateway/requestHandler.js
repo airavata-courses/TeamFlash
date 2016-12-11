@@ -336,7 +336,7 @@ function dataIngestor(handles,url,request,response,parameter)
 				}
 				indexHtml=getIndexHtml()
 				output=addHiddenParameter(indexHtml,username,id)
-				output=printOutput(output,"Unable to connect to Forecast Trigger");
+				output=printOutput(output,"Unable to connect to Data Ingestor");
         		//console.log("Got error: " + e.message);
 				if(response!=null && !response.finished)
 				  {
