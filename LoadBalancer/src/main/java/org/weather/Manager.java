@@ -18,9 +18,6 @@ import java.util.*;
 import org.apache.curator.test.KillSession;
 import org.apache.zookeeper.ZooKeeper;
 
-/**
- * Created by girish on 9/18/16.
- */
 @Path("/")
 public class Manager {
 
@@ -30,86 +27,13 @@ public class Manager {
     ServiceProvider<Void> forecastTriggerServiceProvider;
     ServiceProvider<Void> runForecastServiceProvider;
 
-    /*@GET
-    public static String initializeCurator() throws Exception {
-
-        ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
-
-        CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient("localhost:2181", retryPolicy);
-
-        curatorFramework.start();
-        //System.out.println("after curator framework start");
-
-        *//*for service Data Ingestor*//*
-        ServiceDiscovery<Void> dataIngestorServiceDiscovery = ServiceDiscoveryBuilder.builder(Void.class)
-                .basePath("DataIngestor")
-                .client(curatorFramework).build();
-
-        dataIngestorServiceDiscovery.start();
-
-        dataIngestorServiceProvider = dataIngestorServiceDiscovery
-                .serviceProviderBuilder()
-                .serviceName("worker").build();
-        dataIngestorServiceProvider.start();
-
-        *//* for service storm cluster*//*
-        ServiceDiscovery<Void> stormClusterServiceDiscovery = ServiceDiscoveryBuilder.builder(Void.class)
-                .basePath("StormClustering")
-                .client(curatorFramework).build();
-
-        stormClusterServiceDiscovery.start();
-
-        stormClusterServiceProvider = stormClusterServiceDiscovery
-                .serviceProviderBuilder()
-                .serviceName("worker").build();
-        stormClusterServiceProvider.start();
-
-        *//*for service forecast trigger*//*
-        ServiceDiscovery<Void> forecastTriggerServiceDiscovery = ServiceDiscoveryBuilder.builder(Void.class)
-                .basePath("ForecastTrigger")
-                .client(curatorFramework).build();
-
-        forecastTriggerServiceDiscovery.start();
-
-        forecastTriggerServiceProvider = forecastTriggerServiceDiscovery
-                .serviceProviderBuilder()
-                .serviceName("worker").build();
-        forecastTriggerServiceProvider.start();
-
-        *//* for service Run Forecast*//*
-        ServiceDiscovery<Void> runForecastServiceDiscovery = ServiceDiscoveryBuilder.builder(Void.class)
-                .basePath("RunForecast")
-                .client(curatorFramework).build();
-
-        runForecastServiceDiscovery.start();
-
-        runForecastServiceProvider = runForecastServiceDiscovery
-                .serviceProviderBuilder()
-                .serviceName("worker").build();
-        runForecastServiceProvider.start();
-
-        *//**//*
-        ServiceDiscovery<Void> stormDetectionServiceDiscovery = ServiceDiscoveryBuilder.builder(Void.class)
-                .basePath("StormDetection")
-                .client(curatorFramework).build();
-
-        stormDetectionServiceDiscovery.start();
-
-        stormDetectionServiceProvider = stormDetectionServiceDiscovery
-                .serviceProviderBuilder()
-                .serviceName("worker").build();
-        stormDetectionServiceProvider.start();
-
-        return "done";
-    }*/
-
     @GET
     @Path("/dataIngestor")
     public String delegate(@QueryParam("username") String username, @QueryParam("id") String id, @QueryParam("date") String date
             ,@QueryParam("time") String time, @QueryParam("station") String station,
                            @QueryParam("msvc") String msvc) throws Exception {
         ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
-        String hosts = "52.52.144.190:2181,52.52.165.77:2181,52.52.164.169:2181";
+        String hosts = "52.52.144.190:2181,52.52.165.77:2181,52.9.64.108:2181";
         CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient(hosts, retryPolicy);
         curatorFramework.start();
         /*for service Storm Detectionr*/
@@ -175,7 +99,7 @@ public class Manager {
 
         /**/
         ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
-        String hosts = "52.52.144.190:2181,52.52.165.77:2181,52.52.164.169:2181";
+        String hosts = "52.52.144.190:2181,52.52.165.77:2181,52.9.64.108:2181";
         CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient(hosts, retryPolicy);
         curatorFramework.start();
         /*for service Storm Detectionr*/
@@ -228,7 +152,7 @@ public class Manager {
         try
         {
             ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
-            String hosts = "52.52.144.190:2181,52.52.165.77:2181,52.52.164.169:2181";
+            String hosts = "52.52.144.190:2181,52.52.165.77:2181,52.9.64.108:2181";
             curatorFramework = CuratorFrameworkFactory.newClient(hosts, retryPolicy);
             curatorFramework.start();
         /*for service Storm Detectionr*/
@@ -288,7 +212,7 @@ public class Manager {
     public  String forecastTriggerDelegate(@QueryParam("value") boolean exists) throws Exception {
         ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
         //CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient(Config.get().get("zk.quorum"),Config.get().getInt("zk.session.timeout", 3000),1000,retryPolicy);
-        String hosts = "52.52.144.190:2181,52.52.165.77:2181,52.52.164.169:2181";
+        String hosts = "52.52.144.190:2181,52.52.165.77:2181,52.9.64.108:2181";
         //List<String> hosts = Arrays.asList("52.52.144.190:2181", "52.52.165.77:2181", "52.52.164.169:2181");
         CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient(hosts,retryPolicy);
         curatorFramework.start();
@@ -340,7 +264,7 @@ public class Manager {
     @GET
     @Path("/runForecast")
     public String runForecastDelegate(@QueryParam("location") String locationName) throws Exception {
-        String hosts = "52.52.144.190:2181,52.52.165.77:2181,52.52.164.169:2181";
+        String hosts = "52.52.144.190:2181,52.52.165.77:2181,52.9.64.108:2181";
         ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
         CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient(hosts, retryPolicy);
         curatorFramework.start(); 
