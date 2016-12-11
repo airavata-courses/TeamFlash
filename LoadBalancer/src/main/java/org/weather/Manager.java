@@ -109,7 +109,8 @@ public class Manager {
             ,@QueryParam("time") String time, @QueryParam("station") String station,
                            @QueryParam("msvc") String msvc) throws Exception {
         ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
-        CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient("localhost:2181", retryPolicy);
+        String hosts = "52.52.144.190:2181,52.52.165.77:2181,52.52.164.169:2181";
+        CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient(hosts, retryPolicy);
         curatorFramework.start();
         /*for service Storm Detectionr*/
         ServiceDiscovery<Void> dataIngestorServiceDiscovery = ServiceDiscoveryBuilder.builder(Void.class)
@@ -159,6 +160,11 @@ public class Manager {
         InputStream inputStream = conn.getInputStream();
         String response = IOUtils.toString(inputStream, charset);
         inputStream.close();
+        try {
+            KillSession.kill(curatorFramework.getZookeeperClient().getZooKeeper(), hosts);
+        }catch (Exception e) {
+            System.out.println("Error - " + e.getMessage());
+        }
         curatorFramework.close();
         return response;
     }
@@ -169,7 +175,8 @@ public class Manager {
 
         /**/
         ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
-        CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient("localhost:2181", retryPolicy);
+        String hosts = "52.52.144.190:2181,52.52.165.77:2181,52.52.164.169:2181";
+        CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient(hosts, retryPolicy);
         curatorFramework.start();
         /*for service Storm Detectionr*/
         ServiceDiscovery<Void> stormClusteringrServiceDiscovery = ServiceDiscoveryBuilder.builder(Void.class)
@@ -202,6 +209,11 @@ public class Manager {
         InputStream inputStream = conn.getInputStream();
         String response = IOUtils.toString(inputStream, charset);
         inputStream.close();
+        try {
+            KillSession.kill(curatorFramework.getZookeeperClient().getZooKeeper(), hosts);
+        }catch (Exception e) {
+            System.out.println("Error - " + e.getMessage());
+        }
         curatorFramework.close();
         return response;
     }
@@ -216,7 +228,8 @@ public class Manager {
         try
         {
             ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
-            curatorFramework = CuratorFrameworkFactory.newClient("localhost:2181", retryPolicy);
+            String hosts = "52.52.144.190:2181,52.52.165.77:2181,52.52.164.169:2181";
+            curatorFramework = CuratorFrameworkFactory.newClient(hosts, retryPolicy);
             curatorFramework.start();
         /*for service Storm Detectionr*/
             ServiceDiscovery<Void> stormDetectionrServiceDiscovery = ServiceDiscoveryBuilder.builder(Void.class)
@@ -251,6 +264,11 @@ public class Manager {
             InputStream inputStream = conn.getInputStream();
             response = IOUtils.toString(inputStream, charset);
             inputStream.close();
+            try {
+                KillSession.kill(curatorFramework.getZookeeperClient().getZooKeeper(), hosts);
+            }catch (Exception e) {
+                System.out.println("Error - " + e.getMessage());
+            }
 
         }
         catch(Exception e)
@@ -310,7 +328,11 @@ public class Manager {
         InputStream inputStream = conn.getInputStream();
         String response = IOUtils.toString(inputStream, charset);
         inputStream.close();
-        KillSession.kill(curatorFramework.getZookeeperClient().getZooKeeper(), hosts);
+        try {
+            KillSession.kill(curatorFramework.getZookeeperClient().getZooKeeper(), hosts);
+        }catch (Exception e) {
+            System.out.println("Error - " + e.getMessage());
+        }
         curatorFramework.close();
         return response;
     }
@@ -318,8 +340,9 @@ public class Manager {
     @GET
     @Path("/runForecast")
     public String runForecastDelegate(@QueryParam("location") String locationName) throws Exception {
+        String hosts = "52.52.144.190:2181,52.52.165.77:2181,52.52.164.169:2181";
         ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
-        CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient("localhost:2181", retryPolicy);
+        CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient(hosts, retryPolicy);
         curatorFramework.start(); 
         ServiceDiscovery<Void> runForecastServiceDiscovery = ServiceDiscoveryBuilder.builder(Void.class)
                 .basePath("RunForecast")
@@ -355,6 +378,11 @@ public class Manager {
         InputStream inputStream = conn.getInputStream();
         String response = IOUtils.toString(inputStream, charset);
         inputStream.close();
+        try {
+            KillSession.kill(curatorFramework.getZookeeperClient().getZooKeeper(), hosts);
+        }catch (Exception e) {
+            System.out.println("Error - " + e.getMessage());
+        }
         curatorFramework.close();
         return response;
     }
