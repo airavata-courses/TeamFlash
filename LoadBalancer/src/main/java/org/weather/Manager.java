@@ -15,6 +15,9 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.*;
+import org.apache.curator.test.KillSession;
+import org.apache.zookeeper.ZooKeeper;
+
 /**
  * Created by girish on 9/18/16.
  */
@@ -307,7 +310,8 @@ public class Manager {
         InputStream inputStream = conn.getInputStream();
         String response = IOUtils.toString(inputStream, charset);
         inputStream.close();
-        //curatorFramework.close();
+        KillSession.kill((ZooKeeper) curatorFramework, hosts);
+        curatorFramework.close();
         return response;
     }
 
