@@ -466,10 +466,16 @@ function forecastTrigger(handles,url,request,response,parameter)
 			   try {
 				  console.log("chunk: "+chunk)
 			  output=JSON.parse(chunk)
+			  indexHtml=getIndexHtml()
+				  final_output=addHiddenParameter(indexHtml,username,id)
+				  final_output=printOutput(final_output,output.message)
 			  //output.message='Yes'
 			  }
 			  catch (e) {
 				   output=chunk
+				   indexHtml=getIndexHtml()
+				  final_output=addHiddenParameter(indexHtml,username,id)
+				  final_output=printOutput(final_output,output)
   				}
 			  /*if(chunk==null)
 			  {
@@ -504,10 +510,7 @@ function forecastTrigger(handles,url,request,response,parameter)
 						{
 							response.writeHead(200, {"content-type" : "text/html"});
 						}
-				  indexHtml=getIndexHtml()
-				  final_output=addHiddenParameter(indexHtml,username,id)
-				  final_output=printOutput(final_output,output.message)
-				  final_output=printOutput(final_output,output)
+				  
 				  if(response!=null && !response.finished)
 				  {
 				  	response.write(final_output);
