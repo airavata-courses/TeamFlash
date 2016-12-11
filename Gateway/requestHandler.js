@@ -506,7 +506,7 @@ function forecastTrigger(handles,url,request,response,parameter)
 						}
 				  indexHtml=getIndexHtml()
 				  final_output=addHiddenParameter(indexHtml,username,id)
-				  //final_output=printOutput(final_output,output.message)
+				  final_output=printOutput(final_output,output.message)
 				  final_output=printOutput(final_output,output)
 				  if(response!=null && !response.finished)
 				  {
