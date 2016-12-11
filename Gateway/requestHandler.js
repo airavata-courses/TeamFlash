@@ -93,7 +93,7 @@ function printOutput(content,chunk)
 {
 	chunk=chunk.toString();
 	console.log("in print output");
-	if(chunk.indexOf("html")>0)
+	/*if(chunk.indexOf("html")>0)
 	{
 		chunk='No'
 	var flag='<label id="output">'
@@ -102,8 +102,8 @@ function printOutput(content,chunk)
     console.log("index is :"+index)
     console.log("length is :"+len)
     var output=content.substring(0,index+len) + chunk + content.substring(index+len);
-	}
-	else{
+	}*/
+	//else{
 	var flag='<label id="output">'
     var len= flag.length
     index=content.indexOf(flag)
@@ -111,7 +111,7 @@ function printOutput(content,chunk)
     console.log("length is :"+len)
     var output=content.substring(0,index+len) + chunk + content.substring(index+len);
     //console.log(output)
-	}
+//	}
     return output
 }
 
@@ -336,7 +336,7 @@ function dataIngestor(handles,url,request,response,parameter)
 				}
 				indexHtml=getIndexHtml()
 				output=addHiddenParameter(indexHtml,username,id)
-				output=printOutput(output,"Unable to connect to Data Ingestor");
+				output=printOutput(output,chunk);
         		//console.log("Got error: " + e.message);
 				if(response!=null && !response.finished)
 				  {
