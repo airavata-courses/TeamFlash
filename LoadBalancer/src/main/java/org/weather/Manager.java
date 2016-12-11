@@ -310,7 +310,7 @@ public class Manager {
         InputStream inputStream = conn.getInputStream();
         String response = IOUtils.toString(inputStream, charset);
         inputStream.close();
-        KillSession.kill((ZooKeeper) curatorFramework, hosts);
+        KillSession.kill(curatorFramework.getZookeeperClient().getZooKeeper(), hosts);
         curatorFramework.close();
         return response;
     }
