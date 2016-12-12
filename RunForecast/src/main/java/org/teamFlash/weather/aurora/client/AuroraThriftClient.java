@@ -3,6 +3,7 @@
  */
 package org.teamFlash.weather.aurora.client;
 
+import java.io.FileInputStream;
 import java.text.MessageFormat;
 import java.util.Properties;
 
@@ -36,6 +37,7 @@ public class AuroraThriftClient   {
         try {
             if (thriftClient == null) {
                 thriftClient = new AuroraThriftClient();
+                //properties.load(new FileInputStream("aurora-scheduler.properties"));
                 properties.load(AuroraFlashClient.class.getClassLoader().getResourceAsStream(auroraSchedulerPropFile));
                 String auroraHost = properties.getProperty(Constants.AURORA_SCHEDULER_HOST);
                 String auroraPort = properties.getProperty(Constants.AURORA_SCHEDULER_PORT);

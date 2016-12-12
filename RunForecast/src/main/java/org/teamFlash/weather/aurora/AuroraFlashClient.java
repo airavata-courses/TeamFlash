@@ -2,10 +2,9 @@
  * Created by girish on 12/10/16.
  */
 package org.teamFlash.weather.aurora;
+import java.io.FileInputStream;
 import java.text.MessageFormat;
-import java.util.HashSet;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 
 import org.apache.thrift.TException;
@@ -17,6 +16,7 @@ import org.teamFlash.weather.aurora.utils.AuroraThriftClientUtil;
 import  org.teamFlash.weather.aurora.utils.Constants;
 import org.teamFlash.weather.aurora.client.AuroraThriftClient;
 import  org.teamFlash.weather.aurora.client.AuroraSchedulerClientFactory;
+import org.teamFlash.weather.forecast.JobBean;
 
 
 public class AuroraFlashClient {
@@ -74,8 +74,8 @@ public class AuroraFlashClient {
         }
     }
 
-    public static void createJob() throws Exception {
-        JobKeyBean jobKey = new JobKeyBean("devel", "team-flash", "test_docker_job5");
+    public static void createJob(int jobID) throws Exception {
+        JobKeyBean jobKey = new JobKeyBean("devel", "team-flash", "job-"+jobID);
         IdentityBean owner = new IdentityBean("team-flash");
 
         /*ProcessBean proc1 = new ProcessBean(
@@ -87,7 +87,7 @@ public class AuroraFlashClient {
 
 
         ProcessBean proc1 = new ProcessBean(
-                "process_1","docker run -i --volumes-from wpsgeog --volumes-from wrfinputsandy -v ~/wrfoutput:/wrfoutput --name flash-ncarwrfsandy-03 bigwxwrf/ncar-wrf /wrf/run-wrf", false);
+                "process_1","docker run -i --volumes-from wpsgeog --volumes-from wrfinputsandy -v ~/wrfoutput:/wrfoutput --name flash-ncarwrfsandy-"+jobID+" bigwxwrf/ncar-wrf /wrf/run-wrf", false);
 
         ProcessBean proc2 = new ProcessBean(
                 "process_2", "docker run -i --rm=true -v ~/wrfoutput:/wrfoutput --name flash-postproc bigwxwrf/ncar-ncl", false);
@@ -109,17 +109,16 @@ public class AuroraFlashClient {
         System.out.println(response);
     }
 
-    /**
-     * The main method.
-     *
-     * @param args the arguments
-     */
-    public static void main(String[] args) {
+
+    public static void initCreateJob(int jobID) {
         try {
+            //properties.load(new FileInputStream("aurora-scheduler.properties"));
+
+
             properties.load(AuroraFlashClient.class.getClassLoader().getResourceAsStream(Constants.AURORA_SCHEDULER_PROP_FILE));
             String auroraHost = properties.getProperty(Constants.AURORA_SCHEDULER_HOST);
             String auroraPort = properties.getProperty(Constants.AURORA_SCHEDULER_PORT);
-            System.out.println(auroraHost+"/"+auroraPort);
+            //System.out.println(auroraHost+"/"+auroraPort);
             auroraSchedulerClient = AuroraSchedulerClientFactory.
                     createReadOnlySchedulerClient(MessageFormat.format(Constants.AURORA_SCHEDULER_CONNECTION_URL, auroraHost, auroraPort));
 
@@ -127,23 +126,65 @@ public class AuroraFlashClient {
 //			AuroraClientSample.getJobSummary(auroraSchedulerClient);
 
             // create sample job
-			//AuroraSampleClient.createJob();
+            AuroraFlashClient.createJob(jobID);
             AuroraThriftClient client = AuroraThriftClient.getAuroraThriftClient(Constants.AURORA_SCHEDULER_PROP_FILE);
-            //ResponseBean response = client.getPendingReasonForJob(new JobKeyBean("devel", "team-flash", "test_docker_job5"));
-            JobKeyBean jobKeyBean = new JobKeyBean("devel","team-flash","test_docker_job5");
-            JobDetailsResponseBean response = (JobDetailsResponseBean)client.getJobDetails(jobKeyBean);
+            ResponseBean response = client.getPendingReasonForJob(new JobKeyBean("devel", "team-flash", "job-"+jobID));
+            //JobKeyBean jobKeyBean = new JobKeyBean("devel","team-flash","job-"+jobID);
+            //JobDetailsResponseBean response = (JobDetailsResponseBean)client.getJobDetails(jobKeyBean);
 
             //System.out.println(response);
-            System.out.println(response.getServerInfo());
+            //System.out.println(response.getServerInfo());
 
-            for(ScheduledTask task : response.getTasks())
+            /*for(ScheduledTask task : response.getTasks())
             {
                 System.out.println(task.getAssignedTask().getTaskId()+"/"+task.getStatus().toString());
                 System.out.println(task.getAssignedTask().getSlaveHost());
-            }
+            }*/
 
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-}
+
+        public static List<JobBean> getTasks(String user,int jobid)
+        {
+            List<JobBean> listJobTask = new ArrayList<>();
+            try
+            {
+                properties.load(AuroraFlashClient.class.getClassLoader().getResourceAsStream(Constants.AURORA_SCHEDULER_PROP_FILE));
+                AuroraThriftClient client = AuroraThriftClient.getAuroraThriftClient(Constants.AURORA_SCHEDULER_PROP_FILE);
+
+                String auroraHost = properties.getProperty(Constants.AURORA_SCHEDULER_HOST);
+                String auroraPort = properties.getProperty(Constants.AURORA_SCHEDULER_PORT);
+                auroraSchedulerClient = AuroraSchedulerClientFactory.
+                        createReadOnlySchedulerClient(MessageFormat.format(Constants.AURORA_SCHEDULER_CONNECTION_URL, auroraHost, auroraPort));
+
+                JobKeyBean jobKeyBean = new JobKeyBean("devel","team-flash","job-"+jobid);
+                JobDetailsResponseBean response = (JobDetailsResponseBean)client.getJobDetails(jobKeyBean);
+
+                //System.out.println(response);
+                //System.out.println(response.getServerInfo());
+
+                for(ScheduledTask task : response.getTasks())
+                {
+                    System.out.println(task.getAssignedTask().getTaskId()+"/"+task.getStatus().toString());
+                    System.out.println(task.getAssignedTask().getSlaveHost());
+                    JobBean job = new JobBean();
+                    job.setUser(user);
+                    job.setJobid(jobid);
+                    job.setTaskid(task.getAssignedTask().getTaskId());
+                    job.setTaskStatus(task.getStatus().toString());
+                    job.setTaskServer(task.getAssignedTask().getSlaveHost());
+                    listJobTask.add(job);
+
+                }
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+
+            return listJobTask;
+        }
+    }
+

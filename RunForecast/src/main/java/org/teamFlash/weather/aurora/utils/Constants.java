@@ -22,4 +22,7 @@ public class Constants {
     /** The Constant AURORA_SCHEDULER_CONNECTION_URL. */
     public static final String AURORA_SCHEDULER_CONNECTION_URL = "http://{0}:{1}/api";
 
+    /*db configuration */
+    public static final String DATABASE_CONNECTION_PROP_FILE = "dbconfig.properties";
+
 }

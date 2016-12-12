@@ -24,7 +24,7 @@
             </plugin>
         </plugins>
         <resources>
-            <resource><directory>src/resources</directory></resource>
+            <resource><directory>src/main/resources</directory></resource>
             <resource><directory>src/test</directory></resource>
         </resources>
         <testSourceDirectory>src/test</testSourceDirectory>

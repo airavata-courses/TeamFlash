@@ -2,6 +2,7 @@ package org.teamFlash.weather.forecast;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import com.google.gson.Gson;
+import org.teamFlash.weather.aurora.AuroraFlashClient;
 import org.teamFlash.weather.forecast.Location;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class RunWeatherForecast {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
 
-    public String runForecast(@QueryParam("location") String locationName)
+    public String runForecast(@QueryParam("location") String locationName, @QueryParam("username") String userName)
     {
         if(locationName==null || locationName.length()==0 ){
             throw new IllegalArgumentException();
@@ -26,11 +27,24 @@ public class RunWeatherForecast {
         Location location = new Location();
         location.setLocationName(locationName);
         location.setTemperature(10.0);
-        location.setWindSpeed(12.5);
+        location.setWindSpeed(51.9);
         Gson gson =  new Gson();
         //System.out.println("Before fun call");
         // LocationDAO locationDAO = new LocationDAO();
         // locationDAO.getWeatherInfo(locationid);
+
+
+        JobDAO jobDAO = new JobDAO();
+        int maxJobId = jobDAO.getMaxJobID();
+
+        maxJobId=maxJobId+1;    // increment to create a new job
+        System.out.println("maxJobId: "+maxJobId);
+        jobDAO.insertJobDetails(userName,maxJobId);
+        try {
+            AuroraFlashClient.initCreateJob(maxJobId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return gson.toJson(location);
     }
 
