@@ -34,11 +34,11 @@ public class RunWeatherForecast {
         // locationDAO.getWeatherInfo(locationid);
 
 
-      /*  JobDAO jobDAO = new JobDAO();
-        int maxJobId = jobDAO.getMaxJobID();*/
-       /* int maxJobId=1000;
-        maxJobId=maxJobId+1;    // increment to create a new job
-        System.out.println("maxJobId: "+maxJobId);*/
+
+        //JobDAO jobDAO = new JobDAO();
+        //int maxJobId = jobDAO.getMaxJobID();
+       
+
         //jobDAO.insertJobDetails(userName,maxJobId);
         try {
             AuroraFlashClient.initCreateJob(Integer.parseInt(jobID));
