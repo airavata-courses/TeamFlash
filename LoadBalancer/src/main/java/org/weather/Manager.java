@@ -84,12 +84,12 @@ public class Manager {
         InputStream inputStream = conn.getInputStream();
         String response = IOUtils.toString(inputStream, charset);
         inputStream.close();
-        try {
-            KillSession.kill(curatorFramework.getZookeeperClient().getZooKeeper(), hosts);
-        }catch (Exception e) {
-            System.out.println("Error - " + e.getMessage());
-        }
-        curatorFramework.close();
+//        try {
+//            KillSession.kill(curatorFramework.getZookeeperClient().getZooKeeper(), hosts);
+//        }catch (Exception e) {
+//            System.out.println("Error - " + e.getMessage());
+//        }
+        //curatorFramework.close();
         return response;
     }
 
@@ -133,12 +133,12 @@ public class Manager {
         InputStream inputStream = conn.getInputStream();
         String response = IOUtils.toString(inputStream, charset);
         inputStream.close();
-        try {
-            KillSession.kill(curatorFramework.getZookeeperClient().getZooKeeper(), hosts);
-        }catch (Exception e) {
-            System.out.println("Error - " + e.getMessage());
-        }
-        curatorFramework.close();
+//        try {
+//            KillSession.kill(curatorFramework.getZookeeperClient().getZooKeeper(), hosts);
+//        }catch (Exception e) {
+//            System.out.println("Error - " + e.getMessage());
+//        }
+        //curatorFramework.close();
         return response;
     }
 
@@ -188,11 +188,11 @@ public class Manager {
             InputStream inputStream = conn.getInputStream();
             response = IOUtils.toString(inputStream, charset);
             inputStream.close();
-            try {
-                KillSession.kill(curatorFramework.getZookeeperClient().getZooKeeper(), hosts);
-            }catch (Exception e) {
-                System.out.println("Error - " + e.getMessage());
-            }
+//            try {
+//                KillSession.kill(curatorFramework.getZookeeperClient().getZooKeeper(), hosts);
+//            }catch (Exception e) {
+//                System.out.println("Error - " + e.getMessage());
+//            }
 
         }
         catch(Exception e)
@@ -201,7 +201,7 @@ public class Manager {
         }
         finally
         {
-            curatorFramework.close();
+            //curatorFramework.close();
         }
 
         return response;
@@ -252,12 +252,12 @@ public class Manager {
         InputStream inputStream = conn.getInputStream();
         String response = IOUtils.toString(inputStream, charset);
         inputStream.close();
-        try {
-            KillSession.kill(curatorFramework.getZookeeperClient().getZooKeeper(), hosts);
-        }catch (Exception e) {
-            System.out.println("Error - " + e.getMessage());
-        }
-        curatorFramework.close();
+//        try {
+//            KillSession.kill(curatorFramework.getZookeeperClient().getZooKeeper(), hosts);
+//        }catch (Exception e) {
+//            System.out.println("Error - " + e.getMessage());
+//        }
+        //curatorFramework.close();
         return response;
     }
 
@@ -302,12 +302,12 @@ public class Manager {
         InputStream inputStream = conn.getInputStream();
         String response = IOUtils.toString(inputStream, charset);
         inputStream.close();
-        try {
-            KillSession.kill(curatorFramework.getZookeeperClient().getZooKeeper(), hosts);
-        }catch (Exception e) {
-            System.out.println("Error - " + e.getMessage());
-        }
-        curatorFramework.close();
+//        try {
+//            KillSession.kill(curatorFramework.getZookeeperClient().getZooKeeper(), hosts);
+//        }catch (Exception e) {
+//            System.out.println("Error - " + e.getMessage());
+//        }
+        //curatorFramework.close();
         return response;
     }
 
