@@ -37,69 +37,69 @@ public class Manager {
         CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient("localhost:2181", retryPolicy);
         curatorFramework.start();
         /*for service Storm Detectionr*/
-        while (true){
         ServiceDiscovery<Void> dataIngestorServiceDiscovery = ServiceDiscoveryBuilder.builder(Void.class)
                 .basePath("DataIngestor")
                 .client(curatorFramework).build();
 
-            dataIngestorServiceDiscovery.start();
-            //ServiceProvider<Void>  dataIngestorServiceProvider;
-
+        dataIngestorServiceDiscovery.start();
+        //ServiceProvider<Void>  dataIngestorServiceProvider;
+       String response = "NONE";
+        try {
             dataIngestorServiceProvider = dataIngestorServiceDiscovery
                     .serviceProviderBuilder()
                     .serviceName("worker").build();
-            if (dataIngestorServiceProvider != null){
-                dataIngestorServiceProvider.start();
-                break;
+            dataIngestorServiceProvider.start();
+            ServiceInstance<Void> instance;
+            instance = dataIngestorServiceProvider.getInstance();
+            if(instance==null){
+                return "instance is null";
             }
-        }
+            String address = instance.buildUriSpec();
 
+            if(address==null){
+                return "address not found";
+            }
 
-        ServiceInstance<Void> instance;
-        instance = dataIngestorServiceProvider.getInstance();
-        if(instance==null){
-            return "instance is null";
-        }
-        String address = instance.buildUriSpec();
-
-        if(address==null){
-            return "address not found";
-        }
-
-        String charset = "UTF-8";  // Or in Java 7 and later, use the constant: java.nio.charset.StandardCharsets.UTF_8.name()
+            String charset = "UTF-8";  // Or in Java 7 and later, use the constant: java.nio.charset.StandardCharsets.UTF_8.name()
         /*String username = "debasisdwivedy";
         String id = "dfb3b368-3430-4f14-ab1c-231c2e93cf41";
         String date = "1999-04-05";
         String time = "000408";*/
-        //station = "KAMX";
-        msvc = "Data Ingestor";
+            //station = "KAMX";
+            msvc = "Data Ingestor";
 
-        String query = String.format("username=%s&id=%s&date=%s&time=%s&station=%s&msvc=%s",
-                URLEncoder.encode(username, charset),
-                URLEncoder.encode(id, charset),
-                URLEncoder.encode(date, charset),
-                URLEncoder.encode(time, charset),
-                URLEncoder.encode(station, charset),
-                URLEncoder.encode(msvc, charset)
-        );
+            String query = String.format("username=%s&id=%s&date=%s&time=%s&station=%s&msvc=%s",
+                    URLEncoder.encode(username, charset),
+                    URLEncoder.encode(id, charset),
+                    URLEncoder.encode(date, charset),
+                    URLEncoder.encode(time, charset),
+                    URLEncoder.encode(station, charset),
+                    URLEncoder.encode(msvc, charset)
+            );
 
-        //String response = (address + "/StormExists").toURL().getText();
-        URL url = new URL(address + "/data?"+query);
-        URLConnection conn = url.openConnection();
-        conn.setRequestProperty("Accept-Charset", charset);
-        conn.connect();
-        InputStream inputStream = conn.getInputStream();
-        String response = IOUtils.toString(inputStream, charset);
-        inputStream.close();
-//        try {
-//            KillSession.kill(curatorFramework.getZookeeperClient().getZooKeeper(), hosts);
-//        }catch (Exception e) {
-//            System.out.println("Error - " + e.getMessage());
-//        }
-        dataIngestorServiceProvider.close();
-        dataIngestorServiceDiscovery.close();
-        curatorFramework.close();
-        return response;
+            //String response = (address + "/StormExists").toURL().getText();
+            URL url = new URL(address + "/data?"+query);
+            URLConnection conn = url.openConnection();
+            conn.setRequestProperty("Accept-Charset", charset);
+            conn.connect();
+            InputStream inputStream = conn.getInputStream();
+            response = IOUtils.toString(inputStream, charset);
+            inputStream.close();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            if (dataIngestorServiceDiscovery != null){
+                dataIngestorServiceProvider.close();
+            }
+            if (dataIngestorServiceDiscovery != null){
+                dataIngestorServiceDiscovery.close();
+            }
+
+            curatorFramework.close();
+            return response ;
+        }
     }
 
     @GET
@@ -147,9 +147,9 @@ public class Manager {
 //        }catch (Exception e) {
 //            System.out.println("Error - " + e.getMessage());
 //        }
-//        stormClusteringrServiceDiscovery.close();
-//        stormClusterServiceProvider.close();
-//        curatorFramework.close();
+        stormClusteringrServiceDiscovery.close();
+        stormClusterServiceProvider.close();
+        curatorFramework.close();
         return response;
     }
 
