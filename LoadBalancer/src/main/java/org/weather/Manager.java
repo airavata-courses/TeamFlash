@@ -43,10 +43,16 @@ public class Manager {
 
         dataIngestorServiceDiscovery.start();
         //ServiceProvider<Void>  dataIngestorServiceProvider;
-        dataIngestorServiceProvider = dataIngestorServiceDiscovery
-                .serviceProviderBuilder()
-                .serviceName("worker").build();
-        dataIngestorServiceProvider.start();
+        while (true){
+            dataIngestorServiceProvider = dataIngestorServiceDiscovery
+                    .serviceProviderBuilder()
+                    .serviceName("worker").build();
+            if (dataIngestorServiceProvider != null){
+                dataIngestorServiceProvider.start();
+                break;
+            }
+        }
+
 
         ServiceInstance<Void> instance;
         instance = dataIngestorServiceProvider.getInstance();
@@ -223,11 +229,16 @@ public class Manager {
 
         forecastTriggerServiceDiscovery.start();
 
-        forecastTriggerServiceProvider = forecastTriggerServiceDiscovery
-                .serviceProviderBuilder()
-                .serviceName("worker").build();
-        forecastTriggerServiceProvider.start();
-        
+        while (true){
+            forecastTriggerServiceProvider = forecastTriggerServiceDiscovery
+                    .serviceProviderBuilder()
+                    .serviceName("worker").build();
+            if (forecastTriggerServiceProvider != null) {
+                forecastTriggerServiceProvider.start();
+                break;
+            }
+        }
+
         ServiceInstance<Void> instance;
         instance = forecastTriggerServiceProvider.getInstance();
         
@@ -274,11 +285,17 @@ public class Manager {
 
         runForecastServiceDiscovery.start();
 
-        runForecastServiceProvider = runForecastServiceDiscovery
-                .serviceProviderBuilder()
-                .serviceName("worker").build();
-        runForecastServiceProvider.start();
-        
+
+        while (true){
+            runForecastServiceProvider = runForecastServiceDiscovery
+                    .serviceProviderBuilder()
+                    .serviceName("worker").build();
+            if (runForecastServiceDiscovery != null){
+                runForecastServiceProvider.start();
+                break;
+            }
+
+        }
         
         ServiceInstance<Void> instance;
         instance = runForecastServiceProvider.getInstance();
