@@ -14,7 +14,7 @@ public class JobService  {
 
     
 
-    public String createJOB(String locationName, String userName)
+    public int createJOB(String locationName, String userName)
     {
         if(locationName==null || locationName.length()==0 ){
             throw new IllegalArgumentException();
@@ -27,12 +27,12 @@ public class JobService  {
         maxJobId=maxJobId+1;    // increment to create a new job
         System.out.println("maxJobId: "+maxJobId);
         jobDAO.insertJobDetails(userName,maxJobId);
-        try {
+        /*try {
             AuroraFlashClient.initCreateJob(maxJobId);
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        return "Success";
+        }*/
+        return maxJobId ;
     }
 
     

@@ -21,10 +21,10 @@ public class RegistryService implements Processor{
 		//return fetch;
 	}
 //www.google.com?locationName=bloom&userName=marlon
-	public void getInsertJob(Exchange exchange) throws Exception
+	public String getInsertJob(Exchange exchange) throws Exception
 	{
 		System.out.println("getInsertJob...");
-		process2(exchange);
+		return process2(exchange);
 	}
 
 	public String getQueryMeso(Exchange exchange) throws Exception
@@ -63,12 +63,13 @@ public class RegistryService implements Processor{
         return sb.toString();
 	}
 	
-	public void process2(Exchange exchange) throws Exception
+	public String process2(Exchange exchange) throws Exception
 	{
 		String userName = (String) exchange.getIn().getHeader("username");
 		String locationName = (String) exchange.getIn().getHeader("location");
 		JobService js=new JobService();
-		js.createJOB(locationName, userName);
+		int x=js.createJOB(locationName, userName);
+		return x+"";
 	}
 	
 	public String process3(Exchange exchange) throws Exception
