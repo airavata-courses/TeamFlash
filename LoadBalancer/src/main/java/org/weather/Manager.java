@@ -37,13 +37,14 @@ public class Manager {
         CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient("localhost:2181", retryPolicy);
         curatorFramework.start();
         /*for service Storm Detectionr*/
+        while (true){
         ServiceDiscovery<Void> dataIngestorServiceDiscovery = ServiceDiscoveryBuilder.builder(Void.class)
                 .basePath("DataIngestor")
                 .client(curatorFramework).build();
 
-        dataIngestorServiceDiscovery.start();
-        //ServiceProvider<Void>  dataIngestorServiceProvider;
-        while (true){
+            dataIngestorServiceDiscovery.start();
+            //ServiceProvider<Void>  dataIngestorServiceProvider;
+
             dataIngestorServiceProvider = dataIngestorServiceDiscovery
                     .serviceProviderBuilder()
                     .serviceName("worker").build();
