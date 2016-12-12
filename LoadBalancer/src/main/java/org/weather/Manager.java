@@ -95,7 +95,9 @@ public class Manager {
 //        }catch (Exception e) {
 //            System.out.println("Error - " + e.getMessage());
 //        }
-        //curatorFramework.close();
+        dataIngestorServiceDiscovery.close();
+        dataIngestorServiceProvider.close();
+        curatorFramework.close();
         return response;
     }
 
@@ -144,7 +146,9 @@ public class Manager {
 //        }catch (Exception e) {
 //            System.out.println("Error - " + e.getMessage());
 //        }
-        //curatorFramework.close();
+        stormClusteringrServiceDiscovery.close();
+        stormClusterServiceProvider.close();
+        curatorFramework.close();
         return response;
     }
 
@@ -194,6 +198,8 @@ public class Manager {
             InputStream inputStream = conn.getInputStream();
             response = IOUtils.toString(inputStream, charset);
             inputStream.close();
+            stormDetectionrServiceDiscovery.close();
+            stormDetectionServiceProvider.close();
 //            try {
 //                KillSession.kill(curatorFramework.getZookeeperClient().getZooKeeper(), hosts);
 //            }catch (Exception e) {
@@ -207,7 +213,7 @@ public class Manager {
         }
         finally
         {
-            //curatorFramework.close();
+            curatorFramework.close();
         }
 
         return response;
@@ -268,7 +274,9 @@ public class Manager {
 //        }catch (Exception e) {
 //            System.out.println("Error - " + e.getMessage());
 //        }
-        //curatorFramework.close();
+        forecastTriggerServiceDiscovery.close();
+        forecastTriggerServiceProvider.close();
+        curatorFramework.close();
         return response;
     }
 
@@ -296,7 +304,7 @@ public class Manager {
             }
 
         }
-        
+
         ServiceInstance<Void> instance;
         instance = runForecastServiceProvider.getInstance();
         if (instance == null) {
@@ -324,7 +332,9 @@ public class Manager {
 //        }catch (Exception e) {
 //            System.out.println("Error - " + e.getMessage());
 //        }
-        //curatorFramework.close();
+        curatorFramework.close();
+        runForecastServiceDiscovery.close();
+        runForecastServiceProvider.close();
         return response;
     }
 
