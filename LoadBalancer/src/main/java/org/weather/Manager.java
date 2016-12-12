@@ -283,7 +283,10 @@ public class Manager {
 
     @GET
     @Path("/runForecast")
-    public String runForecastDelegate(@QueryParam("location") String locationName) throws Exception {
+    public String runForecastDelegate(@QueryParam("location") String locationName,
+                                      @QueryParam("username") String userName,
+                                      @QueryParam("jobId") String jobId)
+            throws Exception {
         String hosts = "52.52.144.190:2181,52.52.165.77:2181,52.9.64.108:2181";
         ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
         CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient("localhost:2181", retryPolicy);
@@ -317,8 +320,11 @@ public class Manager {
             return "address not found";
         }
         String charset = "UTF-8";
-        String query = String.format("location=%s",
-                URLEncoder.encode(locationName, charset)
+        String query = String.format("location=%s&jobId=%s&username=%s",
+                URLEncoder.encode(locationName, charset),
+                URLEncoder.encode(jobId,charset),
+                URLEncoder.encode(userName, charset)
+
         );
 
         URL url = new URL(address + "/RunForecast/api/run?"+query);
