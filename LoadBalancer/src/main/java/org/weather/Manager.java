@@ -95,9 +95,9 @@ public class Manager {
 //        }catch (Exception e) {
 //            System.out.println("Error - " + e.getMessage());
 //        }
-//        dataIngestorServiceDiscovery.close();
-//        dataIngestorServiceProvider.close();
-//        curatorFramework.close();
+        dataIngestorServiceProvider.close();
+        dataIngestorServiceDiscovery.close();
+        curatorFramework.close();
         return response;
     }
 
