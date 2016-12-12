@@ -3,6 +3,9 @@ package com.teamFlash.microservices.registry.services;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
+import com.teamFlash.microservices.registry.forecast.JobDetails;
+import com.teamFlash.microservices.registry.forecast.JobService;
+
 public class RegistryService implements Processor{
 
 	public void getAudit(Exchange exchange) throws Exception
@@ -16,6 +19,17 @@ public class RegistryService implements Processor{
 		System.out.println("in fetch registry...");
 		return process1(exchange);
 		//return fetch;
+	}
+//www.google.com?locationName=bloom&userName=marlon
+	public void getInsertJob(Exchange exchange) throws Exception
+	{
+		System.out.println("getInsertJob...");
+		process2(exchange);
+	}
+
+	public String getQueryMeso(Exchange exchange) throws Exception
+	{
+		return process3(exchange);
 	}
 	
 	public void process(Exchange exchange) throws Exception
@@ -47,6 +61,24 @@ public class RegistryService implements Processor{
         sb.append(loggerDAO.fetchLog(userRequestId));
         
         return sb.toString();
+	}
+	
+	public void process2(Exchange exchange) throws Exception
+	{
+		String userName = (String) exchange.getIn().getHeader("username");
+		String locationName = (String) exchange.getIn().getHeader("location");
+		JobService js=new JobService();
+		js.createJOB(locationName, userName);
+	}
+	
+	public String process3(Exchange exchange) throws Exception
+	{
+		System.out.println("getQueryMeso...");
+		String userName = (String) exchange.getIn().getHeader("username");
+		String id = (String) exchange.getIn().getHeader("id");
+		JobDetails jd=new JobDetails();
+		String res=jd.getJobsTasks(userName, id);
+		return res;
 	}
 	
 }

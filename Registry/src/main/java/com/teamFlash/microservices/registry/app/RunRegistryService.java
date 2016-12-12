@@ -14,7 +14,7 @@ public class RunRegistryService {
 	public static void main(String[] args) throws Exception{
 		// TODO Auto-generated method stub
 		RunRegistryService instance=new RunRegistryService();
-		final String port = (args.length == 1 ? args[0] : "8765");
+		final String port = (args.length == 1 ? args[0] : "8550");
 		instance.boot(port);
 	}
 
