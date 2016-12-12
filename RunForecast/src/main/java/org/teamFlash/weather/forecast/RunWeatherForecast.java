@@ -16,8 +16,8 @@ public class RunWeatherForecast {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-
-    public String runForecast(@QueryParam("location") String locationName, @QueryParam("username") String userName)
+    /*This function submits job on mesos*/
+    public String runForecast(@QueryParam("location") String locationName, @QueryParam("jobId") String jobID,@QueryParam("username") String userName)
     {
         if(locationName==null || locationName.length()==0 ){
             throw new IllegalArgumentException();
@@ -34,14 +34,14 @@ public class RunWeatherForecast {
         // locationDAO.getWeatherInfo(locationid);
 
 
-        JobDAO jobDAO = new JobDAO();
-        int maxJobId = jobDAO.getMaxJobID();
-
+      /*  JobDAO jobDAO = new JobDAO();
+        int maxJobId = jobDAO.getMaxJobID();*/
+       /* int maxJobId=1000;
         maxJobId=maxJobId+1;    // increment to create a new job
-        System.out.println("maxJobId: "+maxJobId);
-        jobDAO.insertJobDetails(userName,maxJobId);
+        System.out.println("maxJobId: "+maxJobId);*/
+        //jobDAO.insertJobDetails(userName,maxJobId);
         try {
-            AuroraFlashClient.initCreateJob(maxJobId);
+            AuroraFlashClient.initCreateJob(Integer.parseInt(jobID));
         } catch (Exception e) {
             e.printStackTrace();
         }
