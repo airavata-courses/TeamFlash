@@ -93,6 +93,22 @@ app.get('/oauth2callback', function(req, res, next) {
 /* Clear the session */
 app.get('/logout', function(req, res) {
   console.log("/logout");
+  if(request.session.user==null)
+    {
+      username=request.query.username;
+    }
+    else{
+      username=request.session.user;
+    }
+    if(request.session==null)
+    {
+      id=request.query.id
+    }
+    else{
+        id=request.session.id
+    }
+    endpoint="?username="+username+"&id="+id+"&status="+true;
+  router.route(updateURL.update,"/pollJobs",request,response,endpoint)
   req.session = null;
   res.redirect('/');
 });
@@ -186,6 +202,24 @@ app.post('/dataIngestor', function(request, response) {
     endpoint="?username="+username+"&id="+id;
     router.route(updateURL.update,"/dataIngestor",request,response,endpoint)
   });
+
+  /* image display module*/
+  app.get('/getImage', function(request, response) {
+  console.log("/getImage");
+  console.log("task id is-->"+request.query.img_id);
+  task_id=request.query.img_id.toString()
+  var open = require('open');
+	var request = require('request'); // include request module
+	request('http://54.215.219.32:1338/download/'+task_id+'/wrfoutput/Precip_total.gif', function (err, resp) {
+   	if (resp.statusCode === 200) {
+      		open('http://54.215.219.32:1338/download/'+task_id+'/wrfoutput/Precip_total.gif')
+   		}
+						   
+	else{
+			open('http://52.53.179.0:1338/download/'+task_id+'/wrfoutput/Precip_total.gif')
+		}
+	});
+});
 
 
 /* Run web application */

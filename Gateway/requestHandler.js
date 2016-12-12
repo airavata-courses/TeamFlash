@@ -13,6 +13,7 @@ var mongo = require("./mongo.js")
 var router = require("./router.js") 
 var uuid = require('node-uuid')
 
+
 function CSS(pathname,request,response)
 {
 	console.log("CSS request handler"+pathname);
@@ -102,8 +103,8 @@ function printOutput(content,chunk)
     console.log("index is :"+index)
     console.log("length is :"+len)
     var output=content.substring(0,index+len) + chunk + content.substring(index+len);
-	}*/
-	//else{
+	}
+	else{*/
 	var flag='<label id="output">'
     var len= flag.length
     index=content.indexOf(flag)
@@ -111,7 +112,7 @@ function printOutput(content,chunk)
     console.log("length is :"+len)
     var output=content.substring(0,index+len) + chunk + content.substring(index+len);
     //console.log(output)
-//	}
+	//}
     return output
 }
 
@@ -205,6 +206,7 @@ function gateway(handles,url,request,response,parameter)
 	request.session.user=map["username"]
 	var indexHtml=getIndexHtml()
     var output=addHiddenParameter(indexHtml,map["username"],map["id"]);
+	var endpoint1 ='?username='+ map["username"] +'&id=' +map["id"]
 	if(response!=null && !response.headersSent)
 	{
 	response.writeHead(200, {"content-type" : "text/html"});
@@ -213,6 +215,7 @@ function gateway(handles,url,request,response,parameter)
 	{
 		response.write(output);
 		response.end();
+		//router.route(handles,"/pollJobs",request,response,parameter+endpoint1+"&status="+false)
 	}
 }
 
@@ -247,6 +250,7 @@ function createTableAudit(user_data)
 	table = table + "</table>";
 	return table;
 }
+
 function fetch(handles,url,request,response,parameter)
 {
 	console.log("audit of request handler"+url+parameter);
@@ -265,7 +269,7 @@ function fetch(handles,url,request,response,parameter)
 			  output=printOutput(output,table);
 			  //console.log("Got response: " + chunk);
 			  if(response!=null && !response.finished)
-				  {
+				  { 
 		  			response.write(output);
 			  		response.end();
 				  }
@@ -321,7 +325,8 @@ function dataIngestor(handles,url,request,response,parameter)
 
         	var endpoint1 ='?username='+ username +'&id=' +id+'&date='+ date +'&station=' +station+ '&time='+ time
         	var endpoint2 ='?username='+ username +'&id=' +id+'&url='
-        	http.get(url+endpoint1, function(resp){
+        	console.log("data ingestor of request handler"+url+endpoint1);
+			http.get(url+endpoint1, function(resp){
         	resp.on('data', function(chunk){
 				console.log("kml is :-"+chunk)
         	  endpoint2=endpoint2+chunk
@@ -336,7 +341,7 @@ function dataIngestor(handles,url,request,response,parameter)
 				}
 				indexHtml=getIndexHtml()
 				output=addHiddenParameter(indexHtml,username,id)
-				output=printOutput(output,chunk);
+				output=printOutput(output,"Unable to connect to Data Ingestor");
         		//console.log("Got error: " + e.message);
 				if(response!=null && !response.finished)
 				  {
@@ -428,11 +433,14 @@ function stormCluster(handles,url,request,response,parameter)
 				  console.log("username :"+username);
 			  createLog(handles,request,response,parameter,'Storm Cluster')
 			  var rand=randomIntInc(0,1)
+			  /*
 			  if(rand==0)
 				  router.route(handles,"/stormTrigger",request,response,parameter+'&value='+true)
 			  else
 				  router.route(handles,"/stormTrigger",request,response,parameter+'&value='+false)
-			  }
+			*/
+			 router.route(handles,"/stormTrigger",request,response,parameter+'&value='+true) 
+			}
 			  
 		  });
 		}).on("error", function(e){
@@ -501,8 +509,9 @@ function forecastTrigger(handles,url,request,response,parameter)
 			  if(output.message=='Yes')
 				  {
 					console.log("forecast trigger if statement");
-				  	router.route(handles,"/weatherForecast",request,response,parameter+'&location=bloomington')
-				  }
+				  	//router.route(handles,"/weatherForecast",request,response,parameter+'&location=bloomington')
+					  router.route(handles,"/insertJob",request,response,parameter+'&location=bloomington')
+				}
 			  else
 				  {
 					  console.log("forecast trigger else statement");
@@ -538,34 +547,19 @@ function forecastTrigger(handles,url,request,response,parameter)
 
 function predictWeatherforecast(handles,url,request,response,parameter)
 {
+	console.log('<- in predictWeatherforecast-> '+url+parameter); 
 	var body = [];
 	var count=0;
-	console.log("predict weather forecast of request handler"+url+parameter)
 	var map=splitURL(parameter)
-		var username=map["username"];
-		var id=map["id"];
+	var username=map["username"];
+	var id=map["id"];
 	if(response!=null && !response.headersSent)
 	{
 	response.writeHead(200, {"content-type" : "text/html"});
 	}
 	http.get(url+parameter, function(resp){
 		  resp.on('data', function(chunk){
-			  count++;
-			  indexHtml=getIndexHtml()
-			  output=addHiddenParameter(indexHtml,username,id)
-			  output=printOutput(output,chunk)
-			  output=addKML(output,'test.html')
-			  if(count<=1)
-			  {
-				  console.log("username :"+username);
-				  console.log("output :"+output);
-			  createLog(handles,request,response,parameter,'Weather Forecast')
-			  if(response!=null && !response.finished)
-				  {
-			  		response.write(output);
-			  		response.end();
-				  }
-			  }
+			  router.route(handles,"/pollJobs",request,response,parameter+"&status="+false)
 		  });
 		}).on("error", function(e){
 				indexHtml=getIndexHtml()
@@ -578,8 +572,124 @@ function predictWeatherforecast(handles,url,request,response,parameter)
 			  		response.end();
 				  }
 		});
+		  
 }
 
+function getImage(handles,url,request,response,parameter)
+{
+	var open = require('open');
+	var request = require('request'); // include request module
+	request('http://54.215.219.32:1338/download/'+request.img_id+'/wrfoutput/Precip_total.gif', function (err, resp) {
+   	if (resp.statusCode === 200) {
+      		open('http://54.215.219.32:1338/download/'+request.img_id+'/wrfoutput/Precip_total.gif')
+   		}
+						   
+	else{
+			open('http://52.53.179.0:1338/download/'+request.img_id+'/wrfoutput/Precip_total.gif')
+		}
+	});
+}
+
+function createJobList(job_data_json)
+{
+	console.log('JSON from createJobList-> '+job_data_json);
+	var table = "<table style='width:100%'>";
+	table=table + "<tr><th>Job ID</th><th>Task Status</th></tr>"
+		var job_array = [];
+		//console.log(output[0])
+		count=0
+		for(var i=0; i< job_data_json.length; i++)
+		{
+			var jobs=job_data_json[i]
+			for(var j=0; j< jobs.length; j++)
+			{
+				count++;
+				job=jobs[j]
+				job_array.push(job);
+				table=table+"<tr>";
+				table = table + "<td><a id='auditButton' href='/getImage?img_id="+job.taskid+"'>"+job.jobid+"</a></td><td>"+job.taskStatus+"</td>"; 
+				table=table+"</tr>";
+			}
+		}
+		table = table + "</table>";
+	return table;
+}
+
+function insertJob(handles,url,request,response,parameter)
+{
+	console.log('<- in insert Jobs-> '+url+parameter); 
+
+	http.get(url+parameter, function(resp){
+		  resp.on('data', function(chunk){
+			   console.log('<- JOB ID-> '+chunk); 
+			  router.route(handles,"/weatherForecast",request,response,parameter+'&jobId='+chunk)
+		}).on("error", function(e){
+        		console.log("Got error in insertJob: " + e.message);
+		});
+		});
+
+}
+
+function pollJobs(handles,url,request,response,parameter)
+{
+	console.log('<- in poll Jobs-> '); 
+	var count = 0; 
+	var intervalObject = setInterval(function () { 
+    count++; 
+    console.log(count, 'seconds passed'); 
+	var map=splitURL(parameter)
+	var username=map["username"];
+	var id=map["id"];
+	var status=map["status"];
+	console.log('<- in poll Jobs status-> '+status); 
+    if (status=='True') { 
+         console.log('exiting'); 
+        clearInterval(intervalObject); 
+        } 
+		else
+		{
+		if(response!=null && !response.headersSent)
+		{
+		response.writeHead(200, {"content-type" : "text/html"});
+		}
+		console.log('<- in poll Jobs-> '+url+parameter); 
+		http.get(url+parameter, function(resp){
+		resp.on('data', function(chunk){
+		count++;
+		indexHtml=getIndexHtml()
+		output=addHiddenParameter(indexHtml,username,id)
+		//console.log('data from poll data-> '+chunk);
+		try{
+		json_data=JSON.parse(chunk)
+		}
+		catch(e)
+		{
+			console.log('error while parsing json poll data-> '+e.message);
+		}
+		table=createJobList(json_data)
+		output=printOutput(output,table)
+		console.log("username :"+username);
+		console.log("output :"+output);
+		if(response!=null && !response.finished)
+		{
+					response.write(output);
+			  		//response.end();
+		}
+		  });
+		}).on("error", function(e){
+				indexHtml=getIndexHtml()
+				output=addHiddenParameter(indexHtml,username,id)
+				output=printOutput(output,"Unable to poll data");
+        		console.log("Got error: " + e.message);
+				if(response!=null && !response.finished)
+				  {
+					response.write(output);
+			  		response.end();
+				  }
+		});
+	}
+    }, 50000); 
+}
 
 exports.login=login;
 exports.authenticate=authenticate;
@@ -591,5 +701,8 @@ exports.stormDetector=stormDetector;
 exports.stormCluster=stormCluster;
 exports.forecastTrigger=forecastTrigger;
 exports.predictWeatherforecast=predictWeatherforecast;
+exports.getImage=getImage;
+exports.pollJobs=pollJobs;
+exports.insertJob=insertJob
 exports.CSS=CSS;
 exports.JS=JS;

@@ -12,4 +12,6 @@
 /stormCluster = http://52.52.144.190:8080/loadBalancer/api/detectClusters
 /stormTrigger = http://52.52.144.190:8080/loadBalancer/api/forecastTrigger
 /weatherForecast = http://52.52.144.190:8080/loadBalancer/api/runForecast
+/insertJob = http://52.9.64.108:8550/audit/insertJob
+/pollJobs = http://52.9.64.108:8550/audit/queryMeso
 

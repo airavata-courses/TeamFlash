@@ -87,6 +87,15 @@ function parse(data,functionHandle,urlHandle)
 		    	functionHandle[route]=requestHandler.predictWeatherforecast;
 		    	urlHandle[route]=url;
 		        break;
+			case '/pollJobs':
+		    	functionHandle[route]=requestHandler.pollJobs;
+		    	urlHandle[route]=url;
+		        break;
+			case '/insertJob':
+		    	functionHandle[route]=requestHandler.insertJob;
+		    	urlHandle[route]=url;
+		        break;
+
 		    default:
 		    	functionHandle[route]=requestHandler.login;
 		    	urlHandle[route]=url;
