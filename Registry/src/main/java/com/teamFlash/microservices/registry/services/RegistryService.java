@@ -69,7 +69,8 @@ public class RegistryService implements Processor{
 		String locationName = (String) exchange.getIn().getHeader("location");
 		JobService js=new JobService();
 		int x=js.createJOB(locationName, userName);
-		return x+"";
+		System.out.println("Unique_ID------>"+x);
+		return ""+x;
 	}
 	
 	public String process3(Exchange exchange) throws Exception
@@ -79,6 +80,7 @@ public class RegistryService implements Processor{
 		String id = (String) exchange.getIn().getHeader("id");
 		JobDetails jd=new JobDetails();
 		String res=jd.getJobsTasks(userName, id);
+		System.out.println("JSON from job list..."+res);
 		return res;
 	}
 	
