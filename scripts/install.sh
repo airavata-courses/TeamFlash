@@ -7,6 +7,8 @@ mv /home/ec2-user/Registry  /home/ec2-user/registry
 cd /home/ec2-user/registry/
 cd Registry
 
+sudo rm -r /var/log/Registry.log
+
 sudo mvn clean install >> /var/log/Registry.log
 cp config.properties target/
 sudo rm -rf /var/log/Registry1.log
