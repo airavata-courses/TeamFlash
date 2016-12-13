@@ -36,6 +36,35 @@
 
       }
     }
+
+    function validateForm2()
+    {
+
+
+      var checkboxes = document.getElementsByName("job");
+      var checkboxesChecked = [];
+      // loop over them all
+      for (var i=0; i<checkboxes.length; i++) {
+     // And stick the checked ones onto an array...
+     if (checkboxes[i].checked) {
+        checkboxesChecked.push(checkboxes[i]);
+     }
+  }
+  // Return the array if it is non-empty, or null
+  if(checkboxesChecked.length>1)
+  {
+    alert("Please enter one job to resubmit");
+    return false;
+  }
+
+  if(checkboxesChecked.length<=0)
+  {
+    alert("Please enter one job to resubmit");
+    return false;
+  }
+
+  document.getElementById("Form2").submit();
+    }
 </script>
 <link rel="stylesheet" type="text/css" href="style.css" />
 <title>Weather Gateway</title>
@@ -75,6 +104,12 @@ Location
 	   style="position: absolute; left: -9999px; width: 1px; height: 1px;"
        tabindex="-1"/>
 <a id="dataIngestorButton" onclick="document.getElementById('commit').click()">Weather Forecast</a>
+</li>
+<li>
+<input type="submit" name="commit2" id ="commit2" onclick="return validateForm2();" 
+	   style="position: absolute; left: -9999px; width: 1px; height: 1px;"
+       tabindex="-1"/>
+<a id="resubmitButton" onclick="document.getElementById('commit2').click()">Resubmit</a>
 </li>
 <li><a id="auditButton" href="/audit">Audit</a></li>
 <li><a id="logoutButton" href="/logout">Log Out</a></li>

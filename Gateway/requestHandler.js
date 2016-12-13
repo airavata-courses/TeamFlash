@@ -385,10 +385,6 @@ function stormDetector(handles,url,request,response,parameter)
 		http.get(url+parameter, function(resp){
 		  resp.on('data', function(chunk){
 			  count++;
-			  indexHtml=getIndexHtml()
-			  output=addHiddenParameter(indexHtml,username,id)
-			  kml=printOutput(output,chunk)
-			  
 			  if(count<=1)
 			  {
 				  console.log("username :"+username);
@@ -579,13 +575,16 @@ function getImage(handles,url,request,response,parameter)
 {
 	var open = require('open');
 	var request = require('request'); // include request module
+	var popup = require('window-popup').windowPopup;
 	request('http://54.215.219.32:1338/download/'+request.img_id+'/wrfoutput/Precip_total.gif', function (err, resp) {
    	if (resp.statusCode === 200) {
-      		open('http://54.215.219.32:1338/download/'+request.img_id+'/wrfoutput/Precip_total.gif')
+      		//open('http://54.215.219.32:1338/download/'+request.img_id+'/wrfoutput/Precip_total.gif')
+			  popup(500, 500, 'http://54.215.219.32:1338/download/'+request.img_id+'/wrfoutput/Precip_total.gif', 'image');
    		}
 						   
 	else{
-			open('http://52.53.179.0:1338/download/'+request.img_id+'/wrfoutput/Precip_total.gif')
+			//open('http://52.53.179.0:1338/download/'+request.img_id+'/wrfoutput/Precip_total.gif')
+			popup(500, 500, 'http://52.53.179.0:1338/download/'+request.img_id+'/wrfoutput/Precip_total.gif', 'image');
 		}
 	});
 }
@@ -593,8 +592,9 @@ function getImage(handles,url,request,response,parameter)
 function createJobList(job_data_json)
 {
 	console.log('JSON from createJobList-> '+job_data_json);
-	var table = "<table style='width:100%'>";
-	table=table + "<tr><th>Job ID</th><th>Task Status</th></tr>"
+	var table = '<form method="post" id="Form2" name="Form2" action="/resubmit" >'
+	table = "<table style='width:100%'>";
+	table=table + "<tr><th></th><th>Job ID</th><th>Task Status</th></tr>"
 		var job_array = [];
 		//console.log(output[0])
 		count=0
@@ -606,12 +606,25 @@ function createJobList(job_data_json)
 				count++;
 				job=jobs[j]
 				job_array.push(job);
+				server=job.taskServer.toString()
+				index=server.indexOf('1')
 				table=table+"<tr>";
-				table = table + "<td><a id='auditButton' href='/getImage?img_id="+job.taskid+"'>"+job.jobid+"</a></td><td>"+job.taskStatus+"</td>"; 
+				table=table+"<td><input type='checkbox' name='job' value='"+job.jobid+"' id='job'></td>";
+				//table = table + "<td><a id='auditButton' href='/getImage?img_id="+job.taskid+"'>"+job.jobid+"</a></td><td>"+job.taskStatus+"</td>";
+				if(index>0)
+				popup='"http://52.53.179.0:1338/download/'+job.taskid+'/wrfoutput/Precip_total.gif","image", "width=500,height=500"'
+				else
+				popup='"http://54.215.219.32:1338/download/'+job.taskid+'/wrfoutput/Precip_total.gif","image", "width=500,height=500"'
+				
+				table = table + "<td><a id='auditButton' href='javascript:window.open("+popup+");'"+ ">"+job.jobid+"</a></td><td>"+job.taskStatus+"</td>";
+				//"javascript:window.open('some.html', 'yourWindowName', 'width=200,height=150');"  "image", "width=200,height=150");'
+				//taskServer
+				table=table+"</input>" ;
 				table=table+"</tr>";
 			}
 		}
 		table = table + "</table>";
+		table = table +"</form>";
 	return table;
 }
 
@@ -632,30 +645,13 @@ function insertJob(handles,url,request,response,parameter)
 
 function pollJobs(handles,url,request,response,parameter)
 {
-	console.log('<- in poll Jobs-> '); 
-	var count = 0; 
-	var intervalObject = setInterval(function () { 
-    count++; 
-    console.log(count, 'seconds passed'); 
+	console.log('<- in poll Jobs-> ');  
 	var map=splitURL(parameter)
 	var username=map["username"];
 	var id=map["id"];
-	var status=map["status"];
-	console.log('<- in poll Jobs status-> '+status); 
-    if (status=='True') { 
-         console.log('exiting'); 
-        clearInterval(intervalObject); 
-        } 
-		else
-		{
-		if(response!=null && !response.headersSent)
-		{
-		response.writeHead(200, {"content-type" : "text/html"});
-		}
-		console.log('<- in poll Jobs-> '+url+parameter); 
+	console.log('<- in poll Jobs-> '+url+parameter); 
 		http.get(url+parameter, function(resp){
 		resp.on('data', function(chunk){
-		count++;
 		indexHtml=getIndexHtml()
 		output=addHiddenParameter(indexHtml,username,id)
 		//console.log('data from poll data-> '+chunk);
@@ -673,7 +669,7 @@ function pollJobs(handles,url,request,response,parameter)
 		if(response!=null && !response.finished)
 		{
 					response.write(output);
-			  		//response.end();
+			  		response.end();
 		}
 		  });
 		}).on("error", function(e){
@@ -687,8 +683,6 @@ function pollJobs(handles,url,request,response,parameter)
 			  		response.end();
 				  }
 		});
-	}
-    }, 50000); 
 }
 
 exports.login=login;
@@ -701,7 +695,6 @@ exports.stormDetector=stormDetector;
 exports.stormCluster=stormCluster;
 exports.forecastTrigger=forecastTrigger;
 exports.predictWeatherforecast=predictWeatherforecast;
-exports.getImage=getImage;
 exports.pollJobs=pollJobs;
 exports.insertJob=insertJob
 exports.CSS=CSS;

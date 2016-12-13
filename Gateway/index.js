@@ -91,7 +91,7 @@ app.get('/oauth2callback', function(req, res, next) {
 });
 
 /* Clear the session */
-app.get('/logout', function(req, res) {
+app.get('/logout', function(request, response) {
   console.log("/logout");
   if(request.session.user==null)
     {
@@ -109,8 +109,8 @@ app.get('/logout', function(req, res) {
     }
     endpoint="?username="+username+"&id="+id+"&status="+true;
   router.route(updateURL.update,"/pollJobs",request,response,endpoint)
-  req.session = null;
-  res.redirect('/');
+  request.session = null;
+  request.redirect('/');
 });
 
 /* Go to Gateway*/
@@ -203,6 +203,34 @@ app.post('/dataIngestor', function(request, response) {
     router.route(updateURL.update,"/dataIngestor",request,response,endpoint)
   });
 
+   /* Resubmit Form*/
+app.post('/resubmit', function(request, response) {
+    var username=null;
+    var id=null;
+  if(request.session.user==null)
+    {
+      username=request.query.username;
+    }
+    else{
+      username=request.session.user.id;
+    }
+    if(request.session==null)
+    {
+      id=request.query.id
+    }
+    else{
+        id=request.session.id
+    }
+
+    job=request.query.job
+    
+    console.log("username :"+username)
+    console.log("id :"+id)
+    console.log("job :"+job)
+    endpoint="?username="+username+"&id="+id+"&jobId="+job;
+    router.route(updateURL.update,"/insertJob",request,response,endpoint)
+  });
+
   /* image display module*/
   app.get('/getImage', function(request, response) {
   console.log("/getImage");
@@ -210,13 +238,13 @@ app.post('/dataIngestor', function(request, response) {
   task_id=request.query.img_id.toString()
   var open = require('open');
 	var request = require('request'); // include request module
-	request('http://54.215.219.32:1338/download/'+task_id+'/wrfoutput/Precip_total.gif', function (err, resp) {
+	request('http://54.215.219.32:1338/download/'+request.img_id+'/wrfoutput/Precip_total.gif', function (err, resp) {
    	if (resp.statusCode === 200) {
-      		open('http://54.215.219.32:1338/download/'+task_id+'/wrfoutput/Precip_total.gif')
+      		open('http://54.215.219.32:1338/download/'+request.img_id+'/wrfoutput/Precip_total.gif')
    		}
 						   
 	else{
-			open('http://52.53.179.0:1338/download/'+task_id+'/wrfoutput/Precip_total.gif')
+			open('http://52.53.179.0:1338/download/'+request.img_id+'/wrfoutput/Precip_total.gif')
 		}
 	});
 });
