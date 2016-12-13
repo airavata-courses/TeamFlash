@@ -1,2 +1,2 @@
 Start Deployment
-Deploy Registry
+Deploy Registry 
