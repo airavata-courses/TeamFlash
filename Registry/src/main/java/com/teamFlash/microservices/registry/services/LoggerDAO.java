@@ -84,6 +84,7 @@ public class LoggerDAO {
         catch(Exception e)
         {
             e.printStackTrace();
+            System.out.println("Exception occured in insertLog..."+e.getMessage()); 
         }
         finally
         {
@@ -136,6 +137,7 @@ public class LoggerDAO {
         catch(Exception e)
         {
             e.printStackTrace();
+            System.out.println("Exception occured in fetchLog..."+e.getMessage());
         }
         finally
         {
