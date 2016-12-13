@@ -91,26 +91,10 @@ app.get('/oauth2callback', function(req, res, next) {
 });
 
 /* Clear the session */
-app.get('/logout', function(request, response) {
+app.get('/logout', function(req, res) {
   console.log("/logout");
-  if(request.session.user==null)
-    {
-      username=request.query.username;
-    }
-    else{
-      username=request.session.user;
-    }
-    if(request.session==null)
-    {
-      id=request.query.id
-    }
-    else{
-        id=request.session.id
-    }
-    endpoint="?username="+username+"&id="+id+"&status="+true;
-  router.route(updateURL.update,"/pollJobs",request,response,endpoint)
-  request.session = null;
-  request.redirect('/');
+  req.session = null;
+  res.redirect('/');
 });
 
 /* Go to Gateway*/
