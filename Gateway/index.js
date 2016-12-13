@@ -248,7 +248,7 @@ app.post('/resubmit', function(request, response) {
 
         	body = Buffer.concat(body).toString();
         	var post = qs.parse(body)
-          job=post['job']
+          job=post['radiojob']
           console.log("username :"+username)
           console.log("id :"+id)
           console.log("job :"+job)

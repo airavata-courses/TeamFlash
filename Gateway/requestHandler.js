@@ -328,7 +328,6 @@ function dataIngestor(handles,url,request,response,parameter)
         	console.log("data ingestor of request handler"+url+endpoint1);
 			http.get(url+endpoint1, function(resp){
         	resp.on('data', function(chunk){
-				console.log("kml is :-"+chunk)
         	  endpoint2=endpoint2+chunk
 			  console.log("username :"+username);
         	  createLog(handles,request,response,endpoint1,'Data Ingestor');
@@ -559,6 +558,7 @@ function predictWeatherforecast(handles,url,request,response,parameter)
 			  indexHtml=getIndexHtml()
 			  output=addHiddenParameter(indexHtml,username,id)
 			  output=printOutput(output,"Inserted Job ID is :"+job_id)
+			  output=addKML(output,'test.html')
 			  if(response!=null && !response.finished)
 			  {
 			  	response.write(output);
@@ -617,7 +617,7 @@ function createJobList(job_data_json)
 				server=job.taskServer.toString()
 				index=server.indexOf('1')
 				table=table+"<tr>";
-				table=table+"<td><input type='radio' name='job' value='"+job.jobid+"' id='job'/></td>";
+				table=table+"<td><input type='radio' name='radiojob' value='"+job.jobid+"' id='"+job.jobid+"'/></td>";
 				//table = table + "<td><a id='auditButton' href='/getImage?img_id="+job.taskid+"'>"+job.jobid+"</a></td><td>"+job.taskStatus+"</td>";
 				if(index>0)
 				popup='"http://52.53.179.0:1338/download/'+job.taskid+'/wrfoutput/Precip_total.gif","image", "width=500,height=500"'

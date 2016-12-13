@@ -1,14 +1,10 @@
-<?xml version="1.0" encoding="UTF-16"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css' />
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta name="description" content="Weather Gateway" />
 <meta name="keywords" content="Weather Gateway" />
-<script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-<script type="text/javascript" src="http://cytoscape.github.io/cytoscape.js/api/cytoscape.js-latest/cytoscape.min.js"></script>
 <script type="text/javascript">
     function validateForm()
     {
@@ -35,6 +31,17 @@
         form.submit();
 
       }
+    }
+
+    function validateResubmitForm()
+    {
+      var job = document.querySelector('input[name="radiojob"]:checked');
+      if(job==null)
+      {
+        alert("No selection made to re-submit");
+        return false;
+      }
+      document.getElementById('ResubmitForm').submit()
     }
 
 </script>
@@ -81,7 +88,7 @@ Location
 <a id="viewButton" value="viewButton" onclick="document.getElementById('ViewForm').submit()">View</a>
 </li>
 <li>
-<a id="resubmitButton" value="resubmitButton" onclick="document.getElementById('ResubmitForm').submit()">Resubmit</a>
+<a id="resubmitButton" value="resubmitButton" onclick="return validateResubmitForm();">Resubmit</a>
 </li>
 <li><a id="auditButton" href="/audit">Audit</a></li>
 <li><a id="logoutButton" href="/logout">Log Out</a></li>
