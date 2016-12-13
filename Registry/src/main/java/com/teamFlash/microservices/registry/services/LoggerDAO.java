@@ -132,7 +132,7 @@ public class LoggerDAO {
               
             }
             
-            System.out.println("After execute query"); 
+            System.out.println("After execute query with result :"+res); 
         }
         catch(Exception e)
         {
