@@ -142,13 +142,13 @@ app.post('/authenticate', function(request, response) {
 
         	body = Buffer.concat(body).toString();
         	var post = qs.parse(body)
-            console.log("username :"+post['login'])
+            console.log("username :"+post['username'])
             console.log("password :"+post['password'])
             // use POST
-            endpoint="?username="+post['login'];
+            endpoint="?username="+post['username'];
         	var data=fs.readFileSync(__dirname +'/DB_Properties','utf-8',read);
         	var map=parse(data)
-            mongo.authenticate(map["HOST"],map["PORT"],map["DB"],post['login'],post['password'],updateURL.update,request,response,endpoint);
+            mongo.authenticate(map["HOST"],map["PORT"],map["DB"],post['username'],post['password'],updateURL.update,request,response,endpoint);
         });
     }
 });
@@ -205,14 +205,16 @@ app.post('/dataIngestor', function(request, response) {
 
    /* Resubmit Form*/
 app.post('/resubmit', function(request, response) {
-    var username=null;
+
+  console.log("in Resubmit job :")
+        var username=null;
     var id=null;
-  if(request.session.user==null)
+    if(request.session.user==null)
     {
       username=request.query.username;
     }
     else{
-      username=request.session.user.id;
+      username=request.session.user;
     }
     if(request.session==null)
     {
@@ -223,31 +225,22 @@ app.post('/resubmit', function(request, response) {
     }
 
     job=request.query.job
-    
+    view=request.query.viewButton
+    resubmit=request.query.resubmitButton
     console.log("username :"+username)
     console.log("id :"+id)
     console.log("job :"+job)
-    endpoint="?username="+username+"&id="+id+"&jobId="+job;
+    if(job==null)
+    {
+      endpoint="?username="+username+"&id="+id;
+    router.route(updateURL.update,"/pollJobs",request,response,endpoint)
+    }
+    else
+    {
+      endpoint="?username="+username+"&id="+id+"&jobId="+job;
     router.route(updateURL.update,"/insertJob",request,response,endpoint)
+    }
   });
-
-  /* image display module*/
-  app.get('/getImage', function(request, response) {
-  console.log("/getImage");
-  console.log("task id is-->"+request.query.img_id);
-  task_id=request.query.img_id.toString()
-  var open = require('open');
-	var request = require('request'); // include request module
-	request('http://54.215.219.32:1338/download/'+request.img_id+'/wrfoutput/Precip_total.gif', function (err, resp) {
-   	if (resp.statusCode === 200) {
-      		open('http://54.215.219.32:1338/download/'+request.img_id+'/wrfoutput/Precip_total.gif')
-   		}
-						   
-	else{
-			open('http://52.53.179.0:1338/download/'+request.img_id+'/wrfoutput/Precip_total.gif')
-		}
-	});
-});
 
 
 /* Run web application */

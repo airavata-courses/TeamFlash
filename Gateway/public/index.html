@@ -37,10 +37,10 @@
       }
     }
 
-    function validateForm2()
+    function validateForm2(clicked_id)
     {
-
-
+      if(clicked_id=="resubmitButton")
+      {
       var checkboxes = document.getElementsByName("job");
       var checkboxesChecked = [];
       // loop over them all
@@ -62,8 +62,14 @@
     alert("Please enter one job to resubmit");
     return false;
   }
-
   document.getElementById("Form2").submit();
+      }
+      else
+      {
+        document.getElementById("Form1").action='/resubmit';
+        document.getElementById("Form1").submit();
+      }
+  
     }
 </script>
 <link rel="stylesheet" type="text/css" href="style.css" />
@@ -105,11 +111,13 @@ Location
        tabindex="-1"/>
 <a id="dataIngestorButton" onclick="document.getElementById('commit').click()">Weather Forecast</a>
 </li>
+
 <li>
-<input type="submit" name="commit2" id ="commit2" onclick="return validateForm2();" 
+<input type="submit" name="commit2" id ="commit2"
 	   style="position: absolute; left: -9999px; width: 1px; height: 1px;"
        tabindex="-1"/>
-<a id="resubmitButton" onclick="document.getElementById('commit2').click()">Resubmit</a>
+<a id="resubmitButton" value="resubmit" onclick="return validateForm2(this.id);">Resubmit</a>
+<a id="viewButton" value="view" onclick="return validateForm2(this.id);">View</a>
 </li>
 <li><a id="auditButton" href="/audit">Audit</a></li>
 <li><a id="logoutButton" href="/logout">Log Out</a></li>

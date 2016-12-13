@@ -183,13 +183,13 @@ function authenticate(handles,url,request,response,parameter)
         request.on('end', function () {
         	body = Buffer.concat(body).toString();
         	var post = qs.parse(body)
-            console.log("username :"+post['login'])
+            console.log("username :"+post['username'])
             console.log("password :"+post['password'])
             // use POST
-            endpoint="?username="+post['login'];
+            endpoint="?username="+post['username'];
         	var data=fs.readFileSync(__dirname +'/DB_Properties','utf-8',read);
         	var map=parse(data)
-            mongo.authenticate(map["HOST"],map["PORT"],map["DB"],post['login'],post['password'],handles,request,response,endpoint);
+            mongo.authenticate(map["HOST"],map["PORT"],map["DB"],post['username'],post['password'],handles,request,response,endpoint);
         	
         });
     }
@@ -555,7 +555,7 @@ function predictWeatherforecast(handles,url,request,response,parameter)
 	}
 	http.get(url+parameter, function(resp){
 		  resp.on('data', function(chunk){
-			  router.route(handles,"/pollJobs",request,response,parameter+"&status="+false)
+			  router.route(handles,"/pollJobs",request,response,parameter)
 		  });
 		}).on("error", function(e){
 				indexHtml=getIndexHtml()
@@ -593,7 +593,7 @@ function createJobList(job_data_json)
 {
 	console.log('JSON from createJobList-> '+job_data_json);
 	var table = '<form method="post" id="Form2" name="Form2" action="/resubmit" >'
-	table = "<table style='width:100%'>";
+	table = table+"<table style='width:100%'>";
 	table=table + "<tr><th></th><th>Job ID</th><th>Task Status</th></tr>"
 		var job_array = [];
 		//console.log(output[0])
@@ -615,7 +615,7 @@ function createJobList(job_data_json)
 				popup='"http://52.53.179.0:1338/download/'+job.taskid+'/wrfoutput/Precip_total.gif","image", "width=500,height=500"'
 				else
 				popup='"http://54.215.219.32:1338/download/'+job.taskid+'/wrfoutput/Precip_total.gif","image", "width=500,height=500"'
-				
+
 				table = table + "<td><a id='auditButton' href='javascript:window.open("+popup+");'"+ ">"+job.jobid+"</a></td><td>"+job.taskStatus+"</td>";
 				//"javascript:window.open('some.html', 'yourWindowName', 'width=200,height=150');"  "image", "width=200,height=150");'
 				//taskServer
@@ -668,8 +668,10 @@ function pollJobs(handles,url,request,response,parameter)
 		console.log("output :"+output);
 		if(response!=null && !response.finished)
 		{
+			console.log("print response for HTML start:");
 					response.write(output);
 			  		response.end();
+					  console.log("print response for HTML end:");
 		}
 		  });
 		}).on("error", function(e){
