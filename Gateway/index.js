@@ -252,7 +252,7 @@ app.post('/resubmit', function(request, response) {
           console.log("username :"+username)
           console.log("id :"+id)
           console.log("job :"+job)
-          endpoint="?username="+username+"&id="+id+"&jobId="+job;
+          endpoint="?username="+username+"&id="+id+"&jobId="+job+'&location=bloomington';
           router.route(updateURL.update,"/weatherForecast",request,response,endpoint)
         });
     }
