@@ -143,8 +143,8 @@ function addHiddenParameter(content,username,id)
 	var flag='<form method="post" id="Form1" name="Form1" action="/dataIngestor" >'
     var len= flag.length
     index=content.indexOf(flag)
-    var chunk = '<input type="hidden" id="username" name="username" value='+username+' />';
-	chunk= chunk + '<input type="hidden" id="id" name="id" value='+id+' />';
+    var chunk = '<input type="hidden" id="username" name="username" value="'+username+'" />';
+	chunk= chunk + '<input type="hidden" id="id" name="id" value="'+id+'" />';
     console.log("index is :"+index)
     console.log("length is :"+len)
     var output=content.substring(0,index+len) + chunk + content.substring(index+len);
@@ -549,13 +549,21 @@ function predictWeatherforecast(handles,url,request,response,parameter)
 	var map=splitURL(parameter)
 	var username=map["username"];
 	var id=map["id"];
+	var job_id=map["jobId"];
 	if(response!=null && !response.headersSent)
 	{
 	response.writeHead(200, {"content-type" : "text/html"});
 	}
 	http.get(url+parameter, function(resp){
 		  resp.on('data', function(chunk){
-			  router.route(handles,"/pollJobs",request,response,parameter)
+			  indexHtml=getIndexHtml()
+			  output=addHiddenParameter(indexHtml,username,id)
+			  output=printOutput(output,"Inserted Job ID is :"+job_id)
+			  if(response!=null && !response.finished)
+			  {
+			  	response.write(output);
+			  	response.end();
+			  }
 		  });
 		}).on("error", function(e){
 				indexHtml=getIndexHtml()
@@ -592,9 +600,9 @@ function getImage(handles,url,request,response,parameter)
 function createJobList(job_data_json)
 {
 	console.log('JSON from createJobList-> '+job_data_json);
-	var table = '<form method="post" id="Form2" name="Form2" action="/resubmit" >'
+	var table = '<form method="post" id="ResubmitForm" name="ResubmitForm" action="/resubmit" >'
 	table = table+"<table style='width:100%'>";
-	table=table + "<tr><th></th><th>Job ID</th><th>Task Status</th></tr>"
+	table=table + "<tr><td></td><td>Job ID</td><td>Task Status</td></tr>"
 		var job_array = [];
 		//console.log(output[0])
 		count=0
@@ -609,7 +617,7 @@ function createJobList(job_data_json)
 				server=job.taskServer.toString()
 				index=server.indexOf('1')
 				table=table+"<tr>";
-				table=table+"<td><input type='checkbox' name='job' value='"+job.jobid+"' id='job'></td>";
+				table=table+"<td><input type='radio' name='job' value='"+job.jobid+"' id='job'/></td>";
 				//table = table + "<td><a id='auditButton' href='/getImage?img_id="+job.taskid+"'>"+job.jobid+"</a></td><td>"+job.taskStatus+"</td>";
 				if(index>0)
 				popup='"http://52.53.179.0:1338/download/'+job.taskid+'/wrfoutput/Precip_total.gif","image", "width=500,height=500"'
@@ -619,7 +627,6 @@ function createJobList(job_data_json)
 				table = table + "<td><a id='auditButton' href='javascript:window.open("+popup+");'"+ ">"+job.jobid+"</a></td><td>"+job.taskStatus+"</td>";
 				//"javascript:window.open('some.html', 'yourWindowName', 'width=200,height=150');"  "image", "width=200,height=150");'
 				//taskServer
-				table=table+"</input>" ;
 				table=table+"</tr>";
 			}
 		}

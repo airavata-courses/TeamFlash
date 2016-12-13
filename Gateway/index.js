@@ -203,7 +203,33 @@ app.post('/dataIngestor', function(request, response) {
     router.route(updateURL.update,"/dataIngestor",request,response,endpoint)
   });
 
-   /* Resubmit Form*/
+   /* View Form*/
+app.post('/view', function(request, response) {
+
+  console.log("in view job :")
+        var username=null;
+    var id=null;
+    if(request.session.user==null)
+    {
+      username=request.query.username;
+    }
+    else{
+      username=request.session.user;
+    }
+    if(request.session==null)
+    {
+      id=request.query.id
+    }
+    else{
+        id=request.session.id
+    }
+    console.log("username :"+username)
+    console.log("id :"+id)
+    endpoint="?username="+username+"&id="+id;
+    router.route(updateURL.update,"/pollJobs",request,response,endpoint)
+  });
+
+ /* Resubmit Form*/
 app.post('/resubmit', function(request, response) {
 
   console.log("in Resubmit job :")
@@ -224,21 +250,27 @@ app.post('/resubmit', function(request, response) {
         id=request.session.id
     }
 
-    job=request.query.job
-    view=request.query.viewButton
-    resubmit=request.query.resubmitButton
-    console.log("username :"+username)
-    console.log("id :"+id)
-    console.log("job :"+job)
-    if(job==null)
-    {
-      endpoint="?username="+username+"&id="+id;
-    router.route(updateURL.update,"/pollJobs",request,response,endpoint)
-    }
-    else
-    {
-      endpoint="?username="+username+"&id="+id+"&jobId="+job;
-    router.route(updateURL.update,"/insertJob",request,response,endpoint)
+    var body = [];
+	if (request.method == 'POST') {
+        request.on('data', function (data) {
+        	body.push(data);
+            // 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
+            if (body.length > 1e6) { 
+                // FLOOD ATTACK OR FAULTY CLIENT, NUKE REQUEST
+                request.connection.destroy();
+            }
+        });
+        request.on('end', function () {
+
+        	body = Buffer.concat(body).toString();
+        	var post = qs.parse(body)
+          job=post['job']
+          console.log("username :"+username)
+          console.log("id :"+id)
+          console.log("job :"+job)
+          endpoint="?username="+username+"&id="+id+"&jobId="+job;
+          router.route(updateURL.update,"/weatherForecast",request,response,endpoint)
+        });
     }
   });
 

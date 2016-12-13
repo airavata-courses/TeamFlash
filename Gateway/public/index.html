@@ -37,40 +37,6 @@
       }
     }
 
-    function validateForm2(clicked_id)
-    {
-      if(clicked_id=="resubmitButton")
-      {
-      var checkboxes = document.getElementsByName("job");
-      var checkboxesChecked = [];
-      // loop over them all
-      for (var i=0; i<checkboxes.length; i++) {
-     // And stick the checked ones onto an array...
-     if (checkboxes[i].checked) {
-        checkboxesChecked.push(checkboxes[i]);
-     }
-  }
-  // Return the array if it is non-empty, or null
-  if(checkboxesChecked.length>1)
-  {
-    alert("Please enter one job to resubmit");
-    return false;
-  }
-
-  if(checkboxesChecked.length<=0)
-  {
-    alert("Please enter one job to resubmit");
-    return false;
-  }
-  document.getElementById("Form2").submit();
-      }
-      else
-      {
-        document.getElementById("Form1").action='/resubmit';
-        document.getElementById("Form1").submit();
-      }
-  
-    }
 </script>
 <link rel="stylesheet" type="text/css" href="style.css" />
 <title>Weather Gateway</title>
@@ -81,9 +47,9 @@
 <div id="header">
 <h1>Weather Gateway</h1>
 </div>
-<form method="post" id="Form1" name="Form1" action="/dataIngestor" >
 <div id="topmenu">
 <ul>
+<form method="post" id="Form1" name="Form1" action="/dataIngestor" >
 <li>
 <a>
 Date <input type="date" name="date" id="date" value="04/05/1999"  />
@@ -111,19 +77,20 @@ Location
        tabindex="-1"/>
 <a id="dataIngestorButton" onclick="document.getElementById('commit').click()">Weather Forecast</a>
 </li>
-
 <li>
-<input type="submit" name="commit2" id ="commit2"
-	   style="position: absolute; left: -9999px; width: 1px; height: 1px;"
-       tabindex="-1"/>
-<a id="resubmitButton" value="resubmit" onclick="return validateForm2(this.id);">Resubmit</a>
-<a id="viewButton" value="view" onclick="return validateForm2(this.id);">View</a>
+<a id="viewButton" value="viewButton" onclick="document.getElementById('ViewForm').submit()">View</a>
+</li>
+<li>
+<a id="resubmitButton" value="resubmitButton" onclick="document.getElementById('ResubmitForm').submit()">Resubmit</a>
 </li>
 <li><a id="auditButton" href="/audit">Audit</a></li>
 <li><a id="logoutButton" href="/logout">Log Out</a></li>
+</form>
+
+<form method="post" id="ViewForm" name="ViewForm" action="/view" >
+</form>
 </ul>
 </div>
-</form>
 </div>
 
 <div id="cy" style="width: 100%; height: 580px; margin: 0px auto;">
