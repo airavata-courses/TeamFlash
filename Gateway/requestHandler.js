@@ -549,6 +549,7 @@ function predictWeatherforecast(handles,url,request,response,parameter)
 	var username=map["username"];
 	var id=map["id"];
 	var job_id=map["jobId"];
+	createLog(handles,request,response,parameter,'Run Weather Forecast')
 	if(response!=null && !response.headersSent)
 	{
 	response.writeHead(200, {"content-type" : "text/html"});
