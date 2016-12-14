@@ -60,7 +60,10 @@ public class RegistryService implements Processor{
         
         sb.append(loggerDAO.fetchLog(userRequestId));
         System.out.println("after fetching result from fetchLog------>"+sb.toString());
-        return sb.toString();
+        if(sb.length()>0)
+        	return sb.toString();
+        else
+        	return "no id,no name,no date,no log,No microsevice";
 	}
 	
 	public String process2(Exchange exchange) throws Exception

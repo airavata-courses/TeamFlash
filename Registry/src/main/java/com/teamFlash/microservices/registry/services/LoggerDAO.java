@@ -119,14 +119,24 @@ public class LoggerDAO {
             ResultSet rs = pstmt.executeQuery(sql);
             while (rs.next())
             {
-              String requestID = rs.getString("request_id");
-              String userID = rs.getString("username");
+              String requestID = ""+rs.getString("request_id");
+              System.out.println("Request ID :"+requestID); 
+              String userID = ""+rs.getString("username");
+              System.out.println("User ID :"+userID); 
               Date dateCreated = rs.getDate("log_date");
-              String description = rs.getString("log_description");
-              String microservice = rs.getString("microservice");
+              String date="";
+              if(dateCreated!=null)
+              {
+            	  date=date+dateCreated.toString(); 
+              }
+              System.out.println("Date created :"+date); 
+              String description = ""+rs.getString("log_description");
+              System.out.println("Description :"+description); 
+              String microservice = ""+rs.getString("microservice");
+              System.out.println("Microservice :"+microservice); 
               res.append(requestID + ",");
               res.append(userID + ",");
-              res.append(dateCreated + ",");
+              res.append(date + ",");
               res.append(description + ",");
               res.append(microservice + ";");
               
