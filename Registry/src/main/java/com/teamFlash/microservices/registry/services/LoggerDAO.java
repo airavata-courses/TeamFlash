@@ -147,6 +147,7 @@ public class LoggerDAO {
                          conn.close();
                     } catch (SQLException e) {
                          e.printStackTrace();
+                         System.out.println("Exception occured while closing connection in fetchLog..."+e.getMessage());
                  }
                }
         }

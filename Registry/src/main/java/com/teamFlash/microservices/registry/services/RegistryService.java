@@ -59,7 +59,7 @@ public class RegistryService implements Processor{
         StringBuilder sb=new StringBuilder();
         
         sb.append(loggerDAO.fetchLog(userRequestId));
-        
+        System.out.println("after fetching result from fetchLog------>"+sb.toString());
         return sb.toString();
 	}
 	
