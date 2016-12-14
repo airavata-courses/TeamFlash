@@ -78,6 +78,14 @@ public class AuroraFlashClient {
         JobKeyBean jobKey = new JobKeyBean("devel", "team-flash", "job-"+jobID);
         IdentityBean owner = new IdentityBean("team-flash");
 
+        JobKeyBean jobKeyBean = new JobKeyBean("devel","team-flash","job-"+jobID);
+        AuroraThriftClient client = AuroraThriftClient.getAuroraThriftClient(Constants.AURORA_SCHEDULER_PROP_FILE);
+        JobDetailsResponseBean response = (JobDetailsResponseBean)client.getJobDetails(jobKeyBean);
+
+        int alreadySubmittedJobs = response.getTasks().size();
+
+        String containerID = jobID+"--"+String.valueOf(alreadySubmittedJobs+1);
+        System.out.println(containerID);
         /*ProcessBean proc1 = new ProcessBean(
                 "process_1", "docker run -it --volumes-from wpsgeog --volumes-from wrfinputsandy -v ~/wrfoutput:/wrfoutput --name flash-ncarwrfsandy bigwxwrf/ncar-wrf /wrf/run-wrf" , false);
 
@@ -87,7 +95,7 @@ public class AuroraFlashClient {
 
 
         ProcessBean proc1 = new ProcessBean(
-                "process_1","docker run -i --volumes-from wpsgeog --volumes-from wrfinputsandy -v ~/wrfoutput:/wrfoutput --name flash-ncarwrfsandy-"+jobID+" bigwxwrf/ncar-wrf /wrf/run-wrf", false);
+                "process_1","docker run -i --volumes-from wpsgeog --volumes-from wrfinputsandy -v ~/wrfoutput:/wrfoutput --name flash-ncarwrfsandy-"+containerID+" bigwxwrf/ncar-wrf /wrf/run-wrf", false);
 
         ProcessBean proc2 = new ProcessBean(
                 "process_2", "docker run -i --rm=true -v ~/wrfoutput:/wrfoutput --name flash-postproc bigwxwrf/ncar-ncl", false);
@@ -98,15 +106,15 @@ public class AuroraFlashClient {
 
         ResourceBean resources = new ResourceBean(0.5, 250, 250);
 
-        TaskConfigBean taskConfig = new TaskConfigBean("task_docker5", processes, resources);
+        TaskConfigBean taskConfig = new TaskConfigBean("team-flash-"+jobID, processes, resources);
         JobConfigBean jobConfig = new JobConfigBean(jobKey, owner, taskConfig, "example");
 
         String executorConfigJson = AuroraThriftClientUtil.getExecutorConfigJson(jobConfig);
         System.out.println(executorConfigJson);
 
-        AuroraThriftClient client = AuroraThriftClient.getAuroraThriftClient(Constants.AURORA_SCHEDULER_PROP_FILE);
-        ResponseBean response = client.createJob(jobConfig);
-        System.out.println(response);
+        //AuroraThriftClient client = AuroraThriftClient.getAuroraThriftClient(Constants.AURORA_SCHEDULER_PROP_FILE);
+        ResponseBean response1 = client.createJob(jobConfig);
+        System.out.println(response1);
     }
 
 
